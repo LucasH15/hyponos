@@ -15,6 +15,6 @@ describe('App test', () => {
             return pathMap
         }, {})
 
-        expect(pathMap['/']).toBe(Home)
+        expect(pathMap['/'].type).toBe(<Home />)
     })
 })

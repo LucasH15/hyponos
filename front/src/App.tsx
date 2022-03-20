@@ -10,7 +10,7 @@ function App() {
         <ThemeProvider theme={theme}>
             <CssBaseline />
             <Routes>
-                <Route path="/" component={Home} />
+                <Route path="/" element={<Home />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </ThemeProvider>
