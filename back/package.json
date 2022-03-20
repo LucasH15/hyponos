@@ -1,0 +1,56 @@
+{
+  "name": "hyponos-back",
+  "version": "0.0.1",
+  "description": "",
+  "license": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": "12 || 14 || 16 || 17"
+  },
+  "scripts": {
+    "build": "node_modules/.bin/lb-tsc",
+    "build:watch": "node_modules/.bin/lb-tsc --watch",
+    "lint": "node_modules/.bin/eslint && yarn run prettier:check",
+    "lint:fix": "yarn run eslint:fix && yarn run prettier:fix",
+    "prettier:cli": "node_modules/.bin/lb-prettier \\\"**/*.ts\\\" \\\"**/*.js\\\"",
+    "prettier:check": "yarn run prettier:cli -l",
+    "prettier:fix": "yarn run prettier:cli --write",
+    "eslint": "node_modules/.bin/lb-eslint --report-unused-disable-directives ..",
+    "eslint:fix": "yarn run node_modules/.bin/eslint --fix",
+    "pretest": "yarn run rebuild",
+    "test": "node_modules/.bin/lb-mocha --allow-console-logs \\\"dist/__tests__\\\"",
+    "posttest": "yarn run lint",
+    "test:dev": "node_modules/.bin/lb-mocha --allow-console-logs dist/__tests__/**/*.js && yarn run posttest",
+    "premigrate": "yarn run build",
+    "migrate": "node ./dist/migrate",
+    "preopenapi-spec": "yarn run build",
+    "openapi-spec": "node ./dist/openapi-spec",
+    "prestart": "yarn run rebuild",
+    "start": "node -r source-map-support/register ..",
+    "clean": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache",
+    "rebuild": "yarn run clean && yarn run build",
+    "prepare": "node_modules/.bin/husky install"
+  },
+  "author": "Lucas Hubert <hubertlucas41@gmail.com>",
+  "dependencies": {
+    "@loopback/boot": "^4.1.1",
+    "@loopback/core": "^3.1.1",
+    "@loopback/repository": "^4.1.1",
+    "@loopback/rest": "^11.1.1",
+    "@loopback/rest-explorer": "^4.1.1",
+    "@loopback/service-proxy": "^4.1.1",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@loopback/build": "^8.1.1",
+    "@loopback/eslint-config": "^12.0.3",
+    "@loopback/testlab": "^4.1.1",
+    "@types/node": "^12.20.46",
+    "eslint": "^8.10.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
+    "source-map-support": "^0.5.21",
+    "typescript": "~4.5.5"
+  }
+}
