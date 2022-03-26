@@ -28,5 +28,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "scripts": {
+    "prepare": "node_modules/.bin/husky install"
   }
 }
