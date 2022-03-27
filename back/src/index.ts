@@ -1,8 +1,9 @@
-import {ApplicationConfig, HyponosApplication} from './application';
+import {ApplicationConfig} from '@loopback/core';
+import {HyponosApplication} from './application';
 
 export * from './application';
 
-export async function main(options: ApplicationConfig = {}) {
+export async function main(options?: ApplicationConfig) {
   const app = new HyponosApplication(options);
   await app.boot();
   await app.start();

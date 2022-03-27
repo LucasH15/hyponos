@@ -1,8 +1,24 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasOne} from '@loopback/repository';
+import {UserCredentials} from './user-credentials.model';
 
-@model({settings: {strict: false}})
+@model({
+  settings: {
+    indexes: {
+      uniqueEmail: {
+        keys: {
+          email: 1
+        },
+        options: {
+          unique: true
+        }
+      }
+    }
+  }
+})
+
 export class User extends Entity {
   @property({
+    type: 'string',
     id: true
   })
   id: string;
@@ -31,19 +47,16 @@ export class User extends Entity {
   })
   password: string;
 
-  // Define well-known properties here
+  @property({
+    type: 'string',
+    itemType: 'string',
+  })
+  role?: string;
 
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [prop: string]: any;
+  @hasOne(() => UserCredentials)
+  userCredentials: UserCredentials;
 
   constructor(data?: Partial<User>) {
     super(data);
   }
 }
-
-export interface UserRelations {
-  // describe navigational properties here
-}
-
-export type UserWithRelations = User & UserRelations;

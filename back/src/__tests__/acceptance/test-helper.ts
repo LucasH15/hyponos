@@ -1,4 +1,4 @@
-import {HyponosApplication} from '../../index';
+import {HyponosApplication} from '../..';
 import {
   createRestAppClient,
   givenHttpServerConfig,

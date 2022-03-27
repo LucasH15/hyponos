@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import {inject} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -16,14 +18,26 @@ import {
   del,
   requestBody,
   response,
+  HttpErrors,
 } from '@loopback/rest';
+import {authenticate, TokenService} from '@loopback/authentication';
+import {authorize} from '@loopback/authorization';
+import {TokenServiceBindings} from '@loopback/authentication-jwt';
+
+import { ROLE_ADMIN, ROLE_USER } from '../constants'
 import {User} from '../models';
 import {UserRepository} from '../repositories';
+import {basicAuthorization, validateCredentials, UserManagementService} from '../services';
+import {UserServiceBindings} from '../utils';
 
 export class UserController {
   constructor(
     @repository(UserRepository)
     public userRepository : UserRepository,
+    @inject(TokenServiceBindings.TOKEN_SERVICE)
+    public jwtService: TokenService,
+    @inject(UserServiceBindings.USER_SERVICE)
+    public userManagementService: UserManagementService,
   ) {}
 
   @post('/users')
@@ -42,31 +56,36 @@ export class UserController {
         },
       },
     })
-    user: Omit<User, 'id'>,
+    user: User,
   ): Promise<User> {
-    return this.userRepository.create(user);
-  }
+    user.role = ROLE_USER;
 
-  @get('/users/count')
-  @response(200, {
-    description: 'User model count',
-    content: {'application/json': {schema: CountSchema}},
-  })
-  async count(
-    @param.where(User) where?: Where<User>,
-  ): Promise<Count> {
-    return this.userRepository.count(where);
+    validateCredentials(_.pick(user, ['email', 'password']));
+
+    try {
+      return await this.userManagementService.createUser(user);
+    } catch (error) {
+      // MongoError 11000 duplicate key
+      if (error.code === 11000 && error.errmsg.includes('index: uniqueEmail')) {
+        throw new HttpErrors.Conflict('Email value is already taken');
+      } else {
+        throw error;
+      }
+    }
+    // return this.userRepository.create(user);
   }
 
   @get('/users')
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: [ROLE_ADMIN],
+    voters: [basicAuthorization],
+  })
   @response(200, {
     description: 'Array of User model instances',
     content: {
       'application/json': {
-        schema: {
-          type: 'array',
-          items: getModelSchemaRef(User, {includeRelations: true}),
-        },
+        schema: User
       },
     },
   })
