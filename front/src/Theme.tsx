@@ -1,3 +1,5 @@
 import { createTheme } from '@mui/material/styles'
 
-export default createTheme({})
+export default createTheme({
+    spacing: 4
+})

@@ -69,17 +69,15 @@ export class UserController {
         try {
             return await this.userManagementService.createUser(user)
         } catch (error) {
-            // MongoError 11000 duplicate key
             if (
                 error.code === 11000 &&
                 error.errmsg.includes('index: uniqueEmail')
             ) {
-                throw new HttpErrors.Conflict('Email value is already taken')
+                throw new HttpErrors.Conflict('Cette adresse email existe déjà')
             } else {
                 throw error
             }
         }
-        // return this.userRepository.create(user);
     }
 
     @get('/users')
