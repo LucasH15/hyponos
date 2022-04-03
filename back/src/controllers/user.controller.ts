@@ -1,7 +1,7 @@
 import { SecurityBindings, UserProfile, securityId } from '@loopback/security'
 import _ from 'lodash'
 import { inject } from '@loopback/core'
-import { Count, CountSchema, Filter, FilterExcludingWhere, repository, Where } from '@loopback/repository'
+import { Count, CountSchema, FilterExcludingWhere, repository, Where } from '@loopback/repository'
 import { post, param, get, getModelSchemaRef, patch, put, del, requestBody, response, HttpErrors } from '@loopback/rest'
 import { authenticate, TokenService } from '@loopback/authentication'
 import { authorize } from '@loopback/authorization'
@@ -103,15 +103,15 @@ export class UserController {
         voters: [basicAuthorization]
     })
     @response(200, {
-        description: 'Array of User model instances',
+        description: 'All users from db',
         content: {
             'application/json': {
                 schema: User
             }
         }
     })
-    async find(@param.filter(User) filter?: Filter<User>): Promise<User[]> {
-        return this.userRepository.find(filter)
+    async find(): Promise<User[]> {
+        return this.userRepository.find()
     }
 
     @patch('/users')

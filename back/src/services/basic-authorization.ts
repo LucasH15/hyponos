@@ -9,7 +9,6 @@ export async function basicAuthorization(
     let currentUser: UserProfile
 
     if (authorizationCtx.principals.length > 0) {
-        console.log(authorizationCtx.principals)
         const user = _.pick(authorizationCtx.principals[0], ['id', 'email', 'role'])
         currentUser = {
             [securityId]: user.id,
@@ -29,11 +28,8 @@ export async function basicAuthorization(
     }
 
     let roleIsAllowed = false
-    for (const role of currentUser.role) {
-        if (metadata.allowedRoles!.includes(role)) {
-            roleIsAllowed = true
-            break
-        }
+    if (metadata.allowedRoles.includes(currentUser.role)) {
+        roleIsAllowed = true
     }
 
     if (!roleIsAllowed) {

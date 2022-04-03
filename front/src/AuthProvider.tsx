@@ -3,7 +3,7 @@ import { ReactNode, createContext, useState } from 'react'
 import UserService from '@Services/user'
 
 interface AuthContextType {
-    user: null | { id: string; email: string; password: string; role: string }
+    user: null | { id: string; email: string; password: string; role: string; firstname?: string; lastname?: string }
     login: (userToken: string, callback: VoidFunction) => void
     // signout: (callback: VoidFunction) => void
 }

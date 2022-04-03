@@ -31,8 +31,17 @@ const me = (token: string) => {
     })
 }
 
+const getAll = (token: string) => {
+    return axios.get(`${BASE_URL}/users`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
 export default {
     register: async (user: IUser) => await register(user),
     login: async (user: IUser) => await login(user),
-    me: async (token: string) => await me(token)
+    me: async (token: string) => await me(token),
+    getAll: async (token: string) => await getAll(token)
 }

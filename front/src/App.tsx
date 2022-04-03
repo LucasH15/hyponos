@@ -2,10 +2,12 @@ import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
+import { ROLE_ADMIN } from '@Constants/roles'
 import Home from '@Pages/Home'
 import Register from '@Pages/Register'
 import Login from '@Pages/Login'
 import Dashboard from '@Pages/Dashboard'
+import Roles from '@Pages/Dashboard/Roles'
 import AuthProvider from './AuthProvider'
 import RequireAuth from './RequireAuth'
 import theme from './Theme'
@@ -24,6 +26,14 @@ function App() {
                         element={
                             <RequireAuth>
                                 <Dashboard />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route
+                        path="/dashboard/roles"
+                        element={
+                            <RequireAuth roles={[ROLE_ADMIN]}>
+                                <Roles />
                             </RequireAuth>
                         }
                     />
