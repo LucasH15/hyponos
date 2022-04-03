@@ -1,13 +1,13 @@
-import {Client} from '@loopback/testlab';
-import {HyponosApplication} from '../../index';
-import {setupApplication} from './test-helper';
+import { Client } from '@loopback/testlab';
+import { HyponosApplication } from '../../index';
+import { setupApplication } from './test-helper';
 
 describe('HomePage', () => {
   let app: HyponosApplication;
   let client: Client;
 
   before('setupApplication', async () => {
-    ({app, client} = await setupApplication());
+    ({ app, client } = await setupApplication());
   });
 
   after(async () => {
