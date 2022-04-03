@@ -1,29 +1,29 @@
-import {Entity, model, property} from '@loopback/repository';
+import { Entity, model, property } from '@loopback/repository'
 
 @model()
 export class UserCredentials extends Entity {
     @property({
         type: 'string',
         id: true,
-        mongodb: {dataType: 'ObjectID'},
+        mongodb: { dataType: 'ObjectID' }
     })
-    id: string;
+    id: string
+
+    @property({
+        type: 'string',
+        required: true
+    })
+    password: string
 
     @property({
         type: 'string',
         required: true,
+        mongodb: { dataType: 'ObjectID' }
     })
-    password: string;
-
-    @property({
-        type: 'string',
-        required: true,
-        mongodb: {dataType: 'ObjectID'},
-    })
-    userId: string;
+    userId: string
 
     constructor(data?: Partial<UserCredentials>) {
-        super(data);
+        super(data)
     }
 }
 
@@ -32,4 +32,4 @@ export interface UserCredentialsRelations {
 }
 
 export type UserCredentialsWithRelations = UserCredentials &
-    UserCredentialsRelations;
+    UserCredentialsRelations

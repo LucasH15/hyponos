@@ -19,20 +19,8 @@
     "back",
     "front"
   ],
-  "lint-staged": {
-    "front/*.{js,ts,jsx,tsx}": [
-      "eslint"
-    ],
-    "back/*.{js,ts,jsx,tsx}": [
-      "eslint"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "scripts": {
-    "prepare": "node_modules/.bin/husky install"
+    "prepare": "node_modules/.bin/husky install",
+    "lint": "yarn workspaces run lint"
   }
 }
