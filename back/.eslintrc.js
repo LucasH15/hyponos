@@ -8,7 +8,8 @@ module.exports = {
         "singleQuote": true,
         "semi": false,
         "trailingComma": "none",
-        "tabWidth": 4
+        "tabWidth": 4,
+        "arrowParens": "avoid"
       }
     ],
     "@typescript-eslint/naming-convention": [
