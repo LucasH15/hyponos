@@ -22,6 +22,9 @@
   "lint-staged": {
     "front/*.{js,ts,jsx,tsx}": [
       "eslint"
+    ],
+    "back/*.{js,ts,jsx,tsx}": [
+      "eslint"
     ]
   },
   "husky": {
