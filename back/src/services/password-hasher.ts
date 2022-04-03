@@ -4,10 +4,7 @@ import { PasswordHasherBindings } from '../utils'
 
 export type PasswordHash = (password: string, rounds: number) => Promise<string>
 
-export async function passwordHasher(
-    password: string,
-    rounds: number
-): Promise<string> {
+export async function passwordHasher(password: string, rounds: number): Promise<string> {
     const salt = await genSalt(rounds)
     return hash(password, salt)
 }
@@ -28,10 +25,7 @@ export class BcryptHasher implements PasswordHasher<string> {
         return hash(password, salt)
     }
 
-    async comparePassword(
-        providedPass: string,
-        storedPass: string
-    ): Promise<boolean> {
+    async comparePassword(providedPass: string, storedPass: string): Promise<boolean> {
         const passwordIsMatched = await compare(providedPass, storedPass)
         return passwordIsMatched
     }

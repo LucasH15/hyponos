@@ -1,38 +1,18 @@
+import { SecurityBindings, UserProfile, securityId } from '@loopback/security'
 import _ from 'lodash'
 import { inject } from '@loopback/core'
-import {
-    Count,
-    CountSchema,
-    Filter,
-    FilterExcludingWhere,
-    repository,
-    Where
-} from '@loopback/repository'
-import {
-    post,
-    param,
-    get,
-    getModelSchemaRef,
-    patch,
-    put,
-    del,
-    requestBody,
-    response,
-    HttpErrors
-} from '@loopback/rest'
+import { Count, CountSchema, Filter, FilterExcludingWhere, repository, Where } from '@loopback/repository'
+import { post, param, get, getModelSchemaRef, patch, put, del, requestBody, response, HttpErrors } from '@loopback/rest'
 import { authenticate, TokenService } from '@loopback/authentication'
 import { authorize } from '@loopback/authorization'
 import { TokenServiceBindings } from '@loopback/authentication-jwt'
 
 import { ROLE_ADMIN, ROLE_USER } from '../constants'
 import { User } from '../models'
-import { UserRepository } from '../repositories'
-import {
-    basicAuthorization,
-    validateCredentials,
-    UserManagementService
-} from '../services'
+import { Credentials, UserRepository } from '../repositories'
+import { basicAuthorization, validateCredentials, UserManagementService } from '../services'
 import { UserServiceBindings } from '../utils'
+import { CredentialsRequestBody } from './specs/user-controller.specs'
 
 export class UserController {
     constructor(
@@ -46,7 +26,7 @@ export class UserController {
 
     @post('/users')
     @response(200, {
-        description: 'User model instance',
+        description: 'Create a user',
         content: { 'application/json': { schema: getModelSchemaRef(User) } }
     })
     async create(
@@ -69,15 +49,51 @@ export class UserController {
         try {
             return await this.userManagementService.createUser(user)
         } catch (error) {
-            if (
-                error.code === 11000 &&
-                error.errmsg.includes('index: uniqueEmail')
-            ) {
+            if (error.code === 11000 && error.errmsg.includes('index: uniqueEmail')) {
                 throw new HttpErrors.Conflict('Cette adresse email existe déjà')
             } else {
                 throw error
             }
         }
+    }
+
+    @post('/users/login')
+    @response(200, {
+        description: 'Login a user',
+        content: {
+            'application/json': {
+                schema: {
+                    type: 'object',
+                    properties: { token: { type: 'string' } }
+                }
+            }
+        }
+    })
+    async login(@requestBody(CredentialsRequestBody) credentials: Credentials): Promise<{ token: string }> {
+        const user = await this.userManagementService.verifyCredentials(credentials)
+        const userProfile = this.userManagementService.convertToUserProfile(user)
+        const token = await this.jwtService.generateToken(userProfile)
+
+        return { token }
+    }
+
+    @get('/users/me')
+    @authenticate('jwt')
+    @response(200, {
+        description: 'The current user profile',
+        content: {
+            'application/json': {
+                schema: User
+            }
+        }
+    })
+    async getCurrentUser(
+        @inject(SecurityBindings.USER)
+        currentUserProfile: UserProfile
+    ): Promise<User> {
+        const userId = currentUserProfile[securityId]
+
+        return this.userRepository.findById(userId)
     }
 
     @get('/users')
@@ -156,10 +172,7 @@ export class UserController {
     @response(204, {
         description: 'User PUT success'
     })
-    async replaceById(
-        @param.path.string('id') id: string,
-        @requestBody() user: User
-    ): Promise<void> {
+    async replaceById(@param.path.string('id') id: string, @requestBody() user: User): Promise<void> {
         await this.userRepository.replaceById(id, user)
     }
 

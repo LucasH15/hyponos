@@ -1,9 +1,5 @@
 import { inject, Getter } from '@loopback/core'
-import {
-    DefaultCrudRepository,
-    HasOneRepositoryFactory,
-    repository
-} from '@loopback/repository'
+import { DefaultCrudRepository, HasOneRepositoryFactory, repository } from '@loopback/repository'
 import { HyponosDataSource } from '../datasources'
 import { User, UserCredentials } from '../models'
 import { UserCredentialsRepository } from './user-credentials.repository'
@@ -13,14 +9,8 @@ export type Credentials = {
     password: string
 }
 
-export class UserRepository extends DefaultCrudRepository<
-    User,
-    typeof User.prototype.id
-> {
-    public readonly userCredentials: HasOneRepositoryFactory<
-        UserCredentials,
-        typeof User.prototype.id
-    >
+export class UserRepository extends DefaultCrudRepository<User, typeof User.prototype.id> {
+    public readonly userCredentials: HasOneRepositoryFactory<UserCredentials, typeof User.prototype.id>
 
     constructor(
         @inject('datasources.mongo') dataSource: HyponosDataSource,
@@ -28,15 +18,10 @@ export class UserRepository extends DefaultCrudRepository<
         protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>
     ) {
         super(User, dataSource)
-        this.userCredentials = this.createHasOneRepositoryFactoryFor(
-            'userCredentials',
-            userCredentialsRepositoryGetter
-        )
+        this.userCredentials = this.createHasOneRepositoryFactoryFor('userCredentials', userCredentialsRepositoryGetter)
     }
 
-    async findCredentials(
-        userId: typeof User.prototype.id
-    ): Promise<UserCredentials | undefined> {
+    async findCredentials(userId: typeof User.prototype.id): Promise<UserCredentials | undefined> {
         try {
             return await this.userCredentials(userId).get()
         } catch (err) {

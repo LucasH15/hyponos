@@ -19,7 +19,7 @@ export class UserManagementService implements UserService<User, Credentials> {
 
     async verifyCredentials(credentials: Credentials): Promise<User> {
         const { email, password } = credentials
-        const invalidCredentialsError = 'Invalid email or password.'
+        const invalidCredentialsError = 'Votre email ou mot de passe est invalide'
 
         if (!email) {
             throw new HttpErrors.Unauthorized(invalidCredentialsError)
@@ -33,18 +33,13 @@ export class UserManagementService implements UserService<User, Credentials> {
             throw new HttpErrors.Unauthorized(invalidCredentialsError)
         }
 
-        const credentialsFound = await this.userRepository.findCredentials(
-            foundUser.id
-        )
+        const credentialsFound = await this.userRepository.findCredentials(foundUser.id)
 
         if (!credentialsFound) {
             throw new HttpErrors.Unauthorized(invalidCredentialsError)
         }
 
-        const passwordMatched = await this.passwordHasher.comparePassword(
-            password,
-            credentialsFound.password
-        )
+        const passwordMatched = await this.passwordHasher.comparePassword(password, credentialsFound.password)
 
         if (!passwordMatched) {
             throw new HttpErrors.Unauthorized(invalidCredentialsError)
@@ -67,9 +62,7 @@ export class UserManagementService implements UserService<User, Credentials> {
         user.password = password
         const userCreated = await this.userRepository.create(user)
         userCreated.id = userCreated.id.toString()
-        await this.userRepository
-            .userCredentials(userCreated.id)
-            .create({ password })
+        await this.userRepository.userCredentials(userCreated.id).create({ password })
         return userCreated
     }
 }

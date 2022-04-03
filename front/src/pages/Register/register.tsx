@@ -15,10 +15,7 @@ interface IFormInputs {
 
 const schema = yup
     .object({
-        email: yup
-            .string()
-            .email("Cette adresse email n'est pas valide")
-            .required('Ce champ est requis'),
+        email: yup.string().email("Cette adresse email n'est pas valide").required('Ce champ est requis'),
         password: yup
             .string()
             .min(8, 'Votre mot de passe doit contenir au minimum 8 caractères')
@@ -39,9 +36,7 @@ const Home = () => {
     const onSubmit: SubmitHandler<IFormInputs> = data => {
         setError(null)
         UserService.register(data)
-            .then(() =>
-                navigate('/connexion', { state: { register: 'success' } })
-            )
+            .then(() => navigate('/connexion', { state: { register: 'success' } }))
             .catch(error => {
                 if (error.response) {
                     setError(error.response.data.error.message)
@@ -74,10 +69,7 @@ const Home = () => {
                         <Controller
                             name="email"
                             control={control}
-                            render={({
-                                field,
-                                fieldState: { invalid, error }
-                            }) => (
+                            render={({ field, fieldState: { invalid, error } }) => (
                                 <TextField
                                     fullWidth
                                     label="Email"
@@ -93,10 +85,7 @@ const Home = () => {
                         <Controller
                             name="password"
                             control={control}
-                            render={({
-                                field,
-                                fieldState: { invalid, error }
-                            }) => (
+                            render={({ field, fieldState: { invalid, error } }) => (
                                 <TextField
                                     fullWidth
                                     label="Mot de passe"
@@ -111,10 +100,7 @@ const Home = () => {
 
                     <Grid item xs={12}>
                         {error && (
-                            <Typography
-                                component="p"
-                                sx={{ color: 'error.main', mb: 2 }}
-                            >
+                            <Typography component="p" sx={{ color: 'error.main', mb: 2 }}>
                                 {error}
                             </Typography>
                         )}

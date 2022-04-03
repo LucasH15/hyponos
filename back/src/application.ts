@@ -1,34 +1,19 @@
 require('dotenv').config()
 import crypto from 'crypto'
 import { BootMixin } from '@loopback/boot'
-import {
-    ApplicationConfig,
-    BindingKey,
-    createBindingFromClass
-} from '@loopback/core'
-import {
-    RestExplorerBindings,
-    RestExplorerComponent
-} from '@loopback/rest-explorer'
+import { ApplicationConfig, BindingKey, createBindingFromClass } from '@loopback/core'
+import { RestExplorerBindings, RestExplorerComponent } from '@loopback/rest-explorer'
 import { RepositoryMixin } from '@loopback/repository'
 import { RestApplication } from '@loopback/rest'
 import { ServiceMixin } from '@loopback/service-proxy'
 import path from 'path'
 import { AuthenticationComponent } from '@loopback/authentication'
-import {
-    JWTAuthenticationComponent,
-    TokenServiceBindings
-} from '@loopback/authentication-jwt'
+import { JWTAuthenticationComponent, TokenServiceBindings } from '@loopback/authentication-jwt'
 import { AuthorizationComponent } from '@loopback/authorization'
 
 import { PasswordHasherBindings, UserServiceBindings } from './utils'
 import { MySequence } from './sequence'
-import {
-    BcryptHasher,
-    JWTService,
-    UserManagementService,
-    SecuritySpecEnhancer
-} from './services'
+import { BcryptHasher, JWTService, UserManagementService, SecuritySpecEnhancer } from './services'
 
 export interface PackageInfo {
     name: string
@@ -39,9 +24,7 @@ export const PackageKey = BindingKey.create<PackageInfo>('application.package')
 
 const pkg: PackageInfo = require('../package.json')
 
-export class HyponosApplication extends BootMixin(
-    ServiceMixin(RepositoryMixin(RestApplication))
-) {
+export class HyponosApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
     constructor(options: ApplicationConfig = {}) {
         super(options)
 
@@ -84,15 +67,12 @@ export class HyponosApplication extends BootMixin(
         this.bind(PasswordHasherBindings.PASSWORD_HASHER).toClass(BcryptHasher)
         this.bind(TokenServiceBindings.TOKEN_SERVICE).toClass(JWTService)
 
-        this.bind(UserServiceBindings.USER_SERVICE).toClass(
-            UserManagementService
-        )
+        this.bind(UserServiceBindings.USER_SERVICE).toClass(UserManagementService)
         this.add(createBindingFromClass(SecuritySpecEnhancer))
 
         // Use JWT secret from JWT_SECRET environment variable if set
         // otherwise create a random string of 64 hex digits
-        const secret =
-            process.env.JWT_SECRET ?? crypto.randomBytes(32).toString('hex')
+        const secret = process.env.JWT_SECRET ?? crypto.randomBytes(32).toString('hex')
         this.bind(TokenServiceBindings.TOKEN_SECRET).to(secret)
     }
 }

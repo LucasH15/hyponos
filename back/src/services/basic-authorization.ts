@@ -1,8 +1,4 @@
-import {
-    AuthorizationContext,
-    AuthorizationDecision,
-    AuthorizationMetadata
-} from '@loopback/authorization'
+import { AuthorizationContext, AuthorizationDecision, AuthorizationMetadata } from '@loopback/authorization'
 import { securityId, UserProfile } from '@loopback/security'
 import _ from 'lodash'
 
@@ -14,11 +10,7 @@ export async function basicAuthorization(
 
     if (authorizationCtx.principals.length > 0) {
         console.log(authorizationCtx.principals)
-        const user = _.pick(authorizationCtx.principals[0], [
-            'id',
-            'email',
-            'role'
-        ])
+        const user = _.pick(authorizationCtx.principals[0], ['id', 'email', 'role'])
         currentUser = {
             [securityId]: user.id,
             email: user.email,

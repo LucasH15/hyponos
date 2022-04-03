@@ -48,7 +48,7 @@ export class User extends Entity {
         type: 'string',
         itemType: 'string'
     })
-    role?: string
+    role: string
 
     @hasOne(() => UserCredentials)
     userCredentials: UserCredentials

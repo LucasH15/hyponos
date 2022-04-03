@@ -16,8 +16,6 @@ describe('PingController', () => {
 
     it('invokes GET /users without authorization', async () => {
         const res = await client.get('/users').expect(401)
-        expect(res.body.error.message).to.equal(
-            'Authorization header not found.'
-        )
+        expect(res.body.error.message).to.equal('Authorization header not found.')
     })
 })

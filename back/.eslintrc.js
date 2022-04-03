@@ -9,7 +9,8 @@ module.exports = {
         "semi": false,
         "trailingComma": "none",
         "tabWidth": 4,
-        "arrowParens": "avoid"
+        "arrowParens": "avoid",
+        "printWidth": 120
       }
     ],
     "@typescript-eslint/naming-convention": [
