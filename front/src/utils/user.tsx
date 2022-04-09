@@ -1,7 +1,8 @@
+import { TOKEN_KEY } from '@Constants/request'
 import UserService from '@Services/user'
 
 export const isLoggedIn = async () => {
-    const token = localStorage.getItem('hyponosToken')
+    const token = localStorage.getItem(TOKEN_KEY)
 
     if (token) {
         try {

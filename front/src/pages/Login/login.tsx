@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { TOKEN_KEY } from '@Constants/request'
 import UserService from '@Services/user'
 import { AuthContext } from '../../AuthProvider'
 
@@ -49,9 +50,9 @@ const Login = () => {
             .then(response => {
                 const token = response.data.token
                 if (token) {
-                    auth.login(token, () => {
-                        localStorage.setItem('hyponosToken', token)
-                        navigate('/dashboard', { replace: true })
+                    auth.login(token).then(() => {
+                        localStorage.setItem(TOKEN_KEY, token)
+                        navigate('/mon-espace', { replace: true })
                     })
                 }
 

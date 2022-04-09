@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { ROLE_ADMIN } from '@Constants/roles'
 import { AuthContext } from '../../AuthProvider'
 
-const Dashboard = () => {
+const Admin = () => {
     const { user } = useContext(AuthContext)
 
     return (
@@ -25,4 +25,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default Admin
