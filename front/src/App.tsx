@@ -5,10 +5,13 @@ import { SnackbarProvider } from 'notistack'
 
 import {
     ADMIN,
+    ADMIN_HOTELS,
+    ADMIN_HOTELS_ADD,
     ADMIN_USERS,
     ADMIN_USERS_ADD,
     ADMIN_USERS_EDIT,
     HOME,
+    HOTELS,
     LOGIN,
     MY_SPACE,
     REGISTER
@@ -18,10 +21,13 @@ import Home from '@Pages/Home'
 import Register from '@Pages/Register'
 import Login from '@Pages/Login'
 import MySpace from '@Pages/MySpace'
+import Hotels from '@Pages/Hotels'
 import Admin from '@Pages/Admin'
 import AdminUsers from '@Pages/Admin/Users'
 import AdminUsersAdd from '@Pages/Admin/Users/Add'
 import AdminUsersEdit from '@Pages/Admin/Users/Edit'
+import AdminHotels from '@Pages/Admin/Hotels'
+import AdminHotelsAdd from '@Pages/Admin/Hotels/Add'
 import AuthProvider from './AuthProvider'
 import RequireAuth from './RequireAuth'
 import theme from './Theme'
@@ -53,6 +59,7 @@ function App() {
                         <Route path={HOME} element={<Home />} />
                         <Route path={REGISTER} element={<Register />} />
                         <Route path={LOGIN} element={<Login />} />
+                        <Route path={HOTELS} element={<Hotels />} />
                         <Route
                             path={MY_SPACE}
                             element={
@@ -90,6 +97,22 @@ function App() {
                             element={
                                 <RequireAuth roles={[ROLE_ADMIN]}>
                                     <AdminUsersEdit />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path={ADMIN_HOTELS}
+                            element={
+                                <RequireAuth roles={[ROLE_ADMIN]}>
+                                    <AdminHotels />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path={ADMIN_HOTELS_ADD}
+                            element={
+                                <RequireAuth roles={[ROLE_ADMIN]}>
+                                    <AdminHotelsAdd />
                                 </RequireAuth>
                             }
                         />

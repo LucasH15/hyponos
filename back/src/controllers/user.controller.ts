@@ -140,7 +140,7 @@ export class UserController {
         return this.userRepository.findById(userId)
     }
 
-    @get('/users')
+    @get('/admin/users')
     @authenticate('jwt')
     @authorize({
         allowedRoles: [ROLE_ADMIN],

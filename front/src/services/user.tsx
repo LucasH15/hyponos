@@ -41,7 +41,7 @@ const me = (token: string) => {
 }
 
 const getAll = (token: string) => {
-    return axios.get(`${BASE_URL}/users`, {
+    return axios.get(`${BASE_URL}/admin/users`, {
         headers: {
             Authorization: `Bearer ${token}`
         }

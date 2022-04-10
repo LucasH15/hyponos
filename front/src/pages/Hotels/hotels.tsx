@@ -1,15 +1,15 @@
 import { Typography } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 
-const Home = () => {
+const Hotels = () => {
     return (
         <>
             <Helmet>
-                <title>Accueil</title>
+                <title>Hôtels</title>
             </Helmet>
-            <Typography variant="h1">Hello</Typography>
+            <Typography variant="h1">Hôtels</Typography>
         </>
     )
 }
 
-export default Home
+export default Hotels
