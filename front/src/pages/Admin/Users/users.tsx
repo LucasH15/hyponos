@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 
 import { TOKEN_KEY } from '@Constants/request'
-import { ADMIN_USERS_ADD } from '@Constants/routes'
+import { ADMIN_USERS_ADD, ADMIN_USERS_EDIT } from '@Constants/routes'
 import BasicDialog from '@Components/BasicDialog'
 import UserService from '@Services/user'
 
@@ -92,7 +92,7 @@ const AdminUsers = () => {
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>{user.role}</TableCell>
                                 <TableCell>
-                                    <IconButton onClick={() => console.log('edit')}>
+                                    <IconButton component={Link} to={ADMIN_USERS_EDIT.replace(':userId', user.id)}>
                                         <Edit />
                                     </IconButton>
 

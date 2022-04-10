@@ -12,6 +12,10 @@ interface IUserFromBack {
     role: string
 }
 
+interface IUserEdition {
+    role: string
+}
+
 const register = (user: IUser) => {
     return axios.post(`${BASE_URL}/users`, JSON.stringify(user), {
         headers: {
@@ -45,7 +49,7 @@ const getAll = (token: string) => {
 }
 
 const add = (token: string, user: IUserFromBack) => {
-    return axios.post(`${BASE_URL}/users/add`, JSON.stringify(user), {
+    return axios.post(`${BASE_URL}/admin/users`, JSON.stringify(user), {
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
@@ -54,8 +58,17 @@ const add = (token: string, user: IUserFromBack) => {
 }
 
 const del = (token: string, userId: string) => {
-    return axios.delete(`${BASE_URL}/users/${userId}`, {
+    return axios.delete(`${BASE_URL}/admin/users/${userId}`, {
         headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
+const edit = (token: string, userId: string, user: IUserEdition) => {
+    return axios.patch(`${BASE_URL}/admin/users/${userId}`, JSON.stringify(user), {
+        headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         }
     })
@@ -67,5 +80,6 @@ export default {
     me: async (token: string) => await me(token),
     getAll: async (token: string) => await getAll(token),
     add: async (token: string, user: IUserFromBack) => await add(token, user),
-    del: async (token: string, userId: string) => await del(token, userId)
+    del: async (token: string, userId: string) => await del(token, userId),
+    edit: async (token: string, userId: string, user: IUserEdition) => await edit(token, userId, user)
 }

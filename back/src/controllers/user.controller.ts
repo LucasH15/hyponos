@@ -2,7 +2,7 @@ import { SecurityBindings, UserProfile, securityId } from '@loopback/security'
 import _ from 'lodash'
 import { inject } from '@loopback/core'
 import { Count, CountSchema, FilterExcludingWhere, repository, Where } from '@loopback/repository'
-import { post, param, get, getModelSchemaRef, patch, put, del, requestBody, response, HttpErrors } from '@loopback/rest'
+import { post, param, get, getModelSchemaRef, patch, del, requestBody, response, HttpErrors } from '@loopback/rest'
 import { authenticate, TokenService } from '@loopback/authentication'
 import { authorize } from '@loopback/authorization'
 import { TokenServiceBindings } from '@loopback/authentication-jwt'
@@ -77,7 +77,7 @@ export class UserController {
         return { token }
     }
 
-    @post('/users/add')
+    @post('/admin/users')
     @authenticate('jwt')
     @authorize({
         allowedRoles: [ROLE_ADMIN],
@@ -194,7 +194,7 @@ export class UserController {
         return this.userRepository.findById(id, filter)
     }
 
-    @patch('/users/{id}')
+    @patch('/admin/users/{id}')
     @response(204, {
         description: 'User PATCH success'
     })
@@ -209,18 +209,19 @@ export class UserController {
         })
         user: User
     ): Promise<void> {
+        const currentUser = await this.userRepository.findById(id)
+
+        if (currentUser.role === ROLE_ADMIN) {
+            const usersAdmin = await this.userRepository.find({ where: { role: ROLE_ADMIN } })
+
+            if (usersAdmin.length === 1) {
+                throw new HttpErrors.Unauthorized('Vous ne pouvez pas supprimer le seul admin qui existe')
+            }
+        }
         await this.userRepository.updateById(id, user)
     }
 
-    @put('/users/{id}')
-    @response(204, {
-        description: 'User PUT success'
-    })
-    async replaceById(@param.path.string('id') id: string, @requestBody() user: User): Promise<void> {
-        await this.userRepository.replaceById(id, user)
-    }
-
-    @del('/users/{id}')
+    @del('/admin/users/{id}')
     @authenticate('jwt')
     @authorize({
         allowedRoles: [ROLE_ADMIN],

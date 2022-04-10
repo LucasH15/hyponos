@@ -3,7 +3,16 @@ import { CssBaseline, GlobalStyles } from '@mui/material'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { SnackbarProvider } from 'notistack'
 
-import { ADMIN, ADMIN_USERS, ADMIN_USERS_ADD, HOME, LOGIN, MY_SPACE, REGISTER } from '@Constants/routes'
+import {
+    ADMIN,
+    ADMIN_USERS,
+    ADMIN_USERS_ADD,
+    ADMIN_USERS_EDIT,
+    HOME,
+    LOGIN,
+    MY_SPACE,
+    REGISTER
+} from '@Constants/routes'
 import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
 import Home from '@Pages/Home'
 import Register from '@Pages/Register'
@@ -12,6 +21,7 @@ import MySpace from '@Pages/MySpace'
 import Admin from '@Pages/Admin'
 import AdminUsers from '@Pages/Admin/Users'
 import AdminUsersAdd from '@Pages/Admin/Users/Add'
+import AdminUsersEdit from '@Pages/Admin/Users/Edit'
 import AuthProvider from './AuthProvider'
 import RequireAuth from './RequireAuth'
 import theme from './Theme'
@@ -72,6 +82,14 @@ function App() {
                             element={
                                 <RequireAuth roles={[ROLE_ADMIN]}>
                                     <AdminUsersAdd />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path={ADMIN_USERS_EDIT}
+                            element={
+                                <RequireAuth roles={[ROLE_ADMIN]}>
+                                    <AdminUsersEdit />
                                 </RequireAuth>
                             }
                         />
