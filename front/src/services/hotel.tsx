@@ -24,6 +24,10 @@ const getAll = () => {
     return axios.get(`${BASE_URL}/hotels`)
 }
 
+const getOne = (hotelId: string) => {
+    return axios.get(`${BASE_URL}/hotels/${hotelId}`)
+}
+
 const del = (token: string, hotelId: string) => {
     return axios.delete(`${BASE_URL}/admin/hotels/${hotelId}`, {
         headers: {
@@ -35,5 +39,6 @@ const del = (token: string, hotelId: string) => {
 export default {
     add: async (token: string, hotel: IHotel) => await add(token, hotel),
     getAll: async () => await getAll(),
+    getOne: async (hotelId: string) => await getOne(hotelId),
     del: async (token: string, hotelId: string) => await del(token, hotelId)
 }

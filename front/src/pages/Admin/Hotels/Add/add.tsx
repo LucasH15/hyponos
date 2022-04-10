@@ -6,7 +6,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { useSnackbar } from 'notistack'
 
-import { IS_REQUIRED, MIN_CHAR } from '@Constants/form'
+import { DEFAULT_ERROR_MESSAGE, IS_REQUIRED, MIN_CHAR } from '@Constants/form'
 import { TOKEN_KEY } from '@Constants/request'
 import HotelService from '@Services/hotel'
 
@@ -58,9 +58,7 @@ const AdminHotelsAdd = () => {
                     if (error.response) {
                         setError(error.response.data.error.message)
                     } else {
-                        setError(
-                            'Une erreur est survenue, veuillez réessayer dans un instant. Si le problème persiste, contactez-nous'
-                        )
+                        setError(DEFAULT_ERROR_MESSAGE)
                     }
                 })
         }
@@ -173,7 +171,7 @@ const AdminHotelsAdd = () => {
                             name="description"
                             control={control}
                             render={({ field, fieldState: { invalid, error } }) => (
-                                <TextField
+                                <TextField // TODO replace by WYSIWYG
                                     fullWidth
                                     multiline
                                     label="Description (optionel)"

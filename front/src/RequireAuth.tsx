@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import { HOME, LOGIN } from '@Constants/routes'
 import { ALL } from '@Constants/roles'
@@ -13,14 +13,12 @@ interface IRequireAuth {
 
 const RequireAuth = ({ roles = ALL, children }: IRequireAuth): JSX.Element | null => {
     const auth = useContext(AuthContext)
-    const navigate = useNavigate()
 
     if (!auth?.user?.id) {
         const token = localStorage.getItem(TOKEN_KEY)
 
         if (!token) {
-            navigate(LOGIN, { replace: true })
-            return null
+            return <Navigate to={LOGIN} replace />
         }
 
         auth.login(token, true)
@@ -29,15 +27,13 @@ const RequireAuth = ({ roles = ALL, children }: IRequireAuth): JSX.Element | nul
             })
             .catch(() => {
                 localStorage.removeItem(TOKEN_KEY)
-                navigate(LOGIN, { replace: true })
-                return null
+                return <Navigate to={LOGIN} replace />
             })
     }
 
     if (auth.user && !roles.includes(auth.user.role)) {
         // TODO create 403 page error
-        navigate(HOME, { replace: true })
-        return null
+        return <Navigate to={HOME} replace />
     }
 
     return children

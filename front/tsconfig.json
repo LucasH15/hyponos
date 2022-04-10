@@ -21,7 +21,8 @@
       "@Services/*": ["src/services/*"],
       "@Constants/*": ["src/constants/*"],
       "@Utils/*": ["src/utils/*"],
-      "@Components/*": ["src/components/*"]
+      "@Components/*": ["src/components/*"],
+      "@Interfaces/*": ["src/interfaces/*"]
     }
   },
   "include": ["src"]

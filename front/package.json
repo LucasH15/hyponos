@@ -65,7 +65,8 @@
       "^@Services(.+)": "<rootDir>/src/services/$1",
       "^@Constants(.+)": "<rootDir>/src/constants/$1",
       "^@Utils(.+)": "<rootDir>/src/utils/$1",
-      "^@Components(.+)": "<rootDir>/components/$1"
+      "^@Components(.+)": "<rootDir>/components/$1",
+      "^@Interfaces(.+)": "<rootDir>/interfaces/$1"
     }
   },
   "lint-staged": {

@@ -1,5 +1,6 @@
+import { HOME, LOGIN } from '@Constants/routes'
 import { ReactNode, createContext, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { TOKEN_KEY } from '@Constants/request'
 import UserService from '@Services/user'
@@ -22,6 +23,7 @@ interface IAuthContextType {
 export const AuthContext = createContext<IAuthContextType>(null!)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+    const navigate = useNavigate()
     const [user, setUser] = useState<null | IUser>(null)
 
     const login = (userToken: string, returnUser = false) => {
@@ -36,10 +38,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             .catch(error => {
                 if (error?.response?.status === 401) {
                     localStorage.removeItem(TOKEN_KEY)
-                    return <Navigate to="/connexion" replace />
+                    navigate(LOGIN, { replace: true })
                 }
 
-                return <Navigate to="/" replace />
+                navigate(HOME, { replace: true })
             })
     }
 

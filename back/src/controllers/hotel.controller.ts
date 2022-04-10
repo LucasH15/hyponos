@@ -30,18 +30,9 @@ export class HotelController {
         return this.hotelRepository.create(hotel)
     }
 
-    @get('/hotels/count')
-    @response(200, {
-        description: 'Hotel model count',
-        content: { 'application/json': { schema: CountSchema } }
-    })
-    async count(@param.where(Hotel) where?: Where<Hotel>): Promise<Count> {
-        return this.hotelRepository.count(where)
-    }
-
     @get('/hotels')
     @response(200, {
-        description: 'Array of Hotel model instances',
+        description: 'All hotels from db',
         content: {
             'application/json': {
                 schema: {

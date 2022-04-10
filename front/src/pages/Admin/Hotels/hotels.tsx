@@ -1,23 +1,15 @@
 import { Button, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Add, Delete, Edit } from '@mui/icons-material'
+import { Add, Delete, Edit, Info } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 
 import { TOKEN_KEY } from '@Constants/request'
-import { ADMIN_HOTELS_ADD, ADMIN_HOTELS_EDIT } from '@Constants/routes'
+import { ADMIN_HOTEL, ADMIN_HOTELS_ADD, ADMIN_HOTELS_EDIT } from '@Constants/routes'
 import BasicDialog from '@Components/BasicDialog'
 import HotelService from '@Services/hotel'
-
-interface IHotel {
-    id: string
-    name: string
-    city: string
-    country: string
-    postCode: string
-    address: string
-}
+import { IHotel } from '@Interfaces/hotel'
 
 const AdminHotels = () => {
     const token = localStorage.getItem(TOKEN_KEY)
@@ -26,7 +18,7 @@ const AdminHotels = () => {
     const [hotels, setHotels] = useState<null | IHotel[]>(null)
     const { enqueueSnackbar } = useSnackbar()
 
-    const deleteUser = () => {
+    const deleteHotel = () => {
         if (token && currentHotelId) {
             HotelService.del(token, currentHotelId)
                 .then(() => {
@@ -86,13 +78,19 @@ const AdminHotels = () => {
                     <TableBody>
                         {Object.values(hotels).map(hotel => (
                             <TableRow key={hotel.id}>
-                                <TableCell>{hotel.id}</TableCell>
+                                <TableCell>
+                                    <Link to={ADMIN_HOTEL.replace(':hotelId', hotel.id)}>{hotel.id}</Link>
+                                </TableCell>
                                 <TableCell>{hotel.name}</TableCell>
                                 <TableCell>{hotel.address}</TableCell>
                                 <TableCell>{hotel.postCode}</TableCell>
                                 <TableCell>{hotel.city}</TableCell>
                                 <TableCell>{hotel.country}</TableCell>
                                 <TableCell>
+                                    <IconButton component={Link} to={ADMIN_HOTEL.replace(':hotelId', hotel.id)}>
+                                        <Info />
+                                    </IconButton>
+
                                     <IconButton component={Link} to={ADMIN_HOTELS_EDIT.replace(':hotelId', hotel.id)}>
                                         <Edit />
                                     </IconButton>
@@ -114,7 +112,7 @@ const AdminHotels = () => {
 
             <BasicDialog
                 title="Voulez-vous vraiment supprimer cet hôtel ?"
-                handleOk={deleteUser}
+                handleOk={deleteHotel}
                 open={openDeleteDialog}
                 handleClose={() => {
                     setOpenDeleteDialog(false)

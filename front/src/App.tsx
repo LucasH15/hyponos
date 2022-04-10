@@ -5,6 +5,7 @@ import { SnackbarProvider } from 'notistack'
 
 import {
     ADMIN,
+    ADMIN_HOTEL,
     ADMIN_HOTELS,
     ADMIN_HOTELS_ADD,
     ADMIN_USERS,
@@ -26,6 +27,7 @@ import Admin from '@Pages/Admin'
 import AdminUsers from '@Pages/Admin/Users'
 import AdminUsersAdd from '@Pages/Admin/Users/Add'
 import AdminUsersEdit from '@Pages/Admin/Users/Edit'
+import AdminHotel from '@Pages/Admin/Hotels/Hotel'
 import AdminHotels from '@Pages/Admin/Hotels'
 import AdminHotelsAdd from '@Pages/Admin/Hotels/Add'
 import AuthProvider from './AuthProvider'
@@ -105,6 +107,14 @@ function App() {
                             element={
                                 <RequireAuth roles={[ROLE_ADMIN]}>
                                     <AdminHotels />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path={ADMIN_HOTEL}
+                            element={
+                                <RequireAuth roles={[ROLE_ADMIN]}>
+                                    <AdminHotel />
                                 </RequireAuth>
                             }
                         />

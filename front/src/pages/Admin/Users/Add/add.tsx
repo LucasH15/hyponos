@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { useSnackbar } from 'notistack'
 
+import { DEFAULT_ERROR_MESSAGE, IS_REQUIRED } from '@Constants/form'
 import { HOME } from '@Constants/routes'
 import { TOKEN_KEY } from '@Constants/request'
 import { ROLE_ADMIN, ROLE_MANAGER, ROLE_USER } from '@Constants/roles'
@@ -29,8 +30,8 @@ interface IFormInputs {
 
 const schema = yup
     .object({
-        email: yup.string().email("Cette adresse email n'est pas valide").required('Ce champ est requis'),
-        role: yup.string().required('Ce champ est requis')
+        email: yup.string().email("Cette adresse email n'est pas valide").required(IS_REQUIRED),
+        role: yup.string().required(IS_REQUIRED)
     })
     .required()
 
@@ -61,9 +62,7 @@ const AdminUsersAdd = () => {
                     if (error.response) {
                         setError(error.response.data.error.message)
                     } else {
-                        setError(
-                            'Une erreur est survenue, veuillez réessayer dans un instant. Si le problème persiste, contactez-nous'
-                        )
+                        setError(DEFAULT_ERROR_MESSAGE)
                     }
                 })
         }
