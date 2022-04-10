@@ -9,10 +9,12 @@ import {
     ADMIN_HOTELS,
     ADMIN_HOTELS_ADD,
     ADMIN_HOTELS_EDIT,
+    ADMIN_ROOMS,
     ADMIN_USERS,
     ADMIN_USERS_ADD,
     ADMIN_USERS_EDIT,
     HOME,
+    HOTEL,
     HOTELS,
     LOGIN,
     MY_SPACE,
@@ -23,6 +25,7 @@ import Home from '@Pages/Home'
 import Register from '@Pages/Register'
 import Login from '@Pages/Login'
 import MySpace from '@Pages/MySpace'
+import Hotel from '@Pages/Hotels/Hotel'
 import Hotels from '@Pages/Hotels'
 import Admin from '@Pages/Admin'
 import AdminUsers from '@Pages/Admin/Users'
@@ -32,6 +35,7 @@ import AdminHotel from '@Pages/Admin/Hotels/Hotel'
 import AdminHotels from '@Pages/Admin/Hotels'
 import AdminHotelsAdd from '@Pages/Admin/Hotels/Add'
 import AdminHotelsEdit from '@Pages/Admin/Hotels/Edit'
+import AdminRooms from '@Pages/Admin/Rooms'
 import AuthProvider from './AuthProvider'
 import RequireAuth from './RequireAuth'
 import theme from './Theme'
@@ -64,6 +68,7 @@ function App() {
                         <Route path={REGISTER} element={<Register />} />
                         <Route path={LOGIN} element={<Login />} />
                         <Route path={HOTELS} element={<Hotels />} />
+                        <Route path={HOTEL} element={<Hotel />} />
                         <Route
                             path={MY_SPACE}
                             element={
@@ -133,6 +138,14 @@ function App() {
                             element={
                                 <RequireAuth roles={[ROLE_ADMIN]}>
                                     <AdminHotelsEdit />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path={ADMIN_ROOMS}
+                            element={
+                                <RequireAuth roles={[ROLE_ADMIN, ROLE_MANAGER]}>
+                                    <AdminRooms />
                                 </RequireAuth>
                             }
                         />

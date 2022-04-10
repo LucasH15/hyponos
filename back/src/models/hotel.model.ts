@@ -1,4 +1,8 @@
-import { Entity, model, property } from '@loopback/repository'
+import { Entity, hasMany, model, property } from '@loopback/repository'
+
+import { Room } from './room.model'
+import { UserHotel } from './user-hotel.model'
+import { User } from './user.model'
 
 @model({ settings: { strict: false } })
 export class Hotel extends Entity {
@@ -41,7 +45,13 @@ export class Hotel extends Entity {
     @property({
         type: 'string'
     })
-    description?: string;
+    description?: string
+
+    @hasMany(() => Room)
+    rooms?: Room[]
+
+    @hasMany(() => User, { through: { model: () => UserHotel } })
+    users: User[];
 
     // Define well-known properties here
 

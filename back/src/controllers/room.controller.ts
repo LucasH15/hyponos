@@ -1,7 +1,12 @@
-import { Count, CountSchema, Filter, FilterExcludingWhere, repository, Where } from '@loopback/repository'
+import { authenticate } from '@loopback/authentication'
+import { authorize } from '@loopback/authorization'
+import { Filter, FilterExcludingWhere, repository } from '@loopback/repository'
 import { post, param, get, getModelSchemaRef, patch, put, del, requestBody, response } from '@loopback/rest'
+
+import { ROLE_ADMIN, ROLE_MANAGER } from '../constants'
 import { Room } from '../models'
 import { RoomRepository } from '../repositories'
+import { basicAuthorization } from '../services'
 
 export class RoomController {
     constructor(
@@ -9,9 +14,14 @@ export class RoomController {
         public roomRepository: RoomRepository
     ) {}
 
-    @post('/rooms')
+    @post('/admin/rooms')
+    @authenticate('jwt')
+    @authorize({
+        allowedRoles: [ROLE_ADMIN, ROLE_MANAGER],
+        voters: [basicAuthorization]
+    })
     @response(200, {
-        description: 'Room model instance',
+        description: 'Create a room',
         content: { 'application/json': { schema: getModelSchemaRef(Room) } }
     })
     async create(
@@ -30,15 +40,6 @@ export class RoomController {
         return this.roomRepository.create(room)
     }
 
-    @get('/rooms/count')
-    @response(200, {
-        description: 'Room model count',
-        content: { 'application/json': { schema: CountSchema } }
-    })
-    async count(@param.where(Room) where?: Where<Room>): Promise<Count> {
-        return this.roomRepository.count(where)
-    }
-
     @get('/rooms')
     @response(200, {
         description: 'Array of Room model instances',
@@ -53,25 +54,6 @@ export class RoomController {
     })
     async find(@param.filter(Room) filter?: Filter<Room>): Promise<Room[]> {
         return this.roomRepository.find(filter)
-    }
-
-    @patch('/rooms')
-    @response(200, {
-        description: 'Room PATCH success count',
-        content: { 'application/json': { schema: CountSchema } }
-    })
-    async updateAll(
-        @requestBody({
-            content: {
-                'application/json': {
-                    schema: getModelSchemaRef(Room, { partial: true })
-                }
-            }
-        })
-        room: Room,
-        @param.where(Room) where?: Where<Room>
-    ): Promise<Count> {
-        return this.roomRepository.updateAll(room, where)
     }
 
     @get('/rooms/{id}')

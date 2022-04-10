@@ -35,7 +35,12 @@ export class Room extends Entity {
         type: 'array',
         itemType: 'string'
     })
-    pictures?: string[];
+    pictures?: string[]
+
+    @property({
+        type: 'string'
+    })
+    hotelId?: string;
 
     // Define well-known properties here
 

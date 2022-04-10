@@ -3,8 +3,8 @@ import { Button } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
-import { ADMIN_HOTELS, ADMIN_USERS } from '@Constants/routes'
-import { ROLE_ADMIN } from '@Constants/roles'
+import { ADMIN_HOTELS, ADMIN_ROOMS, ADMIN_USERS } from '@Constants/routes'
+import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
 import { AuthContext } from '../../AuthProvider'
 
 const Admin = () => {
@@ -24,6 +24,14 @@ const Admin = () => {
                     </Button>
                     <Button variant="contained" component={Link} to={ADMIN_HOTELS}>
                         Gestion des hôtels
+                    </Button>
+                </>
+            )}
+
+            {(user?.role === ROLE_ADMIN || user?.role === ROLE_MANAGER) && (
+                <>
+                    <Button variant="contained" component={Link} to={ADMIN_ROOMS}>
+                        Gestion des suites
                     </Button>
                 </>
             )}
