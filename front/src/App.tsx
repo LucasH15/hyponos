@@ -3,13 +3,15 @@ import { CssBaseline, GlobalStyles } from '@mui/material'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { SnackbarProvider } from 'notistack'
 
+import { ADMIN, ADMIN_USERS, ADMIN_USERS_ADD, HOME, LOGIN, MY_SPACE, REGISTER } from '@Constants/routes'
 import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
 import Home from '@Pages/Home'
 import Register from '@Pages/Register'
 import Login from '@Pages/Login'
-import MonEspace from '@Pages/MonEspace'
+import MySpace from '@Pages/MySpace'
 import Admin from '@Pages/Admin'
-import AdminRoles from '@Pages/Admin/Roles'
+import AdminUsers from '@Pages/Admin/Users'
+import AdminUsersAdd from '@Pages/Admin/Users/Add'
 import AuthProvider from './AuthProvider'
 import RequireAuth from './RequireAuth'
 import theme from './Theme'
@@ -38,35 +40,42 @@ function App() {
                     maxSnack={3}
                 >
                     <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/inscription" element={<Register />} />
-                        <Route path="/connexion" element={<Login />} />
+                        <Route path={HOME} element={<Home />} />
+                        <Route path={REGISTER} element={<Register />} />
+                        <Route path={LOGIN} element={<Login />} />
                         <Route
-                            path="/mon-espace"
+                            path={MY_SPACE}
                             element={
                                 <RequireAuth>
-                                    <MonEspace />
+                                    <MySpace />
                                 </RequireAuth>
                             }
                         />
                         <Route
-                            path="/admin"
+                            path={ADMIN}
                             element={
                                 <RequireAuth roles={[ROLE_ADMIN, ROLE_MANAGER]}>
                                     <Admin />
                                 </RequireAuth>
                             }
-                        >
-                            <Route
-                                path="/admin/roles"
-                                element={
-                                    <RequireAuth roles={[ROLE_ADMIN]}>
-                                        <AdminRoles />
-                                    </RequireAuth>
-                                }
-                            />
-                        </Route>
-                        <Route path="*" element={<Navigate to="/" />} />
+                        />
+                        <Route
+                            path={ADMIN_USERS}
+                            element={
+                                <RequireAuth roles={[ROLE_ADMIN]}>
+                                    <AdminUsers />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path={ADMIN_USERS_ADD}
+                            element={
+                                <RequireAuth roles={[ROLE_ADMIN]}>
+                                    <AdminUsersAdd />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route path="*" element={<Navigate to={HOME} />} />
                     </Routes>
                 </SnackbarProvider>
             </ThemeProvider>

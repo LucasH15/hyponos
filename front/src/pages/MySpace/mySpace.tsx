@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-const MonEspace = () => {
+const MySpace = () => {
     return (
         <>
             <Helmet>
@@ -11,4 +11,4 @@ const MonEspace = () => {
     )
 }
 
-export default MonEspace
+export default MySpace

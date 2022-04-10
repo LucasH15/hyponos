@@ -22,7 +22,7 @@
   "scripts": {
     "prepare": "node_modules/.bin/husky install",
     "lint": "yarn workspaces run lint",
-    "dev": "node_modules/.bin/concurrently \"yarn --cwd back/ start\" \"yarn --cwd front/ start\""
+    "dev": "node_modules/.bin/concurrently \"yarn --cwd back/ start:watch\" \"yarn --cwd front/ start\""
   },
   "dependencies": {
     "concurrently": "^7.1.0"

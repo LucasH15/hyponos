@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { LOGIN } from '@Constants/routes'
 import UserService from '@Services/user'
 
 interface IFormInputs {
@@ -36,7 +37,7 @@ const Home = () => {
     const onSubmit: SubmitHandler<IFormInputs> = data => {
         setError(null)
         UserService.register(data)
-            .then(() => navigate('/connexion', { state: { register: 'success' } }))
+            .then(() => navigate(LOGIN, { state: { register: 'success' } }))
             .catch(error => {
                 if (error.response) {
                     setError(error.response.data.error.message)

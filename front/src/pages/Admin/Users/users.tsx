@@ -2,9 +2,11 @@ import { Button, Grid, IconButton, Table, TableBody, TableCell, TableHead, Table
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Add, Delete, Edit } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 
 import { TOKEN_KEY } from '@Constants/request'
+import { ADMIN_USERS_ADD } from '@Constants/routes'
 import BasicDialog from '@Components/BasicDialog'
 import UserService from '@Services/user'
 
@@ -16,7 +18,7 @@ interface IUser {
     role: string
 }
 
-const Roles = () => {
+const AdminUsers = () => {
     const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
     const [users, setUsers] = useState<null | IUser[]>(null)
     const { enqueueSnackbar } = useSnackbar()
@@ -39,13 +41,13 @@ const Roles = () => {
     return (
         <>
             <Helmet>
-                <title>Rôles</title>
+                <title>Utilisateurs</title>
                 <meta name="robots" content="none" />
             </Helmet>
 
             <Grid container justifyContent="end">
                 <Grid item>
-                    <Button variant="contained" onClick={() => console.log('add')} startIcon={<Add />}>
+                    <Button variant="contained" component={Link} to={ADMIN_USERS_ADD} startIcon={<Add />}>
                         Ajouter un utilisateur
                     </Button>
                 </Grid>
@@ -96,4 +98,4 @@ const Roles = () => {
     )
 }
 
-export default Roles
+export default AdminUsers

@@ -8,7 +8,7 @@ import { authorize } from '@loopback/authorization'
 import { TokenServiceBindings } from '@loopback/authentication-jwt'
 
 import { ROLE_ADMIN, ROLE_USER } from '../constants'
-import { User } from '../models'
+import { User, UserWithPassword } from '../models'
 import { Credentials, UserRepository } from '../repositories'
 import { basicAuthorization, validateCredentials, UserManagementService } from '../services'
 import { UserServiceBindings } from '../utils'
@@ -33,14 +33,14 @@ export class UserController {
         @requestBody({
             content: {
                 'application/json': {
-                    schema: getModelSchemaRef(User, {
+                    schema: getModelSchemaRef(UserWithPassword, {
                         title: 'NewUser',
                         exclude: ['id']
                     })
                 }
             }
         })
-        user: User
+        user: UserWithPassword
     ): Promise<User> {
         user.role = ROLE_USER
 
@@ -75,6 +75,50 @@ export class UserController {
         const token = await this.jwtService.generateToken(userProfile)
 
         return { token }
+    }
+
+    @post('/users/add')
+    @authenticate('jwt')
+    @authorize({
+        allowedRoles: [ROLE_ADMIN],
+        voters: [basicAuthorization]
+    })
+    @response(200, {
+        description: 'Create a user from admin panel',
+        content: { 'application/json': { schema: getModelSchemaRef(User) } }
+    })
+    async add(
+        @requestBody({
+            content: {
+                'application/json': {
+                    schema: getModelSchemaRef(User, {
+                        title: 'NewUserWithoutPassword',
+                        exclude: ['id']
+                    })
+                }
+            }
+        })
+        user: User
+    ): Promise<User> {
+        const userInDb = await this.userRepository.findOne({ where: { email: user.email } })
+
+        if (userInDb) {
+            throw new HttpErrors.Conflict('Cet utilisateur existe déjà')
+        }
+
+        const userWithPassword: UserWithPassword = _.merge(user, { password: 'Test1234!' }) // TODO create default password and send create password by email
+
+        validateCredentials(_.pick(userWithPassword, ['email', 'password']))
+
+        try {
+            return await this.userManagementService.createUser(userWithPassword)
+        } catch (error) {
+            if (error.code === 11000 && error.errmsg.includes('index: uniqueEmail')) {
+                throw new HttpErrors.Conflict('Cette adresse email existe déjà')
+            } else {
+                throw error
+            }
+        }
     }
 
     @get('/users/me')

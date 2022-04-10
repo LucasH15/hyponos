@@ -3,8 +3,9 @@ import { UserService } from '@loopback/authentication'
 import { repository } from '@loopback/repository'
 import { HttpErrors } from '@loopback/rest'
 import { UserProfile, securityId } from '@loopback/security'
+import _ from 'lodash'
 
-import { User } from '../models'
+import { User, UserWithPassword } from '../models'
 import { Credentials, UserRepository } from '../repositories'
 import { PasswordHasherBindings } from '../utils'
 import { PasswordHasher } from './password-hasher'
@@ -57,12 +58,12 @@ export class UserManagementService implements UserService<User, Credentials> {
         }
     }
 
-    async createUser(user: User): Promise<User> {
-        const password = await this.passwordHasher.hashPassword(user.password)
-        user.password = password
-        const userCreated = await this.userRepository.create(user)
-        userCreated.id = userCreated.id.toString()
-        await this.userRepository.userCredentials(userCreated.id).create({ password })
-        return userCreated
+    async createUser(userWithPassword: UserWithPassword): Promise<User> {
+        const password = await this.passwordHasher.hashPassword(userWithPassword.password)
+        userWithPassword.password = password
+        const user = await this.userRepository.create(_.omit(userWithPassword, 'password'))
+        user.id = user.id.toString()
+        await this.userRepository.userCredentials(user.id).create({ password })
+        return user
     }
 }

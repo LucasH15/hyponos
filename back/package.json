@@ -23,6 +23,7 @@
     "openapi-spec": "node ./dist/openapi-spec",
     "prestart": "yarn run rebuild",
     "start": "PORT=4000 node -r source-map-support/register .",
+    "start:watch": "node_modules/.bin/tsc-watch --target es2017 --outDir ./dist --onSuccess \"yarn start\"",
     "clean": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache",
     "rebuild": "yarn run clean && yarn run build"
   },
@@ -46,6 +47,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "loopback-connector-mongodb": "^6.1.0",
+    "tsc-watch": "^5.0.3",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
