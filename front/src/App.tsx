@@ -8,6 +8,7 @@ import {
     ADMIN_HOTEL,
     ADMIN_HOTELS,
     ADMIN_HOTELS_ADD,
+    ADMIN_HOTELS_EDIT,
     ADMIN_USERS,
     ADMIN_USERS_ADD,
     ADMIN_USERS_EDIT,
@@ -30,6 +31,7 @@ import AdminUsersEdit from '@Pages/Admin/Users/Edit'
 import AdminHotel from '@Pages/Admin/Hotels/Hotel'
 import AdminHotels from '@Pages/Admin/Hotels'
 import AdminHotelsAdd from '@Pages/Admin/Hotels/Add'
+import AdminHotelsEdit from '@Pages/Admin/Hotels/Edit'
 import AuthProvider from './AuthProvider'
 import RequireAuth from './RequireAuth'
 import theme from './Theme'
@@ -123,6 +125,14 @@ function App() {
                             element={
                                 <RequireAuth roles={[ROLE_ADMIN]}>
                                     <AdminHotelsAdd />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path={ADMIN_HOTELS_EDIT}
+                            element={
+                                <RequireAuth roles={[ROLE_ADMIN]}>
+                                    <AdminHotelsEdit />
                                 </RequireAuth>
                             }
                         />

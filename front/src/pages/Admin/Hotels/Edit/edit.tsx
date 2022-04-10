@@ -1,11 +1,13 @@
 import { Button, Grid, TextField, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Helmet } from 'react-helmet-async'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate, useParams } from 'react-router-dom'
 import * as yup from 'yup'
 import { useSnackbar } from 'notistack'
 
+import { ADMIN_HOTELS } from '@Constants/routes'
 import { IFormInputs } from '@Interfaces/hotel'
 import { DEFAULT_ERROR_MESSAGE, IS_REQUIRED, MIN_CHAR } from '@Constants/form'
 import { TOKEN_KEY } from '@Constants/request'
@@ -22,7 +24,9 @@ const schema = yup
     })
     .required()
 
-const AdminHotelsAdd = () => {
+const AdminHotelsEdit = () => {
+    const navigate = useNavigate()
+    const { hotelId } = useParams()
     const [error, setError] = useState<string | null>(null)
     const { enqueueSnackbar } = useSnackbar()
     const { control, handleSubmit, reset } = useForm<IFormInputs>({
@@ -39,12 +43,11 @@ const AdminHotelsAdd = () => {
     const onSubmit: SubmitHandler<IFormInputs> = data => {
         const token = localStorage.getItem(TOKEN_KEY)
 
-        if (token) {
+        if (token && hotelId) {
             setError(null)
-            HotelService.add(token, data)
+            HotelService.edit(token, hotelId, data)
                 .then(() => {
-                    enqueueSnackbar("L'hôtel a bien été ajouté", { variant: 'success' })
-                    reset()
+                    enqueueSnackbar("L'hôtel a bien été modifié", { variant: 'success' })
                 })
                 .catch(error => {
                     if (error.response) {
@@ -56,15 +59,33 @@ const AdminHotelsAdd = () => {
         }
     }
 
+    useEffect(() => {
+        if (hotelId) {
+            HotelService.getOne(hotelId)
+                .then(hotel => {
+                    reset(hotel.data)
+                })
+                .catch(error => {
+                    if (error.response.status === 404) {
+                        navigate(ADMIN_HOTELS, { replace: true })
+                    } else {
+                        enqueueSnackbar(DEFAULT_ERROR_MESSAGE, { variant: 'error' })
+                    }
+                })
+        } else {
+            navigate(ADMIN_HOTELS, { replace: true })
+        }
+    }, [hotelId])
+
     return (
         <>
             <Helmet>
-                <title>Ajouter un hôtel</title>
+                <title>Modifier un hôtel</title>
                 <meta name="robots" content="none" />
             </Helmet>
 
             <Typography variant="h1" align="center" sx={{ mb: 2 }}>
-                Ajouter un hôtel
+                Modifier un hôtel
             </Typography>
 
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -183,7 +204,7 @@ const AdminHotelsAdd = () => {
                             </Typography>
                         )}
                         <Button type="submit" variant="contained">
-                            Ajouter
+                            Modifier
                         </Button>
                     </Grid>
                 </Grid>
@@ -192,4 +213,4 @@ const AdminHotelsAdd = () => {
     )
 }
 
-export default AdminHotelsAdd
+export default AdminHotelsEdit

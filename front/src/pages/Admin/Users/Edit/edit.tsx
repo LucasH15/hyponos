@@ -23,7 +23,7 @@ const schema = yup
     })
     .required()
 
-const AdminUsersAdd = () => {
+const AdminUsersEdit = () => {
     const navigate = useNavigate()
     const { userId } = useParams()
     const [error, setError] = useState<string | null>(null)
@@ -107,4 +107,4 @@ const AdminUsersAdd = () => {
     )
 }
 
-export default AdminUsersAdd
+export default AdminUsersEdit

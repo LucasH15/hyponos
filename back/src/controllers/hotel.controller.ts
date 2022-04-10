@@ -1,7 +1,12 @@
-import { Count, CountSchema, Filter, FilterExcludingWhere, repository, Where } from '@loopback/repository'
+import { authenticate } from '@loopback/authentication'
+import { authorize } from '@loopback/authorization'
+import { Filter, FilterExcludingWhere, repository } from '@loopback/repository'
 import { post, param, get, getModelSchemaRef, patch, put, del, requestBody, response } from '@loopback/rest'
+
+import { ROLE_ADMIN } from '../constants'
 import { Hotel } from '../models'
 import { HotelRepository } from '../repositories'
+import { basicAuthorization } from '../services'
 
 export class HotelController {
     constructor(
@@ -10,6 +15,11 @@ export class HotelController {
     ) {}
 
     @post('/admin/hotels')
+    @authenticate('jwt')
+    @authorize({
+        allowedRoles: [ROLE_ADMIN],
+        voters: [basicAuthorization]
+    })
     @response(200, {
         description: 'Create a hotel',
         content: { 'application/json': { schema: getModelSchemaRef(Hotel) } }
@@ -46,25 +56,6 @@ export class HotelController {
         return this.hotelRepository.find(filter)
     }
 
-    @patch('/hotels')
-    @response(200, {
-        description: 'Hotel PATCH success count',
-        content: { 'application/json': { schema: CountSchema } }
-    })
-    async updateAll(
-        @requestBody({
-            content: {
-                'application/json': {
-                    schema: getModelSchemaRef(Hotel, { partial: true })
-                }
-            }
-        })
-        hotel: Hotel,
-        @param.where(Hotel) where?: Where<Hotel>
-    ): Promise<Count> {
-        return this.hotelRepository.updateAll(hotel, where)
-    }
-
     @get('/hotels/{id}')
     @response(200, {
         description: 'Hotel model instance',
@@ -81,7 +72,12 @@ export class HotelController {
         return this.hotelRepository.findById(id, filter)
     }
 
-    @patch('/hotels/{id}')
+    @patch('/admin/hotels/{id}')
+    @authenticate('jwt')
+    @authorize({
+        allowedRoles: [ROLE_ADMIN],
+        voters: [basicAuthorization]
+    })
     @response(204, {
         description: 'Hotel PATCH success'
     })
