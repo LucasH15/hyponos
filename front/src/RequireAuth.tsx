@@ -13,9 +13,10 @@ interface IRequireAuth {
 
 const RequireAuth = ({ roles = ALL, children }: IRequireAuth) => {
     const auth = useContext(AuthContext)
-    const token = localStorage.getItem(TOKEN_KEY)
-    console.log(auth)
+
     if (!auth?.user?.id) {
+        const token = localStorage.getItem(TOKEN_KEY)
+        console.log()
         if (!token) {
             return <Navigate to={LOGIN} replace />
         }

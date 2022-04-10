@@ -53,10 +53,19 @@ const add = (token: string, user: IUserFromBack) => {
     })
 }
 
+const del = (token: string, userId: string) => {
+    return axios.delete(`${BASE_URL}/users/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
 export default {
     register: async (user: IUser) => await register(user),
     login: async (user: IUser) => await login(user),
     me: async (token: string) => await me(token),
     getAll: async (token: string) => await getAll(token),
-    add: async (token: string, user: IUserFromBack) => await add(token, user)
+    add: async (token: string, user: IUserFromBack) => await add(token, user),
+    del: async (token: string, userId: string) => await del(token, userId)
 }

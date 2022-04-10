@@ -221,10 +221,25 @@ export class UserController {
     }
 
     @del('/users/{id}')
+    @authenticate('jwt')
+    @authorize({
+        allowedRoles: [ROLE_ADMIN],
+        voters: [basicAuthorization]
+    })
     @response(204, {
         description: 'User DELETE success'
     })
     async deleteById(@param.path.string('id') id: string): Promise<void> {
+        const currentUser = await this.userRepository.findById(id)
+
+        if (currentUser.role === ROLE_ADMIN) {
+            const usersAdmin = await this.userRepository.find({ where: { role: ROLE_ADMIN } })
+
+            if (usersAdmin.length === 1) {
+                throw new HttpErrors.Unauthorized('Vous ne pouvez pas supprimer le seul admin qui existe')
+            }
+        }
+
         await this.userRepository.deleteById(id)
     }
 }

@@ -19,23 +19,41 @@ interface IUser {
 }
 
 const AdminUsers = () => {
+    const token = localStorage.getItem(TOKEN_KEY)
     const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
+    const [currentUserId, setCurrentUserId] = useState<string | null>(null)
     const [users, setUsers] = useState<null | IUser[]>(null)
     const { enqueueSnackbar } = useSnackbar()
 
     const deleteUser = () => {
-        console.log('user deleted')
-        enqueueSnackbar("L'utilisateur a bien été supprimé", { variant: 'success' })
+        if (token && currentUserId) {
+            UserService.del(token, currentUserId)
+                .then(() => {
+                    enqueueSnackbar("L'utilisateur a bien été supprimé", { variant: 'success' })
+                    fetchUsers()
+                })
+                .catch(error => {
+                    let errorMessage = 'Une erreur est survenue, veuillez réessayer dans quelques instants'
+                    if (error.response) {
+                        errorMessage = error.response.data.error.message
+                    }
+                    enqueueSnackbar(errorMessage, {
+                        variant: 'error'
+                    })
+                })
+        }
     }
 
-    useEffect(() => {
-        const token = localStorage.getItem(TOKEN_KEY)
-
+    const fetchUsers = () => {
         if (token) {
             UserService.getAll(token)
                 .then(response => setUsers(response.data))
                 .catch(error => console.log(error))
         }
+    }
+
+    useEffect(() => {
+        fetchUsers()
     }, [])
 
     return (
@@ -78,7 +96,12 @@ const AdminUsers = () => {
                                         <Edit />
                                     </IconButton>
 
-                                    <IconButton onClick={() => setOpenDeleteDialog(true)}>
+                                    <IconButton
+                                        onClick={() => {
+                                            setOpenDeleteDialog(true)
+                                            setCurrentUserId(user.id)
+                                        }}
+                                    >
                                         <Delete />
                                     </IconButton>
                                 </TableCell>
@@ -92,7 +115,10 @@ const AdminUsers = () => {
                 title="Voulez-vous vraiment supprimer cet utiliseur ?"
                 handleOk={deleteUser}
                 open={openDeleteDialog}
-                handleClose={() => setOpenDeleteDialog(false)}
+                handleClose={() => {
+                    setOpenDeleteDialog(false)
+                    setCurrentUserId(null)
+                }}
             />
         </>
     )
