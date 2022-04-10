@@ -1,7 +1,7 @@
 import { authenticate } from '@loopback/authentication'
 import { authorize } from '@loopback/authorization'
 import { Filter, FilterExcludingWhere, repository } from '@loopback/repository'
-import { post, param, get, getModelSchemaRef, patch, put, del, requestBody, response } from '@loopback/rest'
+import { post, param, get, getModelSchemaRef, patch, del, requestBody, response } from '@loopback/rest'
 
 import { ROLE_ADMIN } from '../constants'
 import { Hotel } from '../models'
@@ -95,15 +95,12 @@ export class HotelController {
         await this.hotelRepository.updateById(id, hotel)
     }
 
-    @put('/hotels/{id}')
-    @response(204, {
-        description: 'Hotel PUT success'
+    @del('/admin/hotels/{id}')
+    @authenticate('jwt')
+    @authorize({
+        allowedRoles: [ROLE_ADMIN],
+        voters: [basicAuthorization]
     })
-    async replaceById(@param.path.string('id') id: string, @requestBody() hotel: Hotel): Promise<void> {
-        await this.hotelRepository.replaceById(id, hotel)
-    }
-
-    @del('/hotels/{id}')
     @response(204, {
         description: 'Hotel DELETE success'
     })
