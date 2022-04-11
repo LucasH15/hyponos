@@ -25,7 +25,8 @@
     "start": "PORT=4000 node -r source-map-support/register .",
     "start:watch": "node_modules/.bin/tsc-watch --target es2017 --outDir ./dist --onSuccess \"yarn start\"",
     "clean": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache",
-    "rebuild": "yarn run clean && yarn run build"
+    "rebuild": "yarn run clean && yarn run build",
+    "start:prod": "node dist/index.js"
   },
   "author": "Lucas Hubert <hubertlucas41@gmail.com>",
   "dependencies": {
