@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "prepare": "node_modules/.bin/husky install",
-    "lint": "yarn workspaces run lint",
+    "lint": "npm run lint --workspaces",
     "dev": "node_modules/.bin/concurrently \"yarn --cwd back/ start:watch\" \"yarn --cwd front/ start\""
   },
   "dependencies": {
