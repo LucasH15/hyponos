@@ -1,1 +1,2 @@
-web: yarn rebuild && yarn start:prod
+worker: yarn rebuild
+web: yarn start:prod
