@@ -4,9 +4,6 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "engines": {
-    "node": ">=14 <=16"
-  },
   "scripts": {
     "build": "node_modules/.bin/lb-tsc",
     "build:watch": "node_modules/.bin/lb-tsc --watch",
@@ -23,7 +20,7 @@
     "openapi-spec": "node ./dist/openapi-spec",
     "prestart": "npm run rebuild",
     "start": "PORT=4000 node -r source-map-support/register .",
-    "start:watch": "node_modules/.bin/tsc-watch --target es2017 --outDir ./dist --onSuccess \"npm start\"",
+    "start:watch": "node_modules/.bin/tsc-watch --target es2017 --outDir ./dist --onSuccess \"npm run start\"",
     "clean": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache",
     "rebuild": "npm run clean && npm run build",
     "heroku-postbuild": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache && node_modules/.bin/lb-tsc"
@@ -48,6 +45,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "loopback-connector-mongodb": "^6.1.0",
+    "node-cleanup": "^2.1.2",
     "tsc-watch": "^5.0.3",
     "tslib": "^2.0.0"
   },
