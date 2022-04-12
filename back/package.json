@@ -1,5 +1,5 @@
 {
-  "name": "hyponos-back",
+  "name": "@hyponos/back",
   "version": "0.0.1",
   "private": true,
   "main": "dist/index.js",
@@ -7,11 +7,9 @@
   "scripts": {
     "build": "node_modules/.bin/lb-tsc",
     "build:watch": "node_modules/.bin/lb-tsc --watch",
-    "lint": "node_modules/.bin/eslint .",
+    "lint": "../node_modules/.bin/eslint .",
     "lint:fix": "npm run eslint:fix && npm run prettier:fix",
     "prettier:fix": "npm run prettier:cli --write",
-    "eslint": "node_modules/.bin/lb-eslint --report-unused-disable-directives .",
-    "eslint:fix": "npm run node_modules/.bin/eslint --fix",
     "pretest": "npm run rebuild",
     "test": "nyc node_modules/.bin/lb-mocha --allow-console-logs \"dist/__tests__\"",
     "premigrate": "npm run build",
@@ -27,6 +25,9 @@
   },
   "author": "Lucas Hubert <hubertlucas41@gmail.com>",
   "dependencies": {
+    "@loopback/build": "^8.1.2",
+    "@loopback/eslint-config": "^12.0.4",
+    "@loopback/testlab": "^4.1.2",
     "@loopback/authentication": "^8.1.1",
     "@loopback/authentication-jwt": "^0.11.1",
     "@loopback/authorization": "^0.11.1",
@@ -48,5 +49,17 @@
     "node-cleanup": "^2.1.2",
     "tsc-watch": "^5.0.3",
     "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.20.46",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-eslint-plugin": "^4.1.0",
+    "eslint-plugin-mocha": "^10.0.3",
+    "nyc": "^15.1.0",
+    "source-map-support": "^0.5.21",
+    "typescript": "~4.5.5"
   }
 }
