@@ -26,7 +26,8 @@
     "start:watch": "node_modules/.bin/tsc-watch --target es2017 --outDir ./dist --onSuccess \"yarn start\"",
     "clean": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache",
     "rebuild": "yarn run clean && yarn run build",
-    "start:prod": "node dist/index.js"
+    "start:prod": "node dist/index.js",
+    "heroku-postbuild": "yarn run rebuild"
   },
   "author": "Lucas Hubert <hubertlucas41@gmail.com>",
   "dependencies": {

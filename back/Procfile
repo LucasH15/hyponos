@@ -1,2 +1,1 @@
-worker: yarn rebuild
 web: yarn start:prod
