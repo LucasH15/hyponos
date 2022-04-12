@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node_modules/.bin/lb-tsc",
     "build:watch": "node_modules/.bin/lb-tsc --watch",
-    "lint": "../node_modules/.bin/eslint .",
+    "lint": "node_modules/.bin/eslint .",
     "lint:fix": "npm run eslint:fix && npm run prettier:fix",
     "prettier:fix": "npm run prettier:cli --write",
     "pretest": "npm run rebuild",
@@ -54,11 +54,15 @@
     "@types/node": "^12.20.46",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
-    "eslint": "^8.10.0",
+    "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-eslint-plugin": "^4.1.0",
-    "eslint-plugin-mocha": "^10.0.3",
+    "eslint-plugin-jest": "^26.1.4",
+    "eslint-plugin-mocha": "^10.0.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
     "nyc": "^15.1.0",
+    "prettier": "^2.6.2",
     "source-map-support": "^0.5.21",
     "typescript": "~4.5.5"
   }
