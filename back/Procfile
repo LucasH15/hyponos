@@ -1,1 +1,1 @@
-web: npm run install && npm run rebuild && npm run start:prod
+web: yarn rebuild && yarn start:prod
