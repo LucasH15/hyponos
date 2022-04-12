@@ -1,4 +1,4 @@
-import { Card, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { useSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'

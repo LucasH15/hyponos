@@ -1,9 +1,9 @@
-import { Add, Delete, Edit, Info } from '@mui/icons-material'
-import { Button, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { Add } from '@mui/icons-material'
+import { Button, Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
-import { ADMIN_ROOMS_ADD, ADMIN_ROOMS_EDIT } from '@Constants/routes'
+import { ADMIN_ROOMS_ADD } from '@Constants/routes'
 import RoomService from '@Services/room'
 import { IRoom } from '@Interfaces/room'
 import { Link } from 'react-router-dom'
@@ -27,7 +27,7 @@ const Rooms = () => {
                 <title>Suites</title>
                 <meta name="robots" content="none" />
             </Helmet>
-            {console.log(rooms)}
+
             <Grid container justifyContent="end">
                 <Grid item>
                     <Button variant="contained" component={Link} to={ADMIN_ROOMS_ADD} startIcon={<Add />}>
