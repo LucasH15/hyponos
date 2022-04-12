@@ -7,21 +7,19 @@
     "node": ">=14 <=16"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.15.0",
-    "@typescript-eslint/parser": "^5.15.0",
-    "eslint": "^8.11.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jest": "^26.1.2",
+    "eslint-plugin-jest": "^26.1.4",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "husky": "^7.0.4",
+    "hyponos-back": "file:back",
+    "hyponos-front": "file:front",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.0"
   },
-  "workspaces": [
-    "back",
-    "front"
-  ],
   "scripts": {
     "prepare": "node_modules/.bin/husky install",
     "lint": "npm run lint --workspaces",
