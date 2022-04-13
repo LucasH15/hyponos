@@ -211,6 +211,10 @@ export class UserController {
     ): Promise<void> {
         const currentUser = await this.userRepository.findById(id)
 
+        if (currentUser.email === 'hello@studi.fr') {
+            throw new HttpErrors.Unauthorized('Vous ne pouvez pas modifier ce compte')
+        }
+
         if (currentUser.role === ROLE_ADMIN) {
             const usersAdmin = await this.userRepository.find({ where: { role: ROLE_ADMIN } })
 
@@ -232,6 +236,10 @@ export class UserController {
     })
     async deleteById(@param.path.string('id') id: string): Promise<void> {
         const currentUser = await this.userRepository.findById(id)
+
+        if (currentUser.email === 'hello@studi.fr') {
+            throw new HttpErrors.Unauthorized('Vous ne pouvez pas supprimer ce compte')
+        }
 
         if (currentUser.role === ROLE_ADMIN) {
             const usersAdmin = await this.userRepository.find({ where: { role: ROLE_ADMIN } })

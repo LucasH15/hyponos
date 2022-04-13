@@ -1,10 +1,10 @@
+import { useSnackbar } from 'notistack'
 import { useContext, useEffect, useState } from 'react'
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Helmet } from 'react-helmet-async'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
@@ -33,6 +33,7 @@ const schema = yup
     .required()
 
 const Login = () => {
+    const { enqueueSnackbar } = useSnackbar()
     const navigate = useNavigate()
     const auth = useContext(AuthContext)
     const [error, setError] = useState<string | null>(null)
@@ -72,7 +73,9 @@ const Login = () => {
 
     useEffect(() => {
         if (state?.register === 'success') {
-            toast.success("Vous êtes bien inscrit, plus qu'à vous connecter pour profiter de notre site")
+            enqueueSnackbar("Vous êtes bien inscrit, plus qu'à vous connecter pour profiter de notre site", {
+                variant: 'success'
+            })
         }
     }, [state])
 

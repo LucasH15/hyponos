@@ -1,16 +1,24 @@
 import { Entity, model, property } from '@loopback/repository'
 
-@model()
+@model({
+    settings: { postgresql: { schema: 'public', table: 'userHotel' } }
+})
 export class UserHotel extends Entity {
     @property({
         type: 'string',
-        id: true
+        id: true,
+        postgresql: {
+            dataType: 'uuid'
+        }
     })
     userId: string
 
     @property({
         type: 'string',
-        id: true
+        id: true,
+        postgresql: {
+            dataType: 'uuid'
+        }
     })
     hotelId: string
 

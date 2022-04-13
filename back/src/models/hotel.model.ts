@@ -4,11 +4,21 @@ import { Room } from './room.model'
 import { UserHotel } from './user-hotel.model'
 import { User } from './user.model'
 
-@model({ settings: { strict: false } })
+@model({
+    settings: { postgresql: { schema: 'public', table: 'hotel' } }
+})
 export class Hotel extends Entity {
     @property({
+        id: true,
         type: 'string',
-        id: true
+        required: false,
+        generated: true,
+        useDefaultIdType: false,
+        postgresql: {
+            dataType: 'uuid',
+            extension: 'pgcrypto',
+            defaultFn: 'gen_random_uuid()'
+        }
     })
     id: string
 

@@ -1,6 +1,6 @@
 import { inject, Getter } from '@loopback/core'
 import { DefaultCrudRepository, HasOneRepositoryFactory, repository } from '@loopback/repository'
-import { HyponosDataSource } from '../datasources'
+import { PostgresDatasource } from '../datasources'
 import { User, UserCredentials } from '../models'
 import { UserCredentialsRepository } from './user-credentials.repository'
 
@@ -13,7 +13,7 @@ export class UserRepository extends DefaultCrudRepository<User, typeof User.prot
     public readonly userCredentials: HasOneRepositoryFactory<UserCredentials, typeof User.prototype.id>
 
     constructor(
-        @inject('datasources.mongo') dataSource: HyponosDataSource,
+        @inject('datasources.postgres') dataSource: PostgresDatasource,
         @repository.getter('UserCredentialsRepository')
         protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>
     ) {
