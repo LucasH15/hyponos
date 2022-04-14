@@ -1,5 +1,8 @@
-import { Entity, model, property, hasOne } from '@loopback/repository'
+import { Entity, model, property, hasOne, hasMany } from '@loopback/repository'
+
 import { UserCredentials } from './user-credentials.model'
+import { UserHotel } from './user-hotel.model'
+import { Hotel } from './hotel.model'
 
 @model({
     settings: {
@@ -51,12 +54,16 @@ export class User extends Entity {
     email: string
 
     @property({
-        type: 'string'
+        type: 'string',
+        required: true
     })
     role: string
 
     @hasOne(() => UserCredentials)
     userCredentials: UserCredentials
+
+    @hasMany(() => Hotel, { through: { model: () => UserHotel } })
+    hotels: Hotel[]
 
     constructor(data?: Partial<User>) {
         super(data)

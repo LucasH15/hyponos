@@ -3,7 +3,7 @@ import crypto from 'crypto'
 import { BootMixin } from '@loopback/boot'
 import { ApplicationConfig, BindingKey, createBindingFromClass } from '@loopback/core'
 import { RestExplorerBindings, RestExplorerComponent } from '@loopback/rest-explorer'
-import { RepositoryMixin } from '@loopback/repository'
+import { RepositoryMixin, SchemaMigrationOptions } from '@loopback/repository'
 import { RestApplication } from '@loopback/rest'
 import { ServiceMixin } from '@loopback/service-proxy'
 import path from 'path'
@@ -11,6 +11,9 @@ import { AuthenticationComponent } from '@loopback/authentication'
 import { JWTAuthenticationComponent, TokenServiceBindings } from '@loopback/authentication-jwt'
 import { AuthorizationComponent } from '@loopback/authorization'
 
+import { ROLE_ADMIN } from './constants'
+import { User, UserCredentials } from './models'
+import { UserCredentialsRepository, UserRepository } from './repositories'
 import { PasswordHasherBindings, UserServiceBindings } from './utils'
 import { MySequence } from './sequence'
 import { BcryptHasher, JWTService, UserManagementService, SecuritySpecEnhancer } from './services'
@@ -74,5 +77,41 @@ export class HyponosApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
         // otherwise create a random string of 64 hex digits
         const secret = process.env.JWT_SECRET ?? crypto.randomBytes(32).toString('hex')
         this.bind(TokenServiceBindings.TOKEN_SECRET).to(secret)
+    }
+
+    async migrateSchema(options?: SchemaMigrationOptions) {
+        await super.migrateSchema(options)
+
+        const userRepository = await this.getRepository(UserRepository)
+        const userCredentialsRepository = await this.getRepository(UserCredentialsRepository)
+        const foundUser = await userRepository.findOne({ where: { email: 'hubertlucas41@gmail.com' } })
+
+        if (!foundUser) {
+            const myUser = new User({
+                firstname: 'Lucas',
+                lastname: 'Hubert',
+                email: 'hubertlucas41@gmail.com',
+                role: ROLE_ADMIN
+            })
+            let user = await userRepository.create(myUser)
+
+            const myUserCredentials = new UserCredentials({
+                password: 'MonPassword15',
+                userId: user.id
+            })
+            await userCredentialsRepository.create(myUserCredentials)
+
+            const studiUser = new User({
+                email: 'hello@studi.fr',
+                role: ROLE_ADMIN
+            })
+
+            user = await userRepository.create(studiUser)
+            const studiUserCredentials = new UserCredentials({
+                password: 'Studi2022',
+                userId: user.id
+            })
+            await userCredentialsRepository.create(studiUserCredentials)
+        }
     }
 }

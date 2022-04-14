@@ -1,8 +1,6 @@
 import { Entity, hasMany, model, property } from '@loopback/repository'
 
 import { Room } from './room.model'
-import { UserHotel } from './user-hotel.model'
-import { User } from './user.model'
 
 @model({
     settings: { postgresql: { schema: 'public', table: 'hotel' } }
@@ -58,10 +56,7 @@ export class Hotel extends Entity {
     description?: string
 
     @hasMany(() => Room)
-    rooms?: Room[]
-
-    @hasMany(() => User, { through: { model: () => UserHotel } })
-    users: User[];
+    rooms?: Room[];
 
     // Define well-known properties here
 
