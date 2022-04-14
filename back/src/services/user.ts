@@ -62,7 +62,6 @@ export class UserManagementService implements UserService<User, Credentials> {
         const password = await this.passwordHasher.hashPassword(userWithPassword.password)
         userWithPassword.password = password
         const user = await this.userRepository.create(_.omit(userWithPassword, 'password'))
-        user.id = user.id.toString()
         await this.userRepository.userCredentials(user.id).create({ password })
         return user
     }

@@ -1,6 +1,7 @@
 export const HOME = '/'
 export const REGISTER = '/inscription'
 export const LOGIN = '/connexion'
+export const LOGOUT = '/deconnexion'
 export const MY_SPACE = '/mon-espace'
 export const HOTELS = '/hotels'
 export const HOTEL = '/hotels/:hotelId'

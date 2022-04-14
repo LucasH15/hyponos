@@ -7,13 +7,14 @@ import { RepositoryMixin, SchemaMigrationOptions } from '@loopback/repository'
 import { RestApplication } from '@loopback/rest'
 import { ServiceMixin } from '@loopback/service-proxy'
 import path from 'path'
+import fs from 'fs'
+import YAML from 'yaml'
 import { AuthenticationComponent } from '@loopback/authentication'
 import { JWTAuthenticationComponent, TokenServiceBindings } from '@loopback/authentication-jwt'
 import { AuthorizationComponent } from '@loopback/authorization'
 
-import { ROLE_ADMIN } from './constants'
-import { User, UserCredentials } from './models'
-import { UserCredentialsRepository, UserRepository } from './repositories'
+import { UserWithPassword } from './models'
+import { UserRepository } from './repositories'
 import { PasswordHasherBindings, UserServiceBindings } from './utils'
 import { MySequence } from './sequence'
 import { BcryptHasher, JWTService, UserManagementService, SecuritySpecEnhancer } from './services'
@@ -83,35 +84,23 @@ export class HyponosApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
         await super.migrateSchema(options)
 
         const userRepository = await this.getRepository(UserRepository)
-        const userCredentialsRepository = await this.getRepository(UserCredentialsRepository)
         const foundUser = await userRepository.findOne({ where: { email: 'hubertlucas41@gmail.com' } })
 
         if (!foundUser) {
-            const myUser = new User({
-                firstname: 'Lucas',
-                lastname: 'Hubert',
-                email: 'hubertlucas41@gmail.com',
-                role: ROLE_ADMIN
-            })
-            let user = await userRepository.create(myUser)
+            const usersDir = path.join(__dirname, '../fixtures/users')
+            const userFiles = fs.readdirSync(usersDir)
 
-            const myUserCredentials = new UserCredentials({
-                password: 'MonPassword15',
-                userId: user.id
-            })
-            await userCredentialsRepository.create(myUserCredentials)
-
-            const studiUser = new User({
-                email: 'hello@studi.fr',
-                role: ROLE_ADMIN
-            })
-
-            user = await userRepository.create(studiUser)
-            const studiUserCredentials = new UserCredentials({
-                password: 'Studi2022',
-                userId: user.id
-            })
-            await userCredentialsRepository.create(studiUserCredentials)
+            for (const file of userFiles) {
+                if (file.endsWith('.yml')) {
+                    const userFile = path.join(usersDir, file)
+                    const yamlString = YAML.parse(fs.readFileSync(userFile, 'utf8'))
+                    const userWithPassword = new UserWithPassword(yamlString)
+                    const userManagementService = await this.get<UserManagementService>(
+                        UserServiceBindings.USER_SERVICE
+                    )
+                    await userManagementService.createUser(userWithPassword)
+                }
+            }
         }
     }
 }

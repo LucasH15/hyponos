@@ -13,7 +13,7 @@
     "pretest": "npm run rebuild",
     "test": "nyc node_modules/.bin/lb-mocha --allow-console-logs \"dist/__tests__\"",
     "premigrate": "npm run build",
-    "migrate": "node ./dist/migrate",
+    "migrate": "node ./dist/migrate --rebuild",
     "preopenapi-spec": "npm run build",
     "openapi-spec": "node ./dist/openapi-spec",
     "prestart": "npm run rebuild",
@@ -50,7 +50,8 @@
     "loopback-connector-postgresql": "^5.5.0",
     "node-cleanup": "^2.1.2",
     "tsc-watch": "^5.0.3",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "yaml": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^12.20.46",

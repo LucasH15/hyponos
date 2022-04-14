@@ -48,9 +48,10 @@ export class Room extends Entity {
     pictures?: string[]
 
     @property({
-        type: 'string'
+        type: 'string',
+        required: true
     })
-    hotelId?: string;
+    hotelId: string;
 
     // Define well-known properties here
 

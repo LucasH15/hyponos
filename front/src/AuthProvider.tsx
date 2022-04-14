@@ -10,14 +10,14 @@ export interface IUser {
     email: string
     password: string
     role: string
-    firstname?: string
-    lastname?: string
+    firstName?: string
+    lastName?: string
 }
 
 interface IAuthContextType {
     user: null | IUser
     login: <B extends boolean>(userToken: string, returnUser?: B) => Promise<B extends true ? IUser : void>
-    // signout: (callback: VoidFunction) => void
+    logout: () => void
 }
 
 export const AuthContext = createContext<IAuthContextType>(null!)
@@ -45,14 +45,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             })
     }
 
-    // const logout = (callback: VoidFunction) => {
-    //     return UserService.logout().then(() => {
-    //         setUser(null)
-    //         callback()
-    //     })
-    // }
+    const logout = () => {
+        setUser(null)
+        localStorage.removeItem(TOKEN_KEY)
+        navigate(HOME, { replace: true })
+    }
 
-    const value = { user, login }
+    const value = { user, login, logout }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

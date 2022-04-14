@@ -12,8 +12,8 @@ import UserService from '@Services/user'
 
 interface IUser {
     id: string
-    firstname?: string
-    lastname?: string
+    firstName?: string
+    lastName?: string
     email: string
     role: string
 }
@@ -87,8 +87,8 @@ const AdminUsers = () => {
                         {Object.values(users).map(user => (
                             <TableRow key={user.id}>
                                 <TableCell>{user.id}</TableCell>
-                                <TableCell>{user?.firstname}</TableCell>
-                                <TableCell>{user?.lastname}</TableCell>
+                                <TableCell>{user?.firstName}</TableCell>
+                                <TableCell>{user?.lastName}</TableCell>
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>{user.role}</TableCell>
                                 <TableCell>
