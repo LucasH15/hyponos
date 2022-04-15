@@ -22,7 +22,20 @@ const getHotels = (token: string) => {
     })
 }
 
+const del = (token: string, userId: string, hotelId: string) => {
+    return axios.delete(`${BASE_URL}/admin/user-hotels`, {
+        params: {
+            userId,
+            hotelId
+        },
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
 export default {
     add: async (token: string, userId: string, hotelId: string) => await add(token, userId, hotelId),
-    getHotels: async (token: string) => await getHotels(token)
+    getHotels: async (token: string) => await getHotels(token),
+    del: async (token: string, userId: string, hotelId: string) => await del(token, userId, hotelId)
 }

@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<null | IUser>(null)
 
     const login = (userToken: string, returnUser = false) => {
-        return UserService.me(userToken)
+        return UserService.me({ token: userToken })
             .then(response => {
                 setUser(response.data)
 

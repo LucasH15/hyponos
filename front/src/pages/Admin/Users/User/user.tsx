@@ -1,7 +1,10 @@
+import BasicDialog from '@Components/BasicDialog'
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
+import { Delete } from '@mui/icons-material'
 import {
     Button,
     Grid,
+    IconButton,
     MenuItem,
     Stack,
     Table,
@@ -45,6 +48,8 @@ const User = () => {
     const [error, setError] = useState<null | string>(null)
     const [user, setUser] = useState<null | IUser>(null)
     const [hotels, setHotels] = useState<[] | IHotel[]>([])
+    const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
+    const [currentHotelId, setCurrentHotelId] = useState<string | null>(null)
     const { control, handleSubmit, reset } = useForm<IFormInputs>({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -67,6 +72,23 @@ const User = () => {
                 })
         } else {
             navigate(ADMIN_USERS, { replace: true })
+        }
+    }
+
+    const deleteUserHotel = () => {
+        if (token && currentHotelId && userId) {
+            UserHotelService.del(token, userId, currentHotelId)
+                .then(() => {
+                    enqueueSnackbar("L'assignation a bien été supprimé", { variant: 'success' })
+                    fetchUser()
+                })
+                .catch(error => {
+                    let errorMessage = DEFAULT_ERROR_MESSAGE
+                    if (error.response) {
+                        errorMessage = error.response.data.error.message
+                    }
+                    enqueueSnackbar(errorMessage, { variant: 'error' })
+                })
         }
     }
 
@@ -199,11 +221,30 @@ const User = () => {
                                             <TableRow key={hotel.id}>
                                                 <TableCell>{hotel.id}</TableCell>
                                                 <TableCell>{hotel.name}</TableCell>
-                                                <TableCell />
+                                                <TableCell>
+                                                    <IconButton
+                                                        onClick={() => {
+                                                            setOpenDeleteDialog(true)
+                                                            setCurrentHotelId(hotel.id)
+                                                        }}
+                                                    >
+                                                        <Delete />
+                                                    </IconButton>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
                                 </Table>
+
+                                <BasicDialog
+                                    title="Voulez-vous vraiment supprimer cette assignation ?"
+                                    handleOk={deleteUserHotel}
+                                    open={openDeleteDialog}
+                                    handleClose={() => {
+                                        setOpenDeleteDialog(false)
+                                        setCurrentHotelId(null)
+                                    }}
+                                />
                             </>
                         )}
                     </Grid>

@@ -104,13 +104,13 @@ const routes = [
         path: ADMIN_HOTELS,
         element: <AdminHotels />,
         requireAuth: true,
-        roles: [ROLE_ADMIN]
+        roles: [ROLE_ADMIN, ROLE_MANAGER]
     },
     {
         path: ADMIN_HOTEL,
         element: <AdminHotel />,
         requireAuth: true,
-        roles: [ROLE_ADMIN]
+        roles: [ROLE_ADMIN, ROLE_MANAGER]
     },
     {
         path: ADMIN_HOTELS_ADD,
@@ -122,7 +122,7 @@ const routes = [
         path: ADMIN_HOTELS_EDIT,
         element: <AdminHotelsEdit />,
         requireAuth: true,
-        roles: [ROLE_ADMIN]
+        roles: [ROLE_ADMIN, ROLE_MANAGER]
     },
     {
         path: ADMIN_ROOMS,

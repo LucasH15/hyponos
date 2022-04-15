@@ -3,7 +3,18 @@ import { TokenServiceBindings } from '@loopback/authentication-jwt'
 import { authorize } from '@loopback/authorization'
 import { inject } from '@loopback/core'
 import { repository } from '@loopback/repository'
-import { get, getModelSchemaRef, HttpErrors, post, Request, requestBody, response, RestBindings } from '@loopback/rest'
+import {
+    del,
+    get,
+    getModelSchemaRef,
+    HttpErrors,
+    param,
+    post,
+    Request,
+    requestBody,
+    response,
+    RestBindings
+} from '@loopback/rest'
 import _ from 'lodash'
 
 import { ROLE_ADMIN, ROLE_MANAGER, UNIQUE_VIOLATION } from '../constants'
@@ -79,5 +90,21 @@ export class UserHotelController {
         }
 
         throw new HttpErrors.Unauthorized()
+    }
+
+    @del('/admin/user-hotels')
+    @authenticate('jwt')
+    @authorize({
+        allowedRoles: [ROLE_ADMIN],
+        voters: [basicAuthorization]
+    })
+    @response(204, {
+        description: 'Room DELETE success'
+    })
+    async delete(
+        @param.query.string('userId') userId: string,
+        @param.query.string('hotelId') hotelId: string
+    ): Promise<void> {
+        await this.userHotelRepository.deleteAll({ userId, hotelId })
     }
 }

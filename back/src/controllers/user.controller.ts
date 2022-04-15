@@ -1,7 +1,7 @@
 import { SecurityBindings, UserProfile, securityId } from '@loopback/security'
 import _ from 'lodash'
 import { inject } from '@loopback/core'
-import { Count, CountSchema, repository, Where } from '@loopback/repository'
+import { Count, CountSchema, Filter, repository, Where } from '@loopback/repository'
 import { post, param, get, getModelSchemaRef, patch, del, requestBody, response, HttpErrors } from '@loopback/rest'
 import { authenticate, TokenService } from '@loopback/authentication'
 import { authorize } from '@loopback/authorization'
@@ -133,11 +133,12 @@ export class UserController {
     })
     async getCurrentUser(
         @inject(SecurityBindings.USER)
-        currentUserProfile: UserProfile
+        currentUserProfile: UserProfile,
+        @param.filter(User) filter?: Filter<User>
     ): Promise<User> {
         const userId = currentUserProfile[securityId]
 
-        return this.userRepository.findById(userId)
+        return this.userRepository.findById(userId, filter)
     }
 
     @get('/admin/users')

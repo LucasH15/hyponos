@@ -1,7 +1,7 @@
 import { authenticate } from '@loopback/authentication'
 import { authorize } from '@loopback/authorization'
 import { Filter, FilterExcludingWhere, repository } from '@loopback/repository'
-import { post, param, get, getModelSchemaRef, patch, put, del, requestBody, response } from '@loopback/rest'
+import { post, param, get, getModelSchemaRef, patch, del, requestBody, response } from '@loopback/rest'
 
 import { ROLE_ADMIN, ROLE_MANAGER } from '../constants'
 import { Room } from '../models'
@@ -72,7 +72,12 @@ export class RoomController {
         return this.roomRepository.findById(id, filter)
     }
 
-    @patch('/rooms/{id}')
+    @patch('/admin/rooms/{id}')
+    @authenticate('jwt')
+    @authorize({
+        allowedRoles: [ROLE_ADMIN, ROLE_MANAGER],
+        voters: [basicAuthorization]
+    })
     @response(204, {
         description: 'Room PATCH success'
     })
@@ -90,15 +95,7 @@ export class RoomController {
         await this.roomRepository.updateById(id, room)
     }
 
-    @put('/rooms/{id}')
-    @response(204, {
-        description: 'Room PUT success'
-    })
-    async replaceById(@param.path.string('id') id: string, @requestBody() room: Room): Promise<void> {
-        await this.roomRepository.replaceById(id, room)
-    }
-
-    @del('/rooms/{id}')
+    @del('/admin/rooms/{id}')
     @response(204, {
         description: 'Room DELETE success'
     })

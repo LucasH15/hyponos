@@ -20,10 +20,8 @@ import { IHotel } from '@Interfaces/hotel'
 import { IFormInputs } from '@Interfaces/room'
 import { DEFAULT_ERROR_MESSAGE, IS_REQUIRED, MIN_CHAR, PRICE_POSITIF } from '@Constants/form'
 import { TOKEN_KEY } from '@Constants/request'
-import FileService from '@Services/file'
-import RoomService from '@Services/room'
-import HotelService from '@Services/hotel'
-import { AuthContext } from '../../../../AuthProvider'
+import { FileService, HotelService, RoomService, UserService } from '@Services/index'
+import { AuthContext } from '@Src/AuthProvider'
 
 registerPlugin(FilePondPluginImagePreview)
 
@@ -44,8 +42,10 @@ const schema = yup
 
 const AdminRoomsEdit = () => {
     const auth = useContext(AuthContext)
+    const token = localStorage.getItem(TOKEN_KEY)
     const { roomId } = useParams()
     const navigate = useNavigate()
+    const [fileIsModified, setFileIsModified] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const [hotels, setHotels] = useState<[] | IHotel[]>([])
     const { enqueueSnackbar } = useSnackbar()
@@ -59,47 +59,48 @@ const AdminRoomsEdit = () => {
             hotelId: ''
         }
     })
-    const onSubmit: SubmitHandler<IFormInputs> = data => {
+    const onSubmit: SubmitHandler<IFormInputs> = async data => {
         console.log(data)
-        // const token = localStorage.getItem(TOKEN_KEY)
-        //
-        // if (token) {
-        //     setError(null)
-        //     FileService.add(token, data.mainPicture)
-        //         .then(response => {
-        //             return response.data.files[0].filename
-        //         })
-        //         .then((file: string) => {
-        //             let pictures: string[] = []
-        //             if (data?.pictures?.length) {
-        //                 console.log('have pictures')
-        //                 FileService.add(token, data.pictures).then(response => {
-        //                     pictures = response.data.files.map((_file: { filename: string }) => _file.filename)
-        //                 })
-        //             }
-        //             console.log(pictures)
-        //             return { file, pictures }
-        //         })
-        //         .then(files => {
-        //             console.log(files)
-        //             const form = {
-        //                 ..._.omit(data, ['mainPicture', 'pictures']),
-        //                 mainPicture: files.file,
-        //                 pictures: files.pictures
-        //             }
-        //             RoomService.add(token, form).then(() => {
-        //                 enqueueSnackbar('La suite a bien été ajouté', { variant: 'success' })
-        //                 reset()
-        //             })
-        //         })
-        //         .catch(error => {
-        //             if (error.response) {
-        //                 setError(error.response.data.error.message)
-        //             } else {
-        //                 setError(DEFAULT_ERROR_MESSAGE)
-        //             }
-        //         })
-        // }
+        if (token && roomId) {
+            let file: boolean | string = false
+            setError(null)
+
+            if (fileIsModified) {
+                const response = await FileService.add(token, data.mainPicture)
+                file = response.data.files[0].filename
+            }
+
+            //         .then((file: string) => {
+            //             let pictures: string[] = []
+            //             if (data?.pictures?.length) {
+            //                 console.log('have pictures')
+            //                 FileService.add(token, data.pictures).then(response => {
+            //                     pictures = response.data.files.map((_file: { filename: string }) => _file.filename)
+            //                 })
+            //             }
+            //             console.log(pictures)
+            //             return { file, pictures }
+            //         })
+
+            const form = {
+                ..._.omit(data, ['mainPicture', 'pictures']),
+                mainPicture: file ? (file as string) : data.mainPicture.name,
+                pictures: []
+            }
+
+            RoomService.edit(token, roomId, form)
+                .then(() => {
+                    enqueueSnackbar('La suite a bien été ajouté', { variant: 'success' })
+                    reset()
+                })
+                .catch(error => {
+                    if (error.response) {
+                        setError(error.response.data.error.message)
+                    } else {
+                        setError(DEFAULT_ERROR_MESSAGE)
+                    }
+                })
+        }
     }
 
     useEffect(() => {
@@ -107,9 +108,10 @@ const AdminRoomsEdit = () => {
             HotelService.getAll().then(response => {
                 setHotels(response.data)
             })
-        } else if (auth?.user?.role === ROLE_MANAGER) {
-            console.log(ROLE_MANAGER)
-            // UserHotelService.getHotels()
+        } else if (auth?.user?.role === ROLE_MANAGER && token) {
+            UserService.me({ token, withHotels: true }).then(response => {
+                setHotels(response.data.hotels)
+            })
         }
     }, [])
 
@@ -178,6 +180,7 @@ const AdminRoomsEdit = () => {
                                     <FilePond
                                         files={getValues('mainPicture') ? [getValues('mainPicture')] : []}
                                         onupdatefiles={fileItem => {
+                                            setFileIsModified(true)
                                             setValue('mainPicture', fileItem[0]?.file as File)
                                         }}
                                         {...field}

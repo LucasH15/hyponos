@@ -18,10 +18,8 @@ import { IHotel } from '@Interfaces/hotel'
 import { IFormInputs } from '@Interfaces/room'
 import { DEFAULT_ERROR_MESSAGE, IS_REQUIRED, MIN_CHAR, PRICE_POSITIF } from '@Constants/form'
 import { TOKEN_KEY } from '@Constants/request'
-import FileService from '@Services/file'
-import RoomService from '@Services/room'
-import HotelService from '@Services/hotel'
-import { AuthContext } from '../../../../AuthProvider'
+import { FileService, HotelService, RoomService, UserService } from '@Services/index'
+import { AuthContext } from '@Src/AuthProvider'
 
 registerPlugin(FilePondPluginImagePreview)
 
@@ -41,6 +39,7 @@ const schema = yup
     .required()
 
 const AdminRoomsAdd = () => {
+    const token = localStorage.getItem(TOKEN_KEY)
     const auth = useContext(AuthContext)
     const [error, setError] = useState<string | null>(null)
     const [hotels, setHotels] = useState<[] | IHotel[]>([])
@@ -56,8 +55,6 @@ const AdminRoomsAdd = () => {
         }
     })
     const onSubmit: SubmitHandler<IFormInputs> = data => {
-        const token = localStorage.getItem(TOKEN_KEY)
-
         if (token) {
             setError(null)
             FileService.add(token, data.mainPicture)
@@ -102,9 +99,10 @@ const AdminRoomsAdd = () => {
             HotelService.getAll().then(response => {
                 setHotels(response.data)
             })
-        } else if (auth?.user?.role === ROLE_MANAGER) {
-            console.log(ROLE_MANAGER)
-            // UserHotelService.getHotels()
+        } else if (auth?.user?.role === ROLE_MANAGER && token) {
+            UserService.me({ token, withHotels: true }).then(response => {
+                setHotels(response.data.hotels)
+            })
         }
     }, [])
 

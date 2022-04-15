@@ -3,7 +3,7 @@ import { authorize } from '@loopback/authorization'
 import { Filter, repository } from '@loopback/repository'
 import { post, param, get, getModelSchemaRef, patch, del, requestBody, response } from '@loopback/rest'
 
-import { ROLE_ADMIN } from '../constants'
+import { ROLE_ADMIN, ROLE_MANAGER } from '../constants'
 import { Hotel } from '../models'
 import { HotelRepository } from '../repositories'
 import { basicAuthorization } from '../services'
@@ -72,7 +72,7 @@ export class HotelController {
     @patch('/admin/hotels/{id}')
     @authenticate('jwt')
     @authorize({
-        allowedRoles: [ROLE_ADMIN],
+        allowedRoles: [ROLE_ADMIN, ROLE_MANAGER],
         voters: [basicAuthorization]
     })
     @response(204, {

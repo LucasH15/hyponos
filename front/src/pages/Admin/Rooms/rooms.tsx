@@ -1,4 +1,3 @@
-import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
 import { useSnackbar } from 'notistack'
 import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,13 +5,13 @@ import { Add, Edit } from '@mui/icons-material'
 import { Button, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 
+import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
 import { TOKEN_KEY } from '@Constants/request'
 import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
 import { ADMIN_HOTEL, ADMIN_ROOMS_ADD, ADMIN_ROOMS_EDIT, HOME } from '@Constants/routes'
-import RoomService from '@Services/room'
-import UserHotelService from '@Services/user-hotel'
+import { RoomService, UserHotelService } from '@Services/index'
 import { IRoom } from '@Interfaces/room'
-import { AuthContext } from '../../../AuthProvider'
+import { AuthContext } from '@Src/AuthProvider'
 
 const Rooms = () => {
     const navigate = useNavigate()
