@@ -12,7 +12,7 @@ This is a project for [Studi](https://www.studi.com/fr)
 ### For back environment
 You need to create .env file in root project and add :
 
-All DB_* provide mongoDB config
+All DB_* provide postgresql config
 
 FRONT_URL is required for cors security
 ```

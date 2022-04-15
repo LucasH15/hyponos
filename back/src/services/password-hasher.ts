@@ -1,6 +1,6 @@
 import { genSalt, hash, compare } from 'bcryptjs'
 import { inject } from '@loopback/core'
-import { PasswordHasherBindings } from '../utils'
+import { PasswordHasherBindings } from '../utils/keys'
 
 export type PasswordHash = (password: string, rounds: number) => Promise<string>
 

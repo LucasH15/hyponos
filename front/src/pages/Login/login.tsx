@@ -1,13 +1,13 @@
-import { useSnackbar } from 'notistack'
 import { useContext, useEffect, useState } from 'react'
+import { useSnackbar } from 'notistack'
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Helmet } from 'react-helmet-async'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useLocation } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
 import { MY_SPACE } from '@Constants/routes'
 import { TOKEN_KEY } from '@Constants/request'
 import UserService from '@Services/user'
@@ -56,17 +56,15 @@ const Login = () => {
                         localStorage.setItem(TOKEN_KEY, token)
                         navigate(MY_SPACE, { replace: true })
                     })
+                } else {
+                    throw new Error()
                 }
-
-                throw new Error()
             })
             .catch(error => {
                 if (error.response) {
                     setError(error.response.data.error.message)
                 } else {
-                    setError(
-                        'Une erreur est survenue, veuillez réessayer dans un instant. Si le problème persiste, contactez-nous'
-                    )
+                    setError(DEFAULT_ERROR_MESSAGE)
                 }
             })
     }

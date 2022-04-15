@@ -15,7 +15,7 @@ import { AuthorizationComponent } from '@loopback/authorization'
 
 import { UserWithPassword } from './models'
 import { UserRepository } from './repositories'
-import { PasswordHasherBindings, UserServiceBindings } from './utils'
+import { PasswordHasherBindings, UserServiceBindings } from './utils/keys'
 import { MySequence } from './sequence'
 import { BcryptHasher, JWTService, UserManagementService, SecuritySpecEnhancer } from './services'
 

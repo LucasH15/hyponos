@@ -5,12 +5,14 @@ export interface IRoom {
     description?: string
     pictures?: string[]
     price: number
+    hotelId: string
 }
 
 export interface IFormInputs {
     title: string
-    mainPicture: string
+    mainPicture: File
     description?: string
-    pictures?: string[]
+    pictures?: File[]
     price: number
+    hotelId: string
 }

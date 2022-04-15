@@ -1,12 +1,12 @@
-import { Add } from '@mui/icons-material'
-import { Button, Grid, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { Add, Edit } from '@mui/icons-material'
+import { Button, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { Link } from 'react-router-dom'
 
-import { ADMIN_ROOMS_ADD } from '@Constants/routes'
+import { ADMIN_ROOMS_ADD, ADMIN_ROOMS_EDIT, HOTEL } from '@Constants/routes'
 import RoomService from '@Services/room'
 import { IRoom } from '@Interfaces/room'
-import { Link } from 'react-router-dom'
 
 const Rooms = () => {
     const [rooms, setRooms] = useState<null | IRoom[]>(null)
@@ -42,11 +42,8 @@ const Rooms = () => {
                         <TableRow>
                             <TableCell>ID</TableCell>
                             <TableCell>Titre</TableCell>
-                            {/*<TableCell>Adresse</TableCell>*/}
-                            {/*<TableCell>Code postal</TableCell>*/}
-                            {/*<TableCell>Ville</TableCell>*/}
-                            {/*<TableCell>Pays</TableCell>*/}
-                            {/*<TableCell>Actions</TableCell>*/}
+                            <TableCell>Hôtel</TableCell>
+                            <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -54,15 +51,14 @@ const Rooms = () => {
                             <TableRow key={room.id}>
                                 <TableCell>{room.id}</TableCell>
                                 <TableCell>{room.title}</TableCell>
-                                {/*<TableCell>{hotel.address}</TableCell>*/}
-                                {/*<TableCell>{hotel.postCode}</TableCell>*/}
-                                {/*<TableCell>{hotel.city}</TableCell>*/}
-                                {/*<TableCell>{hotel.country}</TableCell>*/}
-                                {/*<TableCell>*/}
-                                {/*    <IconButton component={Link} to={ADMIN_ROOMS_EDIT.replace(':roomId', room.id)}>*/}
-                                {/*        <Edit />*/}
-                                {/*    </IconButton>*/}
-                                {/*</TableCell>*/}
+                                <TableCell>
+                                    <Link to={HOTEL.replace(':hotelId', room.hotelId)}>{room.hotelId}</Link>
+                                </TableCell>
+                                <TableCell>
+                                    <IconButton component={Link} to={ADMIN_ROOMS_EDIT.replace(':roomId', room.id)}>
+                                        <Edit />
+                                    </IconButton>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

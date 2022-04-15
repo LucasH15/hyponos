@@ -166,7 +166,7 @@ const AdminHotelsAdd = () => {
                                 <TextField // TODO replace by WYSIWYG
                                     fullWidth
                                     multiline
-                                    label="Description (optionel)"
+                                    label="Description (optionnel)"
                                     error={invalid}
                                     helperText={error?.message}
                                     rows={4}

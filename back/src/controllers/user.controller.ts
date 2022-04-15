@@ -11,7 +11,7 @@ import { ROLE_ADMIN, ROLE_USER } from '../constants'
 import { User, UserWithPassword } from '../models'
 import { Credentials, UserRepository } from '../repositories'
 import { basicAuthorization, validateCredentials, UserManagementService } from '../services'
-import { UserServiceBindings } from '../utils'
+import { UserServiceBindings } from '../utils/keys'
 import { CredentialsRequestBody } from './specs/user-controller.specs'
 
 export class UserController {

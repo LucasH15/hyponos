@@ -7,7 +7,7 @@ import _ from 'lodash'
 
 import { User, UserWithPassword } from '../models'
 import { Credentials, UserRepository } from '../repositories'
-import { PasswordHasherBindings } from '../utils'
+import { PasswordHasherBindings } from '../utils/keys'
 import { PasswordHasher } from './password-hasher'
 
 export class UserManagementService implements UserService<User, Credentials> {

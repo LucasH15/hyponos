@@ -129,55 +129,68 @@ const AppBar = () => {
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} color="inherit">
                             <AccountCircleIcon />
                         </IconButton>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right'
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right'
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {auth?.user?.id ? (
-                                <>
-                                    <MenuItem component={Link} to={MY_SPACE} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">Mon espace</Typography>
-                                    </MenuItem>
+                        {auth?.user?.id ? (
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right'
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right'
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem component={Link} to={MY_SPACE} onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">Mon espace</Typography>
+                                </MenuItem>
 
-                                    {(auth.user.role === ROLE_ADMIN || auth.user.role === ROLE_MANAGER) && (
-                                        <MenuItem component={Link} to={ADMIN} onClick={handleCloseUserMenu}>
-                                            <Typography textAlign="center">Administration</Typography>
-                                        </MenuItem>
-                                    )}
+                                {(auth.user.role === ROLE_ADMIN || auth.user.role === ROLE_MANAGER) && (
+                                    <MenuItem component={Link} to={ADMIN} onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center">Administration</Typography>
+                                    </MenuItem>
+                                )}
 
-                                    <MenuItem
-                                        onClick={() => {
-                                            handleCloseUserMenu()
-                                            logout()
-                                        }}
-                                    >
-                                        <Typography textAlign="center">Déconnexion</Typography>
-                                    </MenuItem>
-                                </>
-                            ) : (
-                                <>
-                                    <MenuItem component={Link} to={LOGIN} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">Connexion</Typography>
-                                    </MenuItem>
+                                <MenuItem
+                                    onClick={() => {
+                                        handleCloseUserMenu()
+                                        logout()
+                                    }}
+                                >
+                                    <Typography textAlign="center">Déconnexion</Typography>
+                                </MenuItem>
+                            </Menu>
+                        ) : (
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right'
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right'
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem component={Link} to={LOGIN} onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">Connexion</Typography>
+                                </MenuItem>
 
-                                    <MenuItem component={Link} to={REGISTER} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">Inscription</Typography>
-                                    </MenuItem>
-                                </>
-                            )}
-                        </Menu>
+                                <MenuItem component={Link} to={REGISTER} onClick={handleCloseUserMenu}>
+                                    <Typography textAlign="center">Inscription</Typography>
+                                </MenuItem>
+                            </Menu>
+                        )}
                     </Grid>
                 </Toolbar>
             </Container>
