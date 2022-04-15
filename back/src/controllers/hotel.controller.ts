@@ -1,6 +1,6 @@
 import { authenticate } from '@loopback/authentication'
 import { authorize } from '@loopback/authorization'
-import { Filter, FilterExcludingWhere, repository } from '@loopback/repository'
+import { Filter, repository } from '@loopback/repository'
 import { post, param, get, getModelSchemaRef, patch, del, requestBody, response } from '@loopback/rest'
 
 import { ROLE_ADMIN } from '../constants'
@@ -65,11 +65,8 @@ export class HotelController {
             }
         }
     })
-    async findById(
-        @param.path.string('id') id: string,
-        @param.filter(Hotel, { exclude: 'where' }) filter?: FilterExcludingWhere<Hotel>
-    ): Promise<Hotel> {
-        return this.hotelRepository.findById(id, filter)
+    async findById(@param.path.string('id') id: string): Promise<Hotel> {
+        return this.hotelRepository.findById(id, { include: ['rooms'] })
     }
 
     @patch('/admin/hotels/{id}')

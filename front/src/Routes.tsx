@@ -8,6 +8,7 @@ import {
     ADMIN_ROOMS,
     ADMIN_ROOMS_ADD,
     ADMIN_ROOMS_EDIT,
+    ADMIN_USER,
     ADMIN_USERS,
     ADMIN_USERS_ADD,
     ADMIN_USERS_EDIT,
@@ -32,6 +33,7 @@ import AdminHotel from '@Pages/Admin/Hotels/Hotel'
 import AdminUsers from '@Pages/Admin/Users'
 import AdminUsersAdd from '@Pages/Admin/Users/Add'
 import AdminUsersEdit from '@Pages/Admin/Users/Edit'
+import AdminUser from '@Pages/Admin/Users/User'
 import AdminRooms from '@Pages/Admin/Rooms'
 import AdminRoomsAdd from '@Pages/Admin/Rooms/Add'
 import AdminRoomsEdit from '@Pages/Admin/Rooms/Edit'
@@ -89,6 +91,12 @@ const routes = [
     {
         path: ADMIN_USERS_EDIT,
         element: <AdminUsersEdit />,
+        requireAuth: true,
+        roles: [ROLE_ADMIN]
+    },
+    {
+        path: ADMIN_USER,
+        element: <AdminUser />,
         requireAuth: true,
         roles: [ROLE_ADMIN]
     },

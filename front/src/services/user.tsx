@@ -48,6 +48,22 @@ const getAll = (token: string) => {
     })
 }
 
+const getOne = (token: string, userId: string) => {
+    return axios.get(`${BASE_URL}/admin/users/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
+const getHotels = (token: string, userId: string) => {
+    return axios.get(`${BASE_URL}/admin/users/${userId}/hotels`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
 const add = (token: string, user: IUserFromBack) => {
     return axios.post(`${BASE_URL}/admin/users`, JSON.stringify(user), {
         headers: {
@@ -79,6 +95,8 @@ export default {
     login: async (user: IUser) => await login(user),
     me: async (token: string) => await me(token),
     getAll: async (token: string) => await getAll(token),
+    getOne: async (token: string, userId: string) => await getOne(token, userId),
+    getHotels: async (token: string, userId: string) => await getHotels(token, userId),
     add: async (token: string, user: IUserFromBack) => await add(token, user),
     del: async (token: string, userId: string) => await del(token, userId),
     edit: async (token: string, userId: string, user: IUserEdition) => await edit(token, userId, user)

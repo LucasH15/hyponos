@@ -4,11 +4,11 @@ import { Button, Grid, TextField, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Helmet } from 'react-helmet-async'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
-import { MY_SPACE } from '@Constants/routes'
+import { MY_SPACE, REGISTER } from '@Constants/routes'
 import { TOKEN_KEY } from '@Constants/request'
 import UserService from '@Services/user'
 import { AuthContext } from '../../AuthProvider'
@@ -83,6 +83,10 @@ const Login = () => {
                 <title>Connexion</title>
             </Helmet>
 
+            <Typography variant="h1" align="center" sx={{ mb: 2 }}>
+                Connexion
+            </Typography>
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid
                     container
@@ -139,6 +143,22 @@ const Login = () => {
                     </Grid>
                 </Grid>
             </form>
+
+            <Grid
+                container
+                sx={{
+                    maxWidth: '600px',
+                    mx: 'auto',
+                    px: 4
+                }}
+                alignItems="center"
+            >
+                <p>Vous n&apos;avez pas encore de compte ?</p>
+                &nbsp;
+                <Button component={Link} to={REGISTER}>
+                    Je m&apos;inscris
+                </Button>
+            </Grid>
         </>
     )
 }

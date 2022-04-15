@@ -1,18 +1,10 @@
-import { HOME, LOGIN } from '@Constants/routes'
 import { ReactNode, createContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { IUser } from '@Interfaces/user'
 import { TOKEN_KEY } from '@Constants/request'
+import { HOME, LOGIN } from '@Constants/routes'
 import UserService from '@Services/user'
-
-export interface IUser {
-    id: string
-    email: string
-    password: string
-    role: string
-    firstName?: string
-    lastName?: string
-}
 
 interface IAuthContextType {
     user: null | IUser

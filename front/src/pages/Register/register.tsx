@@ -3,7 +3,7 @@ import { Button, Grid, TextField, Typography } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { LOGIN } from '@Constants/routes'
@@ -54,6 +54,10 @@ const Home = () => {
             <Helmet>
                 <title>Inscription</title>
             </Helmet>
+
+            <Typography variant="h1" align="center" sx={{ mb: 2 }}>
+                Inscription
+            </Typography>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid
@@ -111,6 +115,22 @@ const Home = () => {
                     </Grid>
                 </Grid>
             </form>
+
+            <Grid
+                container
+                sx={{
+                    maxWidth: '600px',
+                    mx: 'auto',
+                    px: 4
+                }}
+                alignItems="center"
+            >
+                <p>Vous avez déjà un compte ?</p>
+                &nbsp;
+                <Button component={Link} to={LOGIN}>
+                    Je me connecte
+                </Button>
+            </Grid>
         </>
     )
 }

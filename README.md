@@ -7,6 +7,7 @@ This is a project for [Studi](https://www.studi.com/fr)
 - Website url : [https://hyponos.vercel.app](https://hyponos.vercel.app)
 - API url : [https://hyponos-back.herokuapp.com/explorer/](https://hyponos-back.herokuapp.com/explorer/)
 - ADMIN account : login hello@studi.fr and password Studi2022
+- MANAGER account : login hello@manager.fr and password Manager2022
 
 ## How to use this project in local
 ### For back environment

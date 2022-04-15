@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
@@ -16,6 +16,10 @@ const Admin = () => {
                 <title>Admin</title>
                 <meta name="robots" content="none" />
             </Helmet>
+
+            <Typography variant="h1" align="center" sx={{ mb: 2 }}>
+                Administration
+            </Typography>
 
             {user?.role === ROLE_ADMIN && (
                 <>

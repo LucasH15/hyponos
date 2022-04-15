@@ -22,7 +22,8 @@
       "@Constants/*": ["src/constants/*"],
       "@Utils/*": ["src/utils/*"],
       "@Components/*": ["src/components/*"],
-      "@Interfaces/*": ["src/interfaces/*"]
+      "@Interfaces/*": ["src/interfaces/*"],
+      "@Hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src"]

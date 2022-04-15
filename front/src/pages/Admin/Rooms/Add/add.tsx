@@ -1,5 +1,3 @@
-import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
-import { IHotel } from '@Interfaces/hotel'
 import { useContext, useEffect, useState } from 'react'
 import { Button, FormControl, FormHelperText, FormLabel, Grid, MenuItem, TextField, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -15,6 +13,8 @@ import 'filepond/dist/filepond.min.css'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 
+import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
+import { IHotel } from '@Interfaces/hotel'
 import { IFormInputs } from '@Interfaces/room'
 import { DEFAULT_ERROR_MESSAGE, IS_REQUIRED, MIN_CHAR, PRICE_POSITIF } from '@Constants/form'
 import { TOKEN_KEY } from '@Constants/request'
@@ -34,7 +34,7 @@ const schema = yup
         title: yup.string().min(2, MIN_CHAR).required(IS_REQUIRED),
         mainPicture: yup.mixed().required(IS_REQUIRED),
         description: yup.string(),
-        pictures: yup.array(),
+        pictures: yup.array(yup.mixed()),
         price: yup.number().positive(PRICE_POSITIF).required(IS_REQUIRED),
         hotelId: yup.string().uuid(IS_REQUIRED).required(IS_REQUIRED)
     })
@@ -56,27 +56,44 @@ const AdminRoomsAdd = () => {
         }
     })
     const onSubmit: SubmitHandler<IFormInputs> = data => {
-        console.log(data)
         const token = localStorage.getItem(TOKEN_KEY)
 
         if (token) {
             setError(null)
-            FileService.add(token, data.mainPicture).then(response => {
-                console.log(response)
-            })
-            // RoomService.add(token, data)
-            //     .then(() => {
-            //         enqueueSnackbar('La suite a bien été ajouté', { variant: 'success' })
-            //         reset()
-            //     })
-            //     .catch(error => {
-            //         console.log(error)
-            //         //             if (error.response) {
-            //         //                 setError(error.response.data.error.message)
-            //         //             } else {
-            //         //                 setError(DEFAULT_ERROR_MESSAGE)
-            //         //             }
-            //     })
+            FileService.add(token, data.mainPicture)
+                .then(response => {
+                    return response.data.files[0].filename
+                })
+                .then((file: string) => {
+                    let pictures: string[] = []
+                    if (data?.pictures?.length) {
+                        console.log('have pictures')
+                        FileService.add(token, data.pictures).then(response => {
+                            pictures = response.data.files.map((_file: { filename: string }) => _file.filename)
+                        })
+                    }
+                    console.log(pictures)
+                    return { file, pictures }
+                })
+                .then(files => {
+                    console.log(files)
+                    const form = {
+                        ..._.omit(data, ['mainPicture', 'pictures']),
+                        mainPicture: files.file,
+                        pictures: files.pictures
+                    }
+                    RoomService.add(token, form).then(() => {
+                        enqueueSnackbar('La suite a bien été ajouté', { variant: 'success' })
+                        reset()
+                    })
+                })
+                .catch(error => {
+                    if (error.response) {
+                        setError(error.response.data.error.message)
+                    } else {
+                        setError(DEFAULT_ERROR_MESSAGE)
+                    }
+                })
         }
     }
 

@@ -27,7 +27,8 @@ export class UserRepository extends DefaultCrudRepository<User, typeof User.prot
     >
 
     constructor(
-        @inject('datasources.postgres') dataSource: PostgresDataSource,
+        @inject('datasources.postgres')
+        dataSource: PostgresDataSource,
         @repository.getter('UserCredentialsRepository')
         protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>,
         @repository.getter('HotelRepository')
@@ -42,6 +43,8 @@ export class UserRepository extends DefaultCrudRepository<User, typeof User.prot
             hotelRepositoryGetter,
             userHotelRepositoryGetter
         )
+
+        this.registerInclusionResolver('hotels', this.hotels.inclusionResolver)
     }
 
     async findCredentials(userId: typeof User.prototype.id): Promise<UserCredentials | undefined> {

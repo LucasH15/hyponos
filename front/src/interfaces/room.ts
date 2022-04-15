@@ -16,3 +16,12 @@ export interface IFormInputs {
     price: number
     hotelId: string
 }
+
+export interface IFormSubmitInputs {
+    title: string
+    mainPicture: string
+    description?: string
+    pictures?: string[]
+    price: number
+    hotelId: string
+}

@@ -1,13 +1,13 @@
 import { SecurityBindings, UserProfile, securityId } from '@loopback/security'
 import _ from 'lodash'
 import { inject } from '@loopback/core'
-import { Count, CountSchema, FilterExcludingWhere, repository, Where } from '@loopback/repository'
+import { Count, CountSchema, repository, Where } from '@loopback/repository'
 import { post, param, get, getModelSchemaRef, patch, del, requestBody, response, HttpErrors } from '@loopback/rest'
 import { authenticate, TokenService } from '@loopback/authentication'
 import { authorize } from '@loopback/authorization'
 import { TokenServiceBindings } from '@loopback/authentication-jwt'
 
-import { ROLE_ADMIN, ROLE_USER } from '../constants'
+import { ROLE_ADMIN, ROLE_USER, UNIQUE_VIOLATION } from '../constants'
 import { User, UserWithPassword } from '../models'
 import { Credentials, UserRepository } from '../repositories'
 import { basicAuthorization, validateCredentials, UserManagementService } from '../services'
@@ -49,7 +49,7 @@ export class UserController {
         try {
             return await this.userManagementService.createUser(user)
         } catch (error) {
-            if (error.code === 11000 && error.errmsg.includes('index: uniqueEmail')) {
+            if (error.code === UNIQUE_VIOLATION && error.constraint === 'uniqueEmail') {
                 throw new HttpErrors.Conflict('Cette adresse email existe déjà')
             } else {
                 throw error
@@ -177,7 +177,7 @@ export class UserController {
         return this.userRepository.updateAll(user, where)
     }
 
-    @get('/users/{id}')
+    @get('/admin/users/{id}')
     @response(200, {
         description: 'User model instance',
         content: {
@@ -186,12 +186,8 @@ export class UserController {
             }
         }
     })
-    async findById(
-        @param.path.string('id') id: string,
-        @param.filter(User, { exclude: 'where' })
-        filter?: FilterExcludingWhere<User>
-    ): Promise<User> {
-        return this.userRepository.findById(id, filter)
+    async findById(@param.path.string('id') id: string): Promise<User> {
+        return this.userRepository.findById(id, { include: ['hotels'] })
     }
 
     @patch('/admin/users/{id}')

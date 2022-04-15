@@ -62,6 +62,10 @@ const AdminUsersEdit = () => {
                 <meta name="robots" content="none" />
             </Helmet>
 
+            <Typography variant="h1" align="center" sx={{ mb: 2 }}>
+                Modifier un utilisateur
+            </Typography>
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid
                     container

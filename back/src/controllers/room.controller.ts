@@ -36,9 +36,8 @@ export class RoomController {
             }
         })
         room: Omit<Room, 'id'>
-    ): Promise<void> {
-        console.log(room)
-        // return this.roomRepository.create(room)
+    ): Promise<Room> {
+        return this.roomRepository.create(room)
     }
 
     @get('/rooms')

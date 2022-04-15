@@ -1,12 +1,13 @@
-import { Button, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import { Button, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Add, Delete, Edit } from '@mui/icons-material'
+import { Add, Delete, Edit, Info } from '@mui/icons-material'
 import { Link } from 'react-router-dom'
 import { useSnackbar } from 'notistack'
 
+import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
 import { TOKEN_KEY } from '@Constants/request'
-import { ADMIN_USERS_ADD, ADMIN_USERS_EDIT } from '@Constants/routes'
+import { ADMIN_USER, ADMIN_USERS_ADD, ADMIN_USERS_EDIT } from '@Constants/routes'
 import BasicDialog from '@Components/BasicDialog'
 import UserService from '@Services/user'
 
@@ -33,13 +34,11 @@ const AdminUsers = () => {
                     fetchUsers()
                 })
                 .catch(error => {
-                    let errorMessage = 'Une erreur est survenue, veuillez réessayer dans quelques instants'
+                    let errorMessage = DEFAULT_ERROR_MESSAGE
                     if (error.response) {
                         errorMessage = error.response.data.error.message
                     }
-                    enqueueSnackbar(errorMessage, {
-                        variant: 'error'
-                    })
+                    enqueueSnackbar(errorMessage, { variant: 'error' })
                 })
         }
     }
@@ -48,7 +47,9 @@ const AdminUsers = () => {
         if (token) {
             UserService.getAll(token)
                 .then(response => setUsers(response.data))
-                .catch(error => console.log(error))
+                .catch(() => {
+                    enqueueSnackbar(DEFAULT_ERROR_MESSAGE, { variant: 'error' })
+                })
         }
     }
 
@@ -62,6 +63,10 @@ const AdminUsers = () => {
                 <title>Utilisateurs</title>
                 <meta name="robots" content="none" />
             </Helmet>
+
+            <Typography variant="h1" align="center" sx={{ mb: 2 }}>
+                Utilisateurs
+            </Typography>
 
             <Grid container justifyContent="end">
                 <Grid item>
@@ -86,12 +91,20 @@ const AdminUsers = () => {
                     <TableBody>
                         {Object.values(users).map(user => (
                             <TableRow key={user.id}>
-                                <TableCell>{user.id}</TableCell>
+                                <TableCell>
+                                    <Button component={Link} to={ADMIN_USER.replace(':userId', user.id)}>
+                                        {user.id}
+                                    </Button>
+                                </TableCell>
                                 <TableCell>{user?.firstName}</TableCell>
                                 <TableCell>{user?.lastName}</TableCell>
                                 <TableCell>{user.email}</TableCell>
                                 <TableCell>{user.role}</TableCell>
                                 <TableCell>
+                                    <IconButton component={Link} to={ADMIN_USER.replace(':userId', user.id)}>
+                                        <Info />
+                                    </IconButton>
+
                                     <IconButton component={Link} to={ADMIN_USERS_EDIT.replace(':userId', user.id)}>
                                         <Edit />
                                     </IconButton>

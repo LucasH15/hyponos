@@ -79,7 +79,9 @@ const AdminHotels = () => {
                         {Object.values(hotels).map(hotel => (
                             <TableRow key={hotel.id}>
                                 <TableCell>
-                                    <Link to={ADMIN_HOTEL.replace(':hotelId', hotel.id)}>{hotel.id}</Link>
+                                    <Button component={Link} to={ADMIN_HOTEL.replace(':hotelId', hotel.id)}>
+                                        {hotel.id}
+                                    </Button>
                                 </TableCell>
                                 <TableCell>{hotel.name}</TableCell>
                                 <TableCell>{hotel.address}</TableCell>
