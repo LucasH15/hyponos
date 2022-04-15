@@ -13,7 +13,7 @@
     "pretest": "npm run rebuild",
     "test": "nyc node_modules/.bin/lb-mocha --allow-console-logs \"dist/__tests__\"",
     "premigrate": "npm run build",
-    "migrate": "node ./dist/migrate --rebuild",
+    "migrate": "node ./dist/migrate",
     "preopenapi-spec": "npm run build",
     "openapi-spec": "node ./dist/openapi-spec",
     "prestart": "npm run rebuild",
@@ -21,7 +21,7 @@
     "start:watch": "node_modules/.bin/tsc-watch --target es2017 --outDir ./dist --onSuccess \"npm run start\"",
     "clean": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache",
     "rebuild": "npm run clean && npm run build",
-    "heroku-postbuild": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache && node_modules/.bin/lb-tsc"
+    "heroku-postbuild": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache && node ./dist/migrate && node_modules/.bin/lb-tsc"
   },
   "author": "Lucas Hubert <hubertlucas41@gmail.com>",
   "dependencies": {
