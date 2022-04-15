@@ -1,3 +1,4 @@
+import { IMe } from '@Interfaces/request'
 import axios from 'axios'
 
 import { BASE_URL } from '@Constants/request'
@@ -32,8 +33,18 @@ const login = (user: IUser) => {
     })
 }
 
-const me = (token: string) => {
-    return axios.get(`${BASE_URL}/users/me`, {
+const me = ({ token, hotelId, withHotels }: IMe) => {
+    let url = `${BASE_URL}/users/me`
+
+    if (hotelId) {
+        url += `?filter=${JSON.stringify({ include: [{ relation: 'hotels', scope: { where: { id: hotelId } } }] })}`
+    }
+
+    if (withHotels) {
+        url += `?filter=${JSON.stringify({ include: ['hotels'] })}`
+    }
+
+    return axios.get(url, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -42,6 +53,22 @@ const me = (token: string) => {
 
 const getAll = (token: string) => {
     return axios.get(`${BASE_URL}/admin/users`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
+const getOne = (token: string, userId: string) => {
+    return axios.get(`${BASE_URL}/admin/users/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
+const getHotels = (token: string, userId: string) => {
+    return axios.get(`${BASE_URL}/admin/users/${userId}/hotels`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -77,8 +104,10 @@ const edit = (token: string, userId: string, user: IUserEdition) => {
 export default {
     register: async (user: IUser) => await register(user),
     login: async (user: IUser) => await login(user),
-    me: async (token: string) => await me(token),
+    me: async ({ token, hotelId, withHotels }: IMe) => await me({ token, hotelId, withHotels }),
     getAll: async (token: string) => await getAll(token),
+    getOne: async (token: string, userId: string) => await getOne(token, userId),
+    getHotels: async (token: string, userId: string) => await getHotels(token, userId),
     add: async (token: string, user: IUserFromBack) => await add(token, user),
     del: async (token: string, userId: string) => await del(token, userId),
     edit: async (token: string, userId: string, user: IUserEdition) => await edit(token, userId, user)

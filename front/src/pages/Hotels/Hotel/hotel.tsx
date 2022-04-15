@@ -1,19 +1,20 @@
-import { Typography } from '@mui/material'
+import { Card, Typography } from '@mui/material'
 import { useSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import UsePrice from '@Hooks/usePrice'
 import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
 import { HOME, HOTELS } from '@Constants/routes'
-import { IHotel } from '@Interfaces/hotel'
+import { IHotelAndRooms } from '@Interfaces/hotel'
 import HotelService from '@Services/hotel'
 
 const Hotel = () => {
     const navigate = useNavigate()
     const { enqueueSnackbar } = useSnackbar()
     const { hotelId } = useParams()
-    const [hotel, setHotel] = useState<null | IHotel>(null)
+    const [hotel, setHotel] = useState<null | IHotelAndRooms>(null)
 
     useEffect(() => {
         if (hotelId) {
@@ -45,6 +46,17 @@ const Hotel = () => {
                     <p>Ville: {hotel.city}</p>
                     <p>Pays: {hotel.country}</p>
                     {hotel.description && <p>{hotel.description}</p>}
+
+                    {hotel.rooms?.map(room => (
+                        <Card variant="outlined" key={room.id}>
+                            {/*<img src={`${process.env.REACT_APP_FILES_URL}/${room.mainPicture}`} />*/}
+                            <Typography variant="h2">{room.title}</Typography>
+                            <Typography variant="subtitle1">
+                                <UsePrice price={room.price} />
+                                /nuit
+                            </Typography>
+                        </Card>
+                    ))}
                 </>
             )}
         </>

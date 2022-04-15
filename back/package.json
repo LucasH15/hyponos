@@ -13,7 +13,7 @@
     "pretest": "npm run rebuild",
     "test": "nyc node_modules/.bin/lb-mocha --allow-console-logs \"dist/__tests__\"",
     "premigrate": "npm run build",
-    "migrate": "node ./dist/migrate",
+    "migrate": "node ./dist/migrate --rebuild",
     "preopenapi-spec": "npm run build",
     "openapi-spec": "node ./dist/openapi-spec",
     "prestart": "npm run rebuild",
@@ -25,19 +25,21 @@
   },
   "author": "Lucas Hubert <hubertlucas41@gmail.com>",
   "dependencies": {
+    "@loopback/authentication": "^8.1.2",
+    "@loopback/authentication-jwt": "^0.11.2",
+    "@loopback/authorization": "^0.11.2",
+    "@loopback/boot": "^4.1.2",
     "@loopback/build": "^8.1.2",
+    "@loopback/core": "^3.1.2",
     "@loopback/eslint-config": "^12.0.4",
+    "@loopback/repository": "^4.1.2",
+    "@loopback/rest": "^11.1.2",
+    "@loopback/rest-explorer": "^4.1.2",
+    "@loopback/security": "^0.7.2",
+    "@loopback/service-proxy": "^4.1.2",
     "@loopback/testlab": "^4.1.2",
-    "@loopback/authentication": "^8.1.1",
-    "@loopback/authentication-jwt": "^0.11.1",
-    "@loopback/authorization": "^0.11.1",
-    "@loopback/boot": "^4.1.1",
-    "@loopback/core": "^3.1.1",
-    "@loopback/repository": "^4.1.1",
-    "@loopback/rest": "^11.1.1",
-    "@loopback/rest-explorer": "^4.1.1",
-    "@loopback/security": "^0.7.1",
-    "@loopback/service-proxy": "^4.1.1",
+    "@types/multer": "^1.4.7",
+    "ajv": "^8.11.0",
     "bcryptjs": "^2.4.3",
     "crypto": "^1.0.1",
     "debug": "^4.3.4",
@@ -46,9 +48,12 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "loopback-connector-mongodb": "^6.1.0",
+    "loopback-connector-postgresql": "^5.5.0",
+    "multer": "^1.4.4",
     "node-cleanup": "^2.1.2",
     "tsc-watch": "^5.0.3",
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.1",
+    "yaml": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^12.20.46",
@@ -64,6 +69,6 @@
     "nyc": "^15.1.0",
     "prettier": "^2.6.2",
     "source-map-support": "^0.5.21",
-    "typescript": "~4.5.5"
+    "typescript": "~4.6.3"
   }
 }

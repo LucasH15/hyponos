@@ -1,9 +1,7 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { HelmetProvider } from 'react-helmet-async'
-import { ToastContainer } from 'react-toastify'
 import { BrowserRouter } from 'react-router-dom'
-import 'react-toastify/dist/ReactToastify.css'
 
 import App from './App'
 import reportWebVitals from './reportWebVitals'
@@ -13,7 +11,6 @@ ReactDOM.render(
         <Suspense fallback={'...loading'}>
             <HelmetProvider>
                 <BrowserRouter>
-                    <ToastContainer hideProgressBar />
                     <App />
                 </BrowserRouter>
             </HelmetProvider>

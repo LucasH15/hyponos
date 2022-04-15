@@ -1,11 +1,20 @@
 import { Entity, model, property } from '@loopback/repository'
 
-@model()
+@model({
+    settings: { postgresql: { schema: 'public', table: 'userCredentials' } }
+})
 export class UserCredentials extends Entity {
     @property({
-        type: 'string',
         id: true,
-        mongodb: { dataType: 'ObjectID' }
+        type: 'string',
+        required: false,
+        generated: true,
+        useDefaultIdType: false,
+        postgresql: {
+            dataType: 'uuid',
+            extension: 'pgcrypto',
+            defaultFn: 'gen_random_uuid()'
+        }
     })
     id: string
 
@@ -18,7 +27,9 @@ export class UserCredentials extends Entity {
     @property({
         type: 'string',
         required: true,
-        mongodb: { dataType: 'ObjectID' }
+        postgresql: {
+            dataType: 'uuid'
+        }
     })
     userId: string
 

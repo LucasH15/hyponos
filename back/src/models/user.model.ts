@@ -1,8 +1,15 @@
-import { Entity, model, property, hasOne } from '@loopback/repository'
+import { Entity, model, property, hasOne, hasMany } from '@loopback/repository'
+
 import { UserCredentials } from './user-credentials.model'
+import { UserHotel } from './user-hotel.model'
+import { Hotel } from './hotel.model'
 
 @model({
     settings: {
+        postgresql: {
+            schema: 'public',
+            table: 'user'
+        },
         indexes: {
             uniqueEmail: {
                 keys: {
@@ -17,20 +24,28 @@ import { UserCredentials } from './user-credentials.model'
 })
 export class User extends Entity {
     @property({
+        id: true,
         type: 'string',
-        id: true
+        required: false,
+        generated: true,
+        useDefaultIdType: false,
+        postgresql: {
+            dataType: 'uuid',
+            extension: 'pgcrypto',
+            defaultFn: 'gen_random_uuid()'
+        }
     })
     id: string
 
     @property({
         type: 'string'
     })
-    lastname: string
+    lastName: string
 
     @property({
         type: 'string'
     })
-    firstname: string
+    firstName: string
 
     @property({
         type: 'string',
@@ -39,13 +54,15 @@ export class User extends Entity {
     email: string
 
     @property({
-        type: 'string',
-        itemType: 'string'
+        type: 'string'
     })
-    role: string
+    role?: string
 
     @hasOne(() => UserCredentials)
     userCredentials: UserCredentials
+
+    @hasMany(() => Hotel, { through: { model: () => UserHotel } })
+    hotels: Hotel[]
 
     constructor(data?: Partial<User>) {
         super(data)

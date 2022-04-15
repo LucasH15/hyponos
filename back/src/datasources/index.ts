@@ -1,1 +1,1 @@
-export * from './hyponos.datasource'
+export * from './postgres.datasource'

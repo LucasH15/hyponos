@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from 'react'
+import { useSnackbar } from 'notistack'
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Helmet } from 'react-helmet-async'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useLocation } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { MY_SPACE } from '@Constants/routes'
+import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
+import { MY_SPACE, REGISTER } from '@Constants/routes'
 import { TOKEN_KEY } from '@Constants/request'
 import UserService from '@Services/user'
 import { AuthContext } from '../../AuthProvider'
@@ -33,6 +33,7 @@ const schema = yup
     .required()
 
 const Login = () => {
+    const { enqueueSnackbar } = useSnackbar()
     const navigate = useNavigate()
     const auth = useContext(AuthContext)
     const [error, setError] = useState<string | null>(null)
@@ -55,24 +56,24 @@ const Login = () => {
                         localStorage.setItem(TOKEN_KEY, token)
                         navigate(MY_SPACE, { replace: true })
                     })
+                } else {
+                    throw new Error()
                 }
-
-                throw new Error()
             })
             .catch(error => {
                 if (error.response) {
                     setError(error.response.data.error.message)
                 } else {
-                    setError(
-                        'Une erreur est survenue, veuillez réessayer dans un instant. Si le problème persiste, contactez-nous'
-                    )
+                    setError(DEFAULT_ERROR_MESSAGE)
                 }
             })
     }
 
     useEffect(() => {
         if (state?.register === 'success') {
-            toast.success("Vous êtes bien inscrit, plus qu'à vous connecter pour profiter de notre site")
+            enqueueSnackbar("Vous êtes bien inscrit, plus qu'à vous connecter pour profiter de notre site", {
+                variant: 'success'
+            })
         }
     }, [state])
 
@@ -81,6 +82,10 @@ const Login = () => {
             <Helmet>
                 <title>Connexion</title>
             </Helmet>
+
+            <Typography variant="h1" align="center" sx={{ mb: 2 }}>
+                Connexion
+            </Typography>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid
@@ -138,6 +143,22 @@ const Login = () => {
                     </Grid>
                 </Grid>
             </form>
+
+            <Grid
+                container
+                sx={{
+                    maxWidth: '600px',
+                    mx: 'auto',
+                    px: 4
+                }}
+                alignItems="center"
+            >
+                <p>Vous n&apos;avez pas encore de compte ?</p>
+                &nbsp;
+                <Button component={Link} to={REGISTER}>
+                    Je m&apos;inscris
+                </Button>
+            </Grid>
         </>
     )
 }

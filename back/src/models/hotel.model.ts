@@ -1,14 +1,22 @@
 import { Entity, hasMany, model, property } from '@loopback/repository'
 
 import { Room } from './room.model'
-import { UserHotel } from './user-hotel.model'
-import { User } from './user.model'
 
-@model({ settings: { strict: false } })
+@model({
+    settings: { postgresql: { schema: 'public', table: 'hotel' } }
+})
 export class Hotel extends Entity {
     @property({
+        id: true,
         type: 'string',
-        id: true
+        required: false,
+        generated: true,
+        useDefaultIdType: false,
+        postgresql: {
+            dataType: 'uuid',
+            extension: 'pgcrypto',
+            defaultFn: 'gen_random_uuid()'
+        }
     })
     id: string
 
@@ -48,10 +56,7 @@ export class Hotel extends Entity {
     description?: string
 
     @hasMany(() => Room)
-    rooms?: Room[]
-
-    @hasMany(() => User, { through: { model: () => UserHotel } })
-    users: User[];
+    rooms?: Room[];
 
     // Define well-known properties here
 

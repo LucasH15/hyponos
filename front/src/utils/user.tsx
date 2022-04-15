@@ -6,7 +6,7 @@ export const isLoggedIn = async () => {
 
     if (token) {
         try {
-            return await UserService.me(token)
+            return await UserService.me({ token })
         } catch (e) {
             return false
         }

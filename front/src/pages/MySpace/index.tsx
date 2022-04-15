@@ -1,1 +1,1 @@
-export { default } from './mySpace'
+export { default } from './my-space'

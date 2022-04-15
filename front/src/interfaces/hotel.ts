@@ -1,3 +1,5 @@
+import { IRoom } from '@Interfaces/room'
+
 export interface IHotel {
     id: string
     name: string
@@ -6,6 +8,10 @@ export interface IHotel {
     postCode: string
     address: string
     description?: string
+}
+
+export interface IHotelAndRooms extends IHotel {
+    rooms?: IRoom[]
 }
 
 export interface IFormInputs {

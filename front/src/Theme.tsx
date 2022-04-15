@@ -7,6 +7,12 @@ export default createTheme({
             styleOverrides: {
                 root: {
                     textTransform: 'none'
+                },
+                text: {
+                    padding: 0,
+                    '&:hover': {
+                        backgroundColor: 'transparent'
+                    }
                 }
             }
         }

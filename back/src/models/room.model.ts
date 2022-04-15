@@ -1,10 +1,20 @@
 import { Entity, model, property } from '@loopback/repository'
 
-@model({ settings: { strict: false } })
+@model({
+    settings: { postgresql: { schema: 'public', table: 'room' } }
+})
 export class Room extends Entity {
     @property({
+        id: true,
         type: 'string',
-        id: true
+        required: false,
+        generated: true,
+        useDefaultIdType: false,
+        postgresql: {
+            dataType: 'uuid',
+            extension: 'pgcrypto',
+            defaultFn: 'gen_random_uuid()'
+        }
     })
     id: string
 
@@ -38,9 +48,10 @@ export class Room extends Entity {
     pictures?: string[]
 
     @property({
-        type: 'string'
+        type: 'string',
+        required: true
     })
-    hotelId?: string;
+    hotelId: string;
 
     // Define well-known properties here
 
