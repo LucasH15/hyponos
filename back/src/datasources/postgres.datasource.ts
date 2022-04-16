@@ -17,7 +17,7 @@ const config: IConfig = {
     ssl: false
 }
 
-if (process.env.DATABASE_URL === 'true') {
+if (process.env.DATABASE_SSL === 'true') {
     config.ssl = {
         rejectUnauthorized: false
     }
