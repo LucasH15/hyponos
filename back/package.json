@@ -4,6 +4,9 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
     "build": "node_modules/.bin/lb-tsc",
     "build:watch": "node_modules/.bin/lb-tsc --watch",
