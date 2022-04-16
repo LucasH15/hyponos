@@ -1,12 +1,24 @@
 import { inject, lifeCycleObserver, LifeCycleObserver } from '@loopback/core'
 import { juggler } from '@loopback/repository'
 
-const config = {
+interface IConfig {
+    name: string
+    connector: string
+    url: string
+    connectionTimeout: number
+    ssl: boolean | object
+}
+
+const config: IConfig = {
     name: 'postgres',
     connector: 'postgresql',
-    url: process.env.DATABASE_URL, // postgres://test:mypassword@localhost:5432/dev
+    url: process.env.DATABASE_URL ?? '', // postgres://test:mypassword@localhost:5432/dev
     connectionTimeout: 10000,
-    ssl: {
+    ssl: false
+}
+
+if (process.env.DATABASE_URL === 'true') {
+    config.ssl = {
         rejectUnauthorized: false
     }
 }
