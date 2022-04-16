@@ -13,14 +13,11 @@ This is a project for [Studi](https://www.studi.com/fr)
 ### For back environment
 You need to create .env file in root project and add :
 
-All DB_* provide postgresql config
+DATABASE_URL provide postgresql config, ex: postgres://test:mypassword@localhost:5432/dev
 
 FRONT_URL is required for cors security
 ```
-DB_HOST=""
-DB_USER=""
-DB_NAME=""
-DB_PASSWORD=""
+DATABASE_URL=""
 FRONT_URL="http://localhost:3000"
 ```
 After that, you can run `npm install`
