@@ -1,0 +1,11 @@
+name: 'Duis malesuada aliquam dolor'
+mainPicture: 'DSC8856-e1490192428397-1072x1000.jpg'
+pictures: [ 'IMG_1940-Amiez-1200x800.jpg', 'ts-deluxe-superior-bedroom-1-2000x1200.jpg', 'ts-rooms-deluxe-superior-suite-bedroom.jpg' ]
+city: 'Cape Town'
+country: 'South Africa'
+postCode: '8001'
+address: 'Silo Square, Victoria & Alfred Waterfront'
+description:
+  'Etiam diam dui, cursus feugiat egestas in, efficitur ac metus. Curabitur volutpat elit a accumsan pretium. Duis sed elementum lorem. Nunc ultricies dui sit amet rutrum ornare. Vivamus et eros metus. Aliquam maximus dolor sed massa vulputate, ut convallis erat semper. Aenean ac volutpat ante, sed feugiat ante. Aenean risus ex, ultricies quis lectus id, porttitor egestas ipsum. Sed lobortis molestie tellus, in pulvinar massa venenatis eleifend. Ut nec finibus elit, nec tincidunt purus. Integer id enim massa. Etiam velit velit, lobortis vel lectus nec, aliquam placerat nisi.
+  
+  Suspendisse fermentum nisl eget ligula placerat volutpat. Mauris sagittis est dui, laoreet consectetur ligula vulputate ut. Curabitur rutrum cursus maximus. Morbi a ligula et nisl imperdiet volutpat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed lacinia non nisi nec pharetra. Suspendisse potenti. Maecenas laoreet elementum massa id porttitor. Praesent blandit quis massa quis semper.'

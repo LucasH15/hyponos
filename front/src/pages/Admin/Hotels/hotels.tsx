@@ -43,7 +43,7 @@ const AdminHotels = () => {
 
     const fetchHotels = () => {
         if (auth.user?.role === ROLE_ADMIN) {
-            HotelService.getAll()
+            HotelService.get({})
                 .then(response => setHotels(response.data))
                 .catch(() => {
                     enqueueSnackbar(DEFAULT_ERROR_MESSAGE, { variant: 'error' })

@@ -30,6 +30,18 @@ export class Hotel extends Entity {
         type: 'string',
         required: true
     })
+    mainPicture: string
+
+    @property({
+        type: 'array',
+        itemType: 'string'
+    })
+    pictures?: string[]
+
+    @property({
+        type: 'string',
+        required: true
+    })
     city: string
 
     @property({
@@ -39,10 +51,9 @@ export class Hotel extends Entity {
     country: string
 
     @property({
-        type: 'string',
-        required: true
+        type: 'string'
     })
-    postCode: string
+    postCode?: string
 
     @property({
         type: 'string',

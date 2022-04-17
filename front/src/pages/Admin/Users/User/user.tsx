@@ -111,7 +111,7 @@ const User = () => {
     }
 
     const fetchHotels = () => {
-        HotelService.getAll()
+        HotelService.get({})
             .then(response => {
                 let _hotels = response.data
 

@@ -14,12 +14,17 @@ This is a project for [Studi](https://www.studi.com/fr)
 You need to create .env file in root project and add :
 
 DATABASE_URL provide postgresql config, ex: postgres://test:mypassword@localhost:5432/dev
+
 DATABASE_SSL is a boolean to set SSL connection for database
+
+CONTACT_EMAIL and CONTACT_EMAIL_PASSWORD is for form contact, the configuration is for google account
 
 FRONT_URL is required for cors security
 ```
 DATABASE_URL=""
 DATABASE_SSL=""
+CONTACT_EMAIL=""
+CONTACT_EMAIL_PASSWORD=""
 FRONT_URL="http://localhost:3000"
 ```
 After that, you can run `npm install`

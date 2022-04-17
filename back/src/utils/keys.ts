@@ -3,7 +3,7 @@ import { UserService } from '@loopback/authentication'
 
 import { User } from '../models'
 import { Credentials } from '../repositories'
-import { PasswordHasher } from '../services'
+import { MailerService, PasswordHasher } from '../services'
 
 export namespace PasswordHasherBindings {
     export const PASSWORD_HASHER = BindingKey.create<PasswordHasher>('services.hasher')
@@ -13,3 +13,5 @@ export namespace PasswordHasherBindings {
 export namespace UserServiceBindings {
     export const USER_SERVICE = BindingKey.create<UserService<User, Credentials>>('services.user.service')
 }
+
+export const MAILER_SERVICE = BindingKey.create<MailerService>('services.mailer')

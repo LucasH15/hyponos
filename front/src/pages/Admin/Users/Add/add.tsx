@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import { useSnackbar } from 'notistack'
 
-import { DEFAULT_ERROR_MESSAGE, IS_REQUIRED } from '@Constants/form'
+import { DEFAULT_ERROR_MESSAGE, EMAIL_NOT_VALID, IS_REQUIRED } from '@Constants/form'
 import { HOME } from '@Constants/routes'
 import { TOKEN_KEY } from '@Constants/request'
 import { ROLE_ADMIN, ROLE_MANAGER, ROLE_USER } from '@Constants/roles'
@@ -30,7 +30,7 @@ interface IFormInputs {
 
 const schema = yup
     .object({
-        email: yup.string().email("Cette adresse email n'est pas valide").required(IS_REQUIRED),
+        email: yup.string().email(EMAIL_NOT_VALID).required(IS_REQUIRED),
         role: yup.string().required(IS_REQUIRED)
     })
     .required()
@@ -75,7 +75,7 @@ const AdminUsersAdd = () => {
                 <meta name="robots" content="none" />
             </Helmet>
 
-            <Typography variant="h1" align="center" sx={{ mb: 2 }}>
+            <Typography variant="h1" align="center">
                 Ajouter un utilisateur
             </Typography>
 

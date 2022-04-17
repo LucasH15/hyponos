@@ -1,0 +1,11 @@
+name: 'Nullam blandit ligula vitae molestie'
+mainPicture: 'katikies-hotel.jpg'
+pictures: [ 'katikies-hotel-santorini_28841_2021.jpg', 'katikies-hotel-santorini_q1a3377.jpg', 'katikies-hotel-santorini_2.jpg' ]
+city: 'Oía'
+country: 'Greece'
+postCode: '84702'
+address: 'Oia (Ia), Santorini'
+description:
+  'Etiam diam dui, cursus feugiat egestas in, efficitur ac metus. Curabitur volutpat elit a accumsan pretium. Duis sed elementum lorem. Nunc ultricies dui sit amet rutrum ornare. Vivamus et eros metus. Aliquam maximus dolor sed massa vulputate, ut convallis erat semper. Aenean ac volutpat ante, sed feugiat ante. Aenean risus ex, ultricies quis lectus id, porttitor egestas ipsum. Sed lobortis molestie tellus, in pulvinar massa venenatis eleifend. Ut nec finibus elit, nec tincidunt purus. Integer id enim massa. Etiam velit velit, lobortis vel lectus nec, aliquam placerat nisi.
+  
+  Suspendisse fermentum nisl eget ligula placerat volutpat. Mauris sagittis est dui, laoreet consectetur ligula vulputate ut. Curabitur rutrum cursus maximus. Morbi a ligula et nisl imperdiet volutpat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed lacinia non nisi nec pharetra. Suspendisse potenti. Maecenas laoreet elementum massa id porttitor. Praesent blandit quis massa quis semper.'

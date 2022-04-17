@@ -12,19 +12,23 @@ import {
     ADMIN_USERS,
     ADMIN_USERS_ADD,
     ADMIN_USERS_EDIT,
+    CONTACT,
     HOME,
     HOTEL,
     HOTELS,
+    HOTEL_ROOM,
     LOGIN,
     MY_SPACE,
     REGISTER
 } from '@Constants/routes'
 import Home from '@Pages/Home'
+import Contact from '@Pages/Contact'
 import Hotels from '@Pages/Hotels'
 import Login from '@Pages/Login'
 import MySpace from '@Pages/MySpace'
 import Register from '@Pages/Register'
 import Hotel from '@Pages/Hotels/Hotel'
+import HotelRoom from '@Pages/Hotels/Hotel/Room'
 import Admin from '@Pages/Admin'
 import AdminHotels from '@Pages/Admin/Hotels'
 import AdminHotelsAdd from '@Pages/Admin/Hotels/Add'
@@ -46,6 +50,11 @@ const routes = [
         requireAuth: false
     },
     {
+        path: CONTACT,
+        element: <Contact />,
+        requireAuth: false
+    },
+    {
         path: REGISTER,
         element: <Register />,
         requireAuth: false
@@ -63,6 +72,11 @@ const routes = [
     {
         path: HOTEL,
         element: <Hotel />,
+        requireAuth: false
+    },
+    {
+        path: HOTEL_ROOM,
+        element: <HotelRoom />,
         requireAuth: false
     },
     {
