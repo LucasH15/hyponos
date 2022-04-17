@@ -13,11 +13,11 @@ import { AuthenticationComponent } from '@loopback/authentication'
 import { JWTAuthenticationComponent, TokenServiceBindings } from '@loopback/authentication-jwt'
 import { AuthorizationComponent } from '@loopback/authorization'
 
-import { Hotel, UserWithPassword } from './models'
-import { UserRepository, HotelRepository } from './repositories'
-import { PasswordHasherBindings, UserServiceBindings } from './utils/keys'
+import { Hotel, Room, UserWithPassword } from './models'
+import { UserRepository, HotelRepository, RoomRepository } from './repositories'
+import { MAILER_SERVICE, PasswordHasherBindings, UserServiceBindings } from './utils/keys'
 import { MySequence } from './sequence'
-import { BcryptHasher, JWTService, UserManagementService, SecuritySpecEnhancer } from './services'
+import { BcryptHasher, JWTService, UserManagementService, SecuritySpecEnhancer, MailerService } from './services'
 
 export interface PackageInfo {
     name: string
@@ -79,6 +79,8 @@ export class HyponosApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
         // otherwise create a random string of 64 hex digits
         const secret = process.env.JWT_SECRET ?? crypto.randomBytes(32).toString('hex')
         this.bind(TokenServiceBindings.TOKEN_SECRET).to(secret)
+
+        this.bind(MAILER_SERVICE).toClass(MailerService)
     }
 
     async migrateSchema(options?: SchemaMigrationOptions) {
@@ -118,7 +120,19 @@ export class HyponosApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
                 }
             }
 
-            console.log(newHotels)
+            const roomRepository = await this.getRepository(RoomRepository)
+            const roomsDir = path.join(__dirname, '../fixtures/rooms')
+            const roomFiles = fs.readdirSync(roomsDir)
+
+            for (const file of roomFiles) {
+                if (file.endsWith('.yml')) {
+                    const roomFile = path.join(roomsDir, file)
+                    const yamlString = YAML.parse(fs.readFileSync(roomFile, 'utf8'))
+                    const hotelId = newHotels[parseInt(file.substring(0, 2))]
+                    const room = new Room({ ...yamlString, hotelId })
+                    await roomRepository.create(room)
+                }
+            }
         }
     }
 }

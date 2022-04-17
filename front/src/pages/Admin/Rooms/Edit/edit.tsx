@@ -105,7 +105,7 @@ const AdminRoomsEdit = () => {
 
     useEffect(() => {
         if (auth?.user?.role === ROLE_ADMIN) {
-            HotelService.getAll().then(response => {
+            HotelService.get({}).then(response => {
                 setHotels(response.data)
             })
         } else if (auth?.user?.role === ROLE_MANAGER && token) {

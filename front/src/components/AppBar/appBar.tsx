@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { Link } from 'react-router-dom'
 
-import { ADMIN, HOME, HOTELS, LOGIN, MY_SPACE, REGISTER } from '@Constants/routes'
+import { ADMIN, CONTACT, HOME, HOTELS, LOGIN, MY_SPACE, REGISTER } from '@Constants/routes'
 import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
 import { AuthContext } from '@Src/AuthProvider'
 
@@ -53,7 +53,7 @@ const AppBar = () => {
                         noWrap
                         component={Link}
                         to={HOME}
-                        sx={{ mr: 4, color: 'white', textDecoration: 'none', display: { xs: 'none', md: 'flex' } }}
+                        sx={{ mr: 6, color: 'white', textDecoration: 'none', display: { xs: 'none', md: 'flex' } }}
                     >
                         <Grid component="img" src="/assets/logo-white.svg" alt="Logo Hyponos" sx={{ height: 35 }} />
                     </Typography>
@@ -95,6 +95,10 @@ const AppBar = () => {
                             <MenuItem component={Link} to={HOTELS} onClick={handleCloseNavMenu}>
                                 <Typography textAlign="center">Hôtels</Typography>
                             </MenuItem>
+
+                            <MenuItem component={Link} to={CONTACT} onClick={handleCloseNavMenu}>
+                                <Typography textAlign="center">Contact</Typography>
+                            </MenuItem>
                         </Menu>
                     </Grid>
 
@@ -115,13 +119,17 @@ const AppBar = () => {
                     </Typography>
 
                     {/*For desktop*/}
-                    <Grid sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    <Grid sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, columnGap: 5 }}>
                         <Button component={Link} to={HOME} sx={{ my: 2, color: 'white', display: 'block' }}>
                             Accueil
                         </Button>
 
                         <Button component={Link} to={HOTELS} sx={{ my: 2, color: 'white', display: 'block' }}>
                             Hôtels
+                        </Button>
+
+                        <Button component={Link} to={CONTACT} sx={{ my: 2, color: 'white', display: 'block' }}>
+                            Contact
                         </Button>
                     </Grid>
 

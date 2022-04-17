@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { EMAIL_NOT_VALID } from '@Constants/form'
 import { LOGIN } from '@Constants/routes'
 import UserService from '@Services/user'
 
@@ -16,7 +17,7 @@ interface IFormInputs {
 
 const schema = yup
     .object({
-        email: yup.string().email("Cette adresse email n'est pas valide").required('Ce champ est requis'),
+        email: yup.string().email(EMAIL_NOT_VALID).required('Ce champ est requis'),
         password: yup
             .string()
             .min(8, 'Votre mot de passe doit contenir au minimum 8 caractères')

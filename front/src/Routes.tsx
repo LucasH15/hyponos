@@ -12,6 +12,7 @@ import {
     ADMIN_USERS,
     ADMIN_USERS_ADD,
     ADMIN_USERS_EDIT,
+    CONTACT,
     HOME,
     HOTEL,
     HOTELS,
@@ -21,6 +22,7 @@ import {
     REGISTER
 } from '@Constants/routes'
 import Home from '@Pages/Home'
+import Contact from '@Pages/Contact'
 import Hotels from '@Pages/Hotels'
 import Login from '@Pages/Login'
 import MySpace from '@Pages/MySpace'
@@ -45,6 +47,11 @@ const routes = [
     {
         path: HOME,
         element: <Home />,
+        requireAuth: false
+    },
+    {
+        path: CONTACT,
+        element: <Contact />,
         requireAuth: false
     },
     {

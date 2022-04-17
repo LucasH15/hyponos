@@ -11,7 +11,7 @@ const Hotels = () => {
     const [hotels, setHotels] = useState<null | IHotel[]>(null)
 
     useEffect(() => {
-        HotelService.getAll()
+        HotelService.get({})
             .then(response => setHotels(response.data))
             .catch(error => console.log(error))
     }, [])

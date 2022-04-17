@@ -1,4 +1,3 @@
-import { IMe } from '@Interfaces/request'
 import axios from 'axios'
 
 import { BASE_URL } from '@Constants/request'
@@ -15,6 +14,12 @@ interface IUserFromBack {
 
 interface IUserEdition {
     role: string
+}
+
+interface IMe {
+    token: string
+    hotelId?: string
+    withHotels?: boolean
 }
 
 const register = (user: IUser) => {
@@ -67,14 +72,6 @@ const getOne = (token: string, userId: string) => {
     })
 }
 
-const getHotels = (token: string, userId: string) => {
-    return axios.get(`${BASE_URL}/admin/users/${userId}/hotels`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-}
-
 const add = (token: string, user: IUserFromBack) => {
     return axios.post(`${BASE_URL}/admin/users`, JSON.stringify(user), {
         headers: {
@@ -107,7 +104,6 @@ export default {
     me: async ({ token, hotelId, withHotels }: IMe) => await me({ token, hotelId, withHotels }),
     getAll: async (token: string) => await getAll(token),
     getOne: async (token: string, userId: string) => await getOne(token, userId),
-    getHotels: async (token: string, userId: string) => await getHotels(token, userId),
     add: async (token: string, user: IUserFromBack) => await add(token, user),
     del: async (token: string, userId: string) => await del(token, userId),
     edit: async (token: string, userId: string, user: IUserEdition) => await edit(token, userId, user)
