@@ -44,8 +44,8 @@ const Home = () => {
                                     <CardMedia
                                         component="img"
                                         height="200"
-                                        image={`${process.env.REACT_APP_FILES_URL}/${hotel.mainPicture}`}
-                                        alt={`Image principale d'hôtel ${hotel.name}`}
+                                        image={`${process.env.REACT_APP_BASE_URL}/files/${hotel.mainPicture}`}
+                                        alt={`Hôtel ${hotel.name}`}
                                     />
                                     <CardContent>
                                         <Typography variant="h4" component="h3" sx={{ mb: 4 }}>

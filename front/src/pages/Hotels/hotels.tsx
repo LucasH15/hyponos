@@ -27,7 +27,7 @@ const Hotels = () => {
             </Typography>
 
             {hotels && (
-                <Grid container spacing={6}>
+                <Grid container spacing={10} justifyContent="center">
                     {hotels.map(hotel => (
                         <Grid item xs={12} lg={6} key={hotel.id}>
                             <Card
@@ -39,7 +39,7 @@ const Hotels = () => {
                                 <CardMedia
                                     component="img"
                                     height="194"
-                                    image={`${process.env.REACT_APP_FILES_URL}/${hotel.mainPicture}`}
+                                    image={`${process.env.REACT_APP_BASE_URL}/files/${hotel.mainPicture}`}
                                     alt={`Image principale de l'hôtel ${hotel.name}`}
                                 />
                                 <CardContent>
