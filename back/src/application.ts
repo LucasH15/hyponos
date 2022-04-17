@@ -13,8 +13,8 @@ import { AuthenticationComponent } from '@loopback/authentication'
 import { JWTAuthenticationComponent, TokenServiceBindings } from '@loopback/authentication-jwt'
 import { AuthorizationComponent } from '@loopback/authorization'
 
-import { UserWithPassword } from './models'
-import { UserRepository } from './repositories'
+import { Hotel, UserWithPassword } from './models'
+import { UserRepository, HotelRepository } from './repositories'
 import { PasswordHasherBindings, UserServiceBindings } from './utils/keys'
 import { MySequence } from './sequence'
 import { BcryptHasher, JWTService, UserManagementService, SecuritySpecEnhancer } from './services'
@@ -43,6 +43,7 @@ export class HyponosApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
 
         // Set up default home page
         this.static('/', path.join(__dirname, '../public'))
+        this.static('/files', path.join(__dirname, '../files'))
 
         // Customize @loopback/rest-explorer configuration here
         this.configure(RestExplorerBindings.COMPONENT).to({
@@ -101,6 +102,23 @@ export class HyponosApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
                     await userManagementService.createUser(userWithPassword)
                 }
             }
+
+            const hotelRepository = await this.getRepository(HotelRepository)
+            const hotelsDir = path.join(__dirname, '../fixtures/hotels')
+            const hotelFiles = fs.readdirSync(hotelsDir)
+            const newHotels = []
+
+            for (const file of hotelFiles) {
+                if (file.endsWith('.yml')) {
+                    const hotelFile = path.join(hotelsDir, file)
+                    const yamlString = YAML.parse(fs.readFileSync(hotelFile, 'utf8'))
+                    const hotel = new Hotel(yamlString)
+                    const newHotel = await hotelRepository.create(hotel)
+                    newHotels.push(newHotel.id)
+                }
+            }
+
+            console.log(newHotels)
         }
     }
 }

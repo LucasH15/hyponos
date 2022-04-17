@@ -1,4 +1,3 @@
-import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
 import { useContext } from 'react'
 import * as React from 'react'
 import {
@@ -17,7 +16,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { Link } from 'react-router-dom'
 
 import { ADMIN, HOME, HOTELS, LOGIN, MY_SPACE, REGISTER } from '@Constants/routes'
-import { AuthContext } from '../../AuthProvider'
+import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
+import { AuthContext } from '@Src/AuthProvider'
 
 const AppBar = () => {
     const auth = useContext(AuthContext)
@@ -44,7 +44,7 @@ const AppBar = () => {
     }
 
     return (
-        <MuiAppBar position="static">
+        <MuiAppBar position="static" sx={{ py: 2 }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/*For desktop*/}
@@ -53,9 +53,9 @@ const AppBar = () => {
                         noWrap
                         component={Link}
                         to={HOME}
-                        sx={{ mr: 2, color: 'white', textDecoration: 'none', display: { xs: 'none', md: 'flex' } }}
+                        sx={{ mr: 4, color: 'white', textDecoration: 'none', display: { xs: 'none', md: 'flex' } }}
                     >
-                        LOGO
+                        <Grid component="img" src="/assets/logo-white.svg" alt="Logo Hyponos" sx={{ height: 35 }} />
                     </Typography>
 
                     {/*For mobile*/}
@@ -88,11 +88,11 @@ const AppBar = () => {
                                 display: { xs: 'block', md: 'none' }
                             }}
                         >
-                            <MenuItem component={Link} to={HOME}>
+                            <MenuItem component={Link} to={HOME} onClick={handleCloseNavMenu}>
                                 <Typography textAlign="center">Accueil</Typography>
                             </MenuItem>
 
-                            <MenuItem component={Link} to={HOTELS}>
+                            <MenuItem component={Link} to={HOTELS} onClick={handleCloseNavMenu}>
                                 <Typography textAlign="center">Hôtels</Typography>
                             </MenuItem>
                         </Menu>

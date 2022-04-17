@@ -4,6 +4,7 @@ export const LOGIN = '/connexion'
 export const MY_SPACE = '/mon-espace'
 export const HOTELS = '/hotels'
 export const HOTEL = '/hotels/:hotelId'
+export const HOTEL_ROOM = `${HOTEL}/:roomId`
 
 export const ADMIN = '/admin'
 export const ADMIN_USERS = `${ADMIN}/utilisateurs`

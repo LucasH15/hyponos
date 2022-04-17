@@ -16,7 +16,7 @@
     "pretest": "npm run rebuild",
     "test": "nyc node_modules/.bin/lb-mocha --allow-console-logs \"dist/__tests__\"",
     "premigrate": "npm run build",
-    "migrate": "node ./dist/migrate",
+    "migrate": "node ./dist/migrate --rebuild",
     "preopenapi-spec": "npm run build",
     "openapi-spec": "node ./dist/openapi-spec",
     "prestart": "npm run rebuild",

@@ -5,7 +5,7 @@ const Home = () => {
     return (
         <>
             <Helmet>
-                <title>Accueil</title>
+                <title>Accueil - Hyponos</title>
             </Helmet>
             <Typography variant="h1">Hello</Typography>
         </>

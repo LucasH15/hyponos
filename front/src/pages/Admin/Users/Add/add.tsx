@@ -75,7 +75,7 @@ const AdminUsersAdd = () => {
                 <meta name="robots" content="none" />
             </Helmet>
 
-            <Typography variant="h1" align="center" sx={{ mb: 2 }}>
+            <Typography variant="h1" align="center">
                 Ajouter un utilisateur
             </Typography>
 

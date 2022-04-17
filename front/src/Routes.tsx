@@ -15,6 +15,7 @@ import {
     HOME,
     HOTEL,
     HOTELS,
+    HOTEL_ROOM,
     LOGIN,
     MY_SPACE,
     REGISTER
@@ -25,6 +26,7 @@ import Login from '@Pages/Login'
 import MySpace from '@Pages/MySpace'
 import Register from '@Pages/Register'
 import Hotel from '@Pages/Hotels/Hotel'
+import HotelRoom from '@Pages/Hotels/Hotel/Room'
 import Admin from '@Pages/Admin'
 import AdminHotels from '@Pages/Admin/Hotels'
 import AdminHotelsAdd from '@Pages/Admin/Hotels/Add'
@@ -63,6 +65,11 @@ const routes = [
     {
         path: HOTEL,
         element: <Hotel />,
+        requireAuth: false
+    },
+    {
+        path: HOTEL_ROOM,
+        element: <HotelRoom />,
         requireAuth: false
     },
     {

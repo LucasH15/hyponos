@@ -55,7 +55,7 @@ const Home = () => {
                 <title>Inscription</title>
             </Helmet>
 
-            <Typography variant="h1" align="center" sx={{ mb: 2 }}>
+            <Typography variant="h1" align="center">
                 Inscription
             </Typography>
 

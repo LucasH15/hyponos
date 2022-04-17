@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import { SnackbarProvider } from 'notistack'
 
 import AppBar from '@Components/AppBar'
+import Footer from '@Components/Footer'
 import AuthProvider from './AuthProvider'
 import RequireAuth from './RequireAuth'
 import theme from './Theme'
@@ -19,6 +20,9 @@ function App() {
                             minHeight: '100vh',
                             display: 'flex',
                             flexDirection: 'column'
+                        },
+                        a: {
+                            textDecoration: 'none'
                         }
                     }}
                 />
@@ -48,6 +52,7 @@ function App() {
                             ))}
                         </Routes>
                     </Container>
+                    <Footer />
                 </SnackbarProvider>
             </ThemeProvider>
         </AuthProvider>

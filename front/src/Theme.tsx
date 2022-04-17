@@ -1,7 +1,9 @@
 import { createTheme } from '@mui/material/styles'
 
+const SPACING = 4
+
 export default createTheme({
-    spacing: 4,
+    spacing: SPACING,
     components: {
         MuiButton: {
             styleOverrides: {
@@ -13,6 +15,13 @@ export default createTheme({
                     '&:hover': {
                         backgroundColor: 'transparent'
                     }
+                }
+            }
+        },
+        MuiTypography: {
+            styleOverrides: {
+                h1: {
+                    marginBottom: SPACING * 4
                 }
             }
         }
