@@ -24,7 +24,7 @@
     "start:watch": "node_modules/.bin/tsc-watch --target es2017 --outDir ./dist --onSuccess \"npm run start\"",
     "clean": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache",
     "rebuild": "npm run clean && npm run build",
-    "heroku-postbuild": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache && node_modules/.bin/lb-tsc && node ./dist/migrate"
+    "heroku-postbuild": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache && node_modules/.bin/lb-tsc && node ./dist/migrate --rebuild"
   },
   "author": "Lucas Hubert <hubertlucas41@gmail.com>",
   "dependencies": {

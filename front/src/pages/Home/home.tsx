@@ -34,12 +34,12 @@ const Home = () => {
 
                     <Grid container spacing={8}>
                         {topHotels.map(hotel => (
-                            <Grid item key={hotel.id} xs={12} lg={4}>
+                            <Grid item key={hotel.id} xs={12} md={4}>
                                 <Card
                                     variant="outlined"
                                     component={Link}
                                     to={HOTEL.replace(':hotelId', hotel.id)}
-                                    sx={{ display: 'block' }}
+                                    sx={{ display: 'block', height: '100%' }}
                                 >
                                     <CardMedia
                                         component="img"

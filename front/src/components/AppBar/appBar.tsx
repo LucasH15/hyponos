@@ -104,18 +104,18 @@ const AppBar = () => {
 
                     {/*For mobile*/}
                     <Typography
-                        variant="h6"
-                        noWrap
+                        variant="title"
                         component={Link}
                         to={HOME}
                         sx={{
                             flexGrow: 1,
                             color: 'white',
                             textDecoration: 'none',
-                            display: { xs: 'flex', md: 'none' }
+                            display: { xs: 'flex', md: 'none' },
+                            fontSize: '1.5rem !important'
                         }}
                     >
-                        LOGO
+                        Hyponos
                     </Typography>
 
                     {/*For desktop*/}
