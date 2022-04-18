@@ -1,4 +1,4 @@
-import { IRoom } from '@Interfaces/room'
+import { IRoomWithHotel } from '@Interfaces/room'
 import { IUser } from '@Interfaces/user'
 
 export interface IBooking {
@@ -8,7 +8,7 @@ export interface IBooking {
     userId: string
     user: IUser
     roomId: string
-    room: IRoom
+    room: IRoomWithHotel
 }
 
 export interface IFormInputs {

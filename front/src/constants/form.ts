@@ -5,3 +5,5 @@ export const DEFAULT_ERROR_MESSAGE =
 export const POSITIF_NUMBER = 'Ce champ doit être positif'
 export const INTEGER_NUMBER = 'Ce champ ne doit pas comporter de virgule'
 export const EMAIL_NOT_VALID = "Cette adresse email n'est pas valide"
+export const MIN_DATE = 'La date doit être après le'
+export const MAX_DATE = 'La date doit être avant le'

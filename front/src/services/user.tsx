@@ -51,7 +51,17 @@ const me = ({ token, hotelId, withHotels, withBookings }: IMe) => {
     }
 
     if (withBookings) {
-        url += `?filter=${JSON.stringify({ include: ['bookings'] })}`
+        url += `?filter=${JSON.stringify({
+            include: [
+                {
+                    relation: 'bookings',
+                    scope: {
+                        order: 'from DESC',
+                        include: [{ relation: 'room', scope: { include: [{ relation: 'hotel' }] } }]
+                    }
+                }
+            ]
+        })}`
     }
 
     return axios.get(url, {

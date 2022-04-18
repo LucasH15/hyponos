@@ -57,6 +57,13 @@ let theme = createTheme({
                     marginBottom: SPACING * 4
                 }
             }
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    textTransform: 'none'
+                }
+            }
         }
     }
 })

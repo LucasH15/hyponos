@@ -2,12 +2,14 @@ import { Count, CountSchema, Filter, FilterExcludingWhere, repository, Where } f
 import { post, param, get, getModelSchemaRef, patch, put, del, requestBody, response } from '@loopback/rest'
 
 import { Booking } from '../models'
-import { BookingRepository } from '../repositories'
+import { BookingRepository, RoomRepository } from '../repositories'
 
 export class BookingController {
     constructor(
         @repository(BookingRepository)
-        public bookingRepository: BookingRepository
+        public bookingRepository: BookingRepository,
+        @repository(RoomRepository)
+        public roomRepository: RoomRepository
     ) {}
 
     @post('/bookings')
@@ -27,8 +29,15 @@ export class BookingController {
             }
         })
         booking: Omit<Booking, 'id'>
-    ): Promise<Booking> {
-        return this.bookingRepository.create(booking)
+    ): Promise<Booking | null> {
+        const { from, to, roomId } = booking
+        const available = await this.check(new Date(from), new Date(to), roomId)
+
+        if (available) {
+            return this.bookingRepository.create(booking)
+        } else {
+            return null
+        }
     }
 
     @get('/bookings')
@@ -45,6 +54,22 @@ export class BookingController {
     })
     async find(@param.filter(Booking) filter?: Filter<Booking>): Promise<Booking[]> {
         return this.bookingRepository.find(filter)
+    }
+
+    @get('/bookings/check')
+    async check(
+        @param.query.string('from') from: Date,
+        @param.query.string('to') to: Date,
+        @param.query.string('roomId') roomId: string
+    ): Promise<boolean> {
+        const room = await this.roomRepository.findById(roomId)
+        const nbRooms = room.nbRooms
+        // TODO search with from and to
+        const bookings = await this.bookingRepository.find({ where: { roomId: roomId } })
+        console.log(room)
+        console.log(nbRooms)
+        console.log(bookings)
+        return true
     }
 
     @patch('/bookings')

@@ -7,14 +7,18 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
+import { BookingService } from '@Src/services'
 import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
-import { MY_SPACE, REGISTER } from '@Constants/routes'
+import { BOOKING, MY_SPACE, REGISTER } from '@Constants/routes'
 import { TOKEN_KEY } from '@Constants/request'
 import UserService from '@Services/user'
-import { AuthContext } from '../../AuthProvider'
+import { AuthContext } from '@Src/AuthProvider'
 
 interface IState {
     register?: string
+    from?: Date
+    to?: Date
+    roomId?: string
 }
 
 interface IFormInputs {
@@ -52,9 +56,30 @@ const Login = () => {
             .then(response => {
                 const token = response.data.token
                 if (token) {
-                    auth.login(token).then(() => {
+                    auth.login(token, true).then(user => {
                         localStorage.setItem(TOKEN_KEY, token)
-                        navigate(MY_SPACE, { replace: true })
+
+                        if (state) {
+                            const { from, to, roomId } = state
+
+                            if (roomId && from && to) {
+                                BookingService.post({ from, to, roomId, userId: user.id })
+                                    .then(response => {
+                                        if (response.data) {
+                                            navigate(MY_SPACE)
+                                        } else {
+                                            navigate(BOOKING, { state: { unavailable: true } })
+                                        }
+                                    })
+                                    .catch(() => {
+                                        enqueueSnackbar(DEFAULT_ERROR_MESSAGE, { variant: 'error' })
+                                    })
+                            } else {
+                                navigate(MY_SPACE, { replace: true })
+                            }
+                        } else {
+                            navigate(MY_SPACE, { replace: true })
+                        }
                     })
                 } else {
                     throw new Error()
@@ -155,7 +180,7 @@ const Login = () => {
             >
                 <p>Vous n&apos;avez pas encore de compte ?</p>
                 &nbsp;
-                <Button component={Link} to={REGISTER}>
+                <Button component={Link} to={REGISTER} state={state}>
                     Je m&apos;inscris
                 </Button>
             </Grid>

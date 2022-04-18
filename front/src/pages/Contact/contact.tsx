@@ -33,7 +33,6 @@ const Contact = () => {
         }
     })
     const onSubmit: SubmitHandler<IFormInputs> = data => {
-        console.log(data)
         ContactService.send(data)
             .then(() => {
                 enqueueSnackbar(
