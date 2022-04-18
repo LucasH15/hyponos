@@ -20,6 +20,7 @@ interface IMe {
     token: string
     hotelId?: string
     withHotels?: boolean
+    withBookings?: boolean
 }
 
 const register = (user: IUser) => {
@@ -38,7 +39,7 @@ const login = (user: IUser) => {
     })
 }
 
-const me = ({ token, hotelId, withHotels }: IMe) => {
+const me = ({ token, hotelId, withHotels, withBookings }: IMe) => {
     let url = `${BASE_URL}/users/me`
 
     if (hotelId) {
@@ -47,6 +48,10 @@ const me = ({ token, hotelId, withHotels }: IMe) => {
 
     if (withHotels) {
         url += `?filter=${JSON.stringify({ include: ['hotels'] })}`
+    }
+
+    if (withBookings) {
+        url += `?filter=${JSON.stringify({ include: ['bookings'] })}`
     }
 
     return axios.get(url, {
@@ -101,7 +106,8 @@ const edit = (token: string, userId: string, user: IUserEdition) => {
 export default {
     register: async (user: IUser) => await register(user),
     login: async (user: IUser) => await login(user),
-    me: async ({ token, hotelId, withHotels }: IMe) => await me({ token, hotelId, withHotels }),
+    me: async ({ token, hotelId, withHotels, withBookings }: IMe) =>
+        await me({ token, hotelId, withHotels, withBookings }),
     getAll: async (token: string) => await getAll(token),
     getOne: async (token: string, userId: string) => await getOne(token, userId),
     add: async (token: string, user: IUserFromBack) => await add(token, user),

@@ -18,7 +18,7 @@ import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
 import { ADMIN_ROOMS } from '@Constants/routes'
 import { IHotel } from '@Interfaces/hotel'
 import { IFormInputs } from '@Interfaces/room'
-import { DEFAULT_ERROR_MESSAGE, IS_REQUIRED, MIN_CHAR, PRICE_POSITIF } from '@Constants/form'
+import { DEFAULT_ERROR_MESSAGE, INTEGER_NUMBER, IS_REQUIRED, MIN_CHAR, POSITIF_NUMBER } from '@Constants/form'
 import { TOKEN_KEY } from '@Constants/request'
 import { FileService, HotelService, RoomService, UserService } from '@Services/index'
 import { AuthContext } from '@Src/AuthProvider'
@@ -35,7 +35,8 @@ const schema = yup
         mainPicture: yup.mixed().required(IS_REQUIRED),
         description: yup.string(),
         pictures: yup.array(yup.mixed()),
-        price: yup.number().positive(PRICE_POSITIF).required(IS_REQUIRED),
+        price: yup.number().positive(POSITIF_NUMBER).required(IS_REQUIRED),
+        nbRooms: yup.number().integer(INTEGER_NUMBER).positive(POSITIF_NUMBER).required(IS_REQUIRED),
         hotelId: yup.string().uuid(IS_REQUIRED).required(IS_REQUIRED)
     })
     .required()
@@ -117,9 +118,9 @@ const AdminRoomsEdit = () => {
 
     useEffect(() => {
         if (roomId) {
-            RoomService.getOne(roomId)
-                .then(hotel => {
-                    reset(hotel.data)
+            RoomService.getOne({ roomId })
+                .then(room => {
+                    reset(room.data)
                 })
                 .catch(error => {
                     if (error.response.status === 404) {
@@ -214,6 +215,21 @@ const AdminRoomsEdit = () => {
                                     />
                                 )
                             }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Controller
+                            name="nbRooms"
+                            control={control}
+                            render={({ field, fieldState: { invalid, error } }) => (
+                                <TextField
+                                    fullWidth
+                                    label="Nombre de chambres"
+                                    error={invalid}
+                                    helperText={error?.message}
+                                    {...field}
+                                />
+                            )}
                         />
                     </Grid>
                     <Grid item xs={12}>

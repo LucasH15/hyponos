@@ -2,4 +2,5 @@ title: 'Nam auctor sed'
 mainPicture: 'BRANDO_1BR-Living-5.jpg'
 pictures: [ 'one-bedroom-villas-2.jpg', 'one-bedroom-villas-740x480.jpg' ]
 price: 3700
+nbRooms: 10
 description: 'Duis vestibulum commodo neque tempor ultrices. Suspendisse scelerisque justo lectus. Nulla a purus ex. Pellentesque sed risus erat. Sed volutpat imperdiet ornare. Nam at viverra nibh. Donec a metus vitae massa porta aliquet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ultricies lacus vitae cursus posuere.'

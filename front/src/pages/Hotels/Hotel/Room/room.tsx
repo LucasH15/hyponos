@@ -1,34 +1,29 @@
-import { IHotel } from '@Interfaces/hotel'
 import { useEffect, useState } from 'react'
-import { CardMedia, Grid, Typography } from '@mui/material'
+import { Button, CardMedia, Grid, Typography } from '@mui/material'
 import { useSnackbar } from 'notistack'
 import { Helmet } from 'react-helmet-async'
 import Carousel from 'react-material-ui-carousel'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import theme from '@Src/Theme'
 import UsePrice from '@Hooks/usePrice'
 import Breadcrumb from '@Components/Breadcrumb'
-import { IRoom } from '@Interfaces/room'
-import { HotelService, RoomService } from '@Src/services'
-import { HOME, HOTEL, HOTELS } from '@Constants/routes'
+import { IRoomWithHotel } from '@Interfaces/room'
+import { RoomService } from '@Src/services'
+import { BOOKING, HOME, HOTEL, HOTELS } from '@Constants/routes'
 import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
 
 const Room = () => {
     const { hotelId, roomId } = useParams()
     const { enqueueSnackbar } = useSnackbar()
     const navigate = useNavigate()
-    const [hotel, setHotel] = useState<null | IHotel>(null)
-    const [room, setRoom] = useState<null | IRoom>(null)
+    const [room, setRoom] = useState<null | IRoomWithHotel>(null)
 
     useEffect(() => {
         if (roomId && hotelId) {
-            RoomService.getOne(roomId)
+            RoomService.getOne({ roomId, withHotel: true })
                 .then(response => {
                     setRoom(response.data)
-                    HotelService.getOne(response.data.hotelId).then(response => {
-                        setHotel(response.data)
-                    })
                 })
                 .catch(error => {
                     if (error.response.status === 404) {
@@ -61,7 +56,7 @@ const Room = () => {
                                 path: HOTELS
                             },
                             {
-                                label: hotel?.name || '',
+                                label: room.hotel.name,
                                 path: HOTEL.replace(':hotelId', room.hotelId)
                             },
                             {
@@ -115,8 +110,7 @@ const Room = () => {
                     </Typography>
 
                     <Typography variant="h6" component="p" textAlign="center" sx={{ mb: 5 }}>
-                        <UsePrice price={room.price} />
-                        /nuit
+                        <UsePrice price={room.price} /> / nuit
                     </Typography>
 
                     {room.description && (
@@ -126,6 +120,21 @@ const Room = () => {
                             </Typography>
                         </Grid>
                     )}
+
+                    <Grid sx={{ textAlign: 'center' }}>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            component={Link}
+                            to={{
+                                pathname: BOOKING,
+                                search: `?hotelId=${hotelId}&roomId=${roomId}`
+                            }}
+                            sx={{ mt: 10 }}
+                        >
+                            Faire une réservation
+                        </Button>
+                    </Grid>
                 </>
             )}
         </>

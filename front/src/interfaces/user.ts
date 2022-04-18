@@ -1,3 +1,4 @@
+import { IBooking } from '@Interfaces/booking'
 import { IHotel } from '@Interfaces/hotel'
 
 export interface IUser {
@@ -8,4 +9,5 @@ export interface IUser {
     firstName?: string
     lastName?: string
     hotels?: IHotel[]
+    bookings?: IBooking[]
 }

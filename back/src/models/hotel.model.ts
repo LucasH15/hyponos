@@ -66,14 +66,8 @@ export class Hotel extends Entity {
     })
     description?: string
 
-    @hasMany(() => Room)
-    rooms?: Room[];
-
-    // Define well-known properties here
-
-    // Indexer property to allow additional data
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [prop: string]: any
+    @hasMany(() => Room, { keyTo: 'hotelId' })
+    rooms?: Room[]
 
     constructor(data?: Partial<Hotel>) {
         super(data)

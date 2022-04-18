@@ -2,4 +2,5 @@ title: 'Nunc sed elementum'
 mainPicture: 'sun_1_enhanced.jpeg'
 pictures: [ 'sun_4_enhanced.jpg', 'sun_2_enhanced.jpg' ]
 price: 2560
+nbRooms: 5
 description: 'Duis vestibulum commodo neque tempor ultrices. Suspendisse scelerisque justo lectus. Nulla a purus ex. Pellentesque sed risus erat. Sed volutpat imperdiet ornare. Nam at viverra nibh. Donec a metus vitae massa porta aliquet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ultricies lacus vitae cursus posuere.'

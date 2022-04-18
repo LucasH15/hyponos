@@ -1,4 +1,5 @@
 import { Entity, model, property, hasOne, hasMany } from '@loopback/repository'
+import { Booking } from './booking.model'
 
 import { UserCredentials } from './user-credentials.model'
 import { UserHotel } from './user-hotel.model'
@@ -63,6 +64,9 @@ export class User extends Entity {
 
     @hasMany(() => Hotel, { through: { model: () => UserHotel } })
     hotels: Hotel[]
+
+    @hasMany(() => Booking)
+    bookings?: Booking[]
 
     constructor(data?: Partial<User>) {
         super(data)

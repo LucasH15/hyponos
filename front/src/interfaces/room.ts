@@ -1,3 +1,5 @@
+import { IHotel } from '@Interfaces/hotel'
+
 export interface IRoom {
     id: string
     title: string
@@ -5,7 +7,12 @@ export interface IRoom {
     description?: string
     pictures?: string[]
     price: number
+    nbRooms: number
     hotelId: string
+}
+
+export interface IRoomWithHotel extends IRoom {
+    hotel: IHotel
 }
 
 export interface IFormInputs {
@@ -14,6 +21,7 @@ export interface IFormInputs {
     description?: string
     pictures?: File[]
     price: number
+    nbRooms: number
     hotelId: string
 }
 
@@ -23,5 +31,6 @@ export interface IFormSubmitInputs {
     description?: string
     pictures?: string[]
     price: number
+    nbRooms: number
     hotelId: string
 }
