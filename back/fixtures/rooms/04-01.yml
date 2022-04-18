@@ -2,4 +2,5 @@ title: 'Vivamus in feugiat'
 mainPicture: 'ts-superior-suite-dining-2000x1200.jpg'
 pictures: [ 'ts-rooms-superior-suite-bathroom-2000x1200.jpg', 'ts-rooms-superior-suite-bedroom-2000x1200.jpg' ]
 price: 1610
+nbRooms: 2
 description: 'Duis vestibulum commodo neque tempor ultrices. Suspendisse scelerisque justo lectus. Nulla a purus ex. Pellentesque sed risus erat. Sed volutpat imperdiet ornare. Nam at viverra nibh. Donec a metus vitae massa porta aliquet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ultricies lacus vitae cursus posuere.'

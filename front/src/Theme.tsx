@@ -1,15 +1,15 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme, responsiveFontSizes } from '@mui/material/styles'
 
 const SPACING = 4
-const TITLE_FONT = ['Roboto Slab', 'serif'].join(',')
+const TITLE_FONT = ['PT Serif', 'serif'].join(',')
 
-export default createTheme({
+let theme = createTheme({
     spacing: SPACING,
     typography: {
         fontFamily: ['Roboto', 'sans-serif'].join(','),
         title: {
             fontFamily: ['Cinzel Decorative', 'serif'].join(','),
-            fontSize: '5rem'
+            fontSize: '2.5rem'
         },
         h1: {
             fontFamily: TITLE_FONT
@@ -57,6 +57,30 @@ export default createTheme({
                     marginBottom: SPACING * 4
                 }
             }
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    textTransform: 'none'
+                }
+            }
         }
     }
 })
+
+theme.typography.title = {
+    ...theme.typography.title,
+    [theme.breakpoints.up('sm')]: {
+        fontSize: '3.5rem'
+    },
+    [theme.breakpoints.up('md')]: {
+        fontSize: '4.5rem'
+    },
+    [theme.breakpoints.up('lg')]: {
+        fontSize: '5rem'
+    }
+}
+
+theme = responsiveFontSizes(theme)
+
+export default theme

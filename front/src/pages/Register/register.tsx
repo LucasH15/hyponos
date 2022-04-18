@@ -3,12 +3,18 @@ import { Button, Grid, TextField, Typography } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { EMAIL_NOT_VALID } from '@Constants/form'
 import { LOGIN } from '@Constants/routes'
 import UserService from '@Services/user'
+
+interface IState {
+    from?: Date
+    to?: Date
+    roomId?: string
+}
 
 interface IFormInputs {
     email: string
@@ -26,6 +32,8 @@ const schema = yup
     .required()
 
 const Home = () => {
+    const location = useLocation()
+    const state = location.state as IState
     const navigate = useNavigate()
     const [error, setError] = useState<string | null>(null)
     const { control, handleSubmit } = useForm<IFormInputs>({
@@ -38,7 +46,15 @@ const Home = () => {
     const onSubmit: SubmitHandler<IFormInputs> = data => {
         setError(null)
         UserService.register(data)
-            .then(() => navigate(LOGIN, { state: { register: 'success' } }))
+            .then(() => {
+                const { from, to, roomId } = state
+
+                if (from && to && roomId) {
+                    navigate(LOGIN, { state: { register: 'success', from, to, roomId } })
+                } else {
+                    navigate(LOGIN, { state: { register: 'success' } })
+                }
+            })
             .catch(error => {
                 if (error.response) {
                     setError(error.response.data.error.message)
@@ -128,7 +144,7 @@ const Home = () => {
             >
                 <p>Vous avez déjà un compte ?</p>
                 &nbsp;
-                <Button component={Link} to={LOGIN}>
+                <Button component={Link} to={LOGIN} state={state}>
                     Je me connecte
                 </Button>
             </Grid>

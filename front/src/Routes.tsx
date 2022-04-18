@@ -12,6 +12,7 @@ import {
     ADMIN_USERS,
     ADMIN_USERS_ADD,
     ADMIN_USERS_EDIT,
+    BOOKING,
     CONTACT,
     HOME,
     HOTEL,
@@ -26,6 +27,7 @@ import Contact from '@Pages/Contact'
 import Hotels from '@Pages/Hotels'
 import Login from '@Pages/Login'
 import MySpace from '@Pages/MySpace'
+import Booking from '@Pages/Booking'
 import Register from '@Pages/Register'
 import Hotel from '@Pages/Hotels/Hotel'
 import HotelRoom from '@Pages/Hotels/Hotel/Room'
@@ -47,6 +49,11 @@ const routes = [
     {
         path: HOME,
         element: <Home />,
+        requireAuth: false
+    },
+    {
+        path: BOOKING,
+        element: <Booking />,
         requireAuth: false
     },
     {

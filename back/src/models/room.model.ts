@@ -1,4 +1,6 @@
-import { Entity, model, property } from '@loopback/repository'
+import { belongsTo, Entity, model, property } from '@loopback/repository'
+
+import { Hotel, HotelWithRelations } from './hotel.model'
 
 @model({
     settings: { postgresql: { schema: 'public', table: 'room' } }
@@ -42,22 +44,19 @@ export class Room extends Entity {
     price: number
 
     @property({
+        type: 'number',
+        required: true
+    })
+    nbRooms: number
+
+    @property({
         type: 'array',
         itemType: 'string'
     })
     pictures?: string[]
 
-    @property({
-        type: 'string',
-        required: true
-    })
-    hotelId: string;
-
-    // Define well-known properties here
-
-    // Indexer property to allow additional data
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [prop: string]: any
+    @belongsTo(() => Hotel, { name: 'hotel' })
+    hotelId: string
 
     constructor(data?: Partial<Room>) {
         super(data)
@@ -65,7 +64,7 @@ export class Room extends Entity {
 }
 
 export interface RoomRelations {
-    // describe navigational properties here
+    hotel: HotelWithRelations
 }
 
 export type RoomWithRelations = Room & RoomRelations

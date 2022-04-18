@@ -1,13 +1,15 @@
 import { inject, Getter } from '@loopback/core'
 import {
     DefaultCrudRepository,
+    HasManyRepositoryFactory,
     HasManyThroughRepositoryFactory,
     HasOneRepositoryFactory,
     repository
 } from '@loopback/repository'
 
 import { PostgresDataSource } from '../datasources'
-import { Hotel, User, UserCredentials, UserHotel } from '../models'
+import { Booking, Hotel, User, UserCredentials, UserHotel } from '../models'
+import { BookingRepository } from './booking.repository'
 import { HotelRepository } from './hotel.repository'
 import { UserHotelRepository } from './user-hotel.repository'
 import { UserCredentialsRepository } from './user-credentials.repository'
@@ -25,6 +27,7 @@ export class UserRepository extends DefaultCrudRepository<User, typeof User.prot
         UserHotel,
         typeof User.prototype.id
     >
+    public readonly bookings: HasManyRepositoryFactory<Booking, typeof Booking.prototype.id>
 
     constructor(
         @inject('datasources.postgres')
@@ -34,7 +37,9 @@ export class UserRepository extends DefaultCrudRepository<User, typeof User.prot
         @repository.getter('HotelRepository')
         hotelRepositoryGetter: Getter<HotelRepository>,
         @repository.getter('UserHotelRepository')
-        userHotelRepositoryGetter: Getter<UserHotelRepository>
+        userHotelRepositoryGetter: Getter<UserHotelRepository>,
+        @repository.getter('BookingRepository')
+        bookingRepositoryGetter: Getter<BookingRepository>
     ) {
         super(User, dataSource)
         this.userCredentials = this.createHasOneRepositoryFactoryFor('userCredentials', userCredentialsRepositoryGetter)
@@ -43,8 +48,10 @@ export class UserRepository extends DefaultCrudRepository<User, typeof User.prot
             hotelRepositoryGetter,
             userHotelRepositoryGetter
         )
+        this.bookings = this.createHasManyRepositoryFactoryFor('bookings', bookingRepositoryGetter)
 
         this.registerInclusionResolver('hotels', this.hotels.inclusionResolver)
+        this.registerInclusionResolver('bookings', this.bookings.inclusionResolver)
     }
 
     async findCredentials(userId: typeof User.prototype.id): Promise<UserCredentials | undefined> {

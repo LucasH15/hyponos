@@ -1,5 +1,5 @@
 import Breadcrumb from '@Components/Breadcrumb'
-import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import { useSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
@@ -8,7 +8,7 @@ import Carousel from 'react-material-ui-carousel'
 
 import UsePrice from '@Hooks/usePrice'
 import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
-import { HOME, HOTELS, HOTEL_ROOM } from '@Constants/routes'
+import { BOOKING, HOME, HOTELS, HOTEL_ROOM } from '@Constants/routes'
 import { IHotelAndRooms } from '@Interfaces/hotel'
 import HotelService from '@Services/hotel'
 import theme from '@Src/Theme'
@@ -139,10 +139,22 @@ const Hotel = () => {
                                                 <Typography variant="h5" component="h3">
                                                     {room.title}
                                                 </Typography>
+
                                                 <Typography variant="subtitle1" component="p">
-                                                    <UsePrice price={room.price} />
-                                                    /nuit
+                                                    <UsePrice price={room.price} /> / nuit
                                                 </Typography>
+
+                                                <Button
+                                                    variant="contained"
+                                                    component={Link}
+                                                    to={{
+                                                        pathname: BOOKING,
+                                                        search: `?hotelId=${hotelId}&roomId=${room.id}`
+                                                    }}
+                                                    sx={{ mt: 4 }}
+                                                >
+                                                    Réserver
+                                                </Button>
                                             </CardContent>
                                         </Card>
                                     </Grid>
