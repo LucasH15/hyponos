@@ -8,6 +8,7 @@ import {
     Menu,
     MenuItem,
     AppBar as MuiAppBar,
+    Link as MuiLink,
     Toolbar,
     Typography
 } from '@mui/material'
@@ -44,7 +45,7 @@ const AppBar = () => {
     }
 
     return (
-        <MuiAppBar position="static" sx={{ py: 2 }}>
+        <MuiAppBar position="static" color="secondary" sx={{ py: 2 }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/*For desktop*/}
@@ -120,17 +121,32 @@ const AppBar = () => {
 
                     {/*For desktop*/}
                     <Grid sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, columnGap: 5 }}>
-                        <Button component={Link} to={HOME} sx={{ my: 2, color: 'white', display: 'block' }}>
+                        <MuiLink
+                            underline="hover"
+                            component={Link}
+                            to={HOME}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
                             Accueil
-                        </Button>
+                        </MuiLink>
 
-                        <Button component={Link} to={HOTELS} sx={{ my: 2, color: 'white', display: 'block' }}>
+                        <MuiLink
+                            underline="hover"
+                            component={Link}
+                            to={HOTELS}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
                             Hôtels
-                        </Button>
+                        </MuiLink>
 
-                        <Button component={Link} to={CONTACT} sx={{ my: 2, color: 'white', display: 'block' }}>
+                        <MuiLink
+                            underline="hover"
+                            component={Link}
+                            to={CONTACT}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
                             Contact
-                        </Button>
+                        </MuiLink>
                     </Grid>
 
                     <Grid sx={{ flexGrow: 0 }}>

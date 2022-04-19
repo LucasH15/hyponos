@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, CardMedia, Grid, Typography } from '@mui/material'
+import { Button, CardMedia, Grid, Skeleton, Typography } from '@mui/material'
 import { useSnackbar } from 'notistack'
 import { Helmet } from 'react-helmet-async'
 import Carousel from 'react-material-ui-carousel'
@@ -40,10 +40,41 @@ const Room = () => {
     return (
         <>
             <Helmet>
-                <title>{`Suite - Hyponos`}</title>
+                <title>{`Suite${room ? ` ${room.title}` : ''} - Hyponos`}</title>
             </Helmet>
 
-            {room && (
+            {!room ? (
+                <>
+                    <Typography component="p">
+                        <Skeleton />
+                    </Typography>
+
+                    <Skeleton height={500} sx={{ transform: 'none' }} />
+
+                    <Typography variant="h1" sx={{ mb: 0 }}>
+                        <Skeleton />
+                    </Typography>
+
+                    <Typography variant="h6" component="p" sx={{ mb: 5 }}>
+                        <Skeleton />
+                    </Typography>
+
+                    <Typography component="p" width={{ xs: '100%', lg: '60%' }} sx={{ mx: 'auto' }}>
+                        <Skeleton />
+                    </Typography>
+                    <Typography component="p" width={{ xs: '100%', lg: '60%' }} sx={{ mx: 'auto' }}>
+                        <Skeleton />
+                    </Typography>
+                    <Typography component="p" width={{ xs: '100%', lg: '60%' }} sx={{ mx: 'auto' }}>
+                        <Skeleton />
+                    </Typography>
+                    <Typography component="p" width={{ xs: '100%', lg: '60%' }} sx={{ mx: 'auto' }}>
+                        <Skeleton />
+                    </Typography>
+
+                    <Skeleton sx={{ mt: 10, mx: 'auto' }} width={175} height={75} />
+                </>
+            ) : (
                 <>
                     <Breadcrumb
                         routes={[

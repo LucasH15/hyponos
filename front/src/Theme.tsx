@@ -5,6 +5,19 @@ const TITLE_FONT = ['PT Serif', 'serif'].join(',')
 
 let theme = createTheme({
     spacing: SPACING,
+    palette: {
+        text: {
+            primary: '#1F1F1F'
+        },
+        primary: {
+            main: '#92DCE5',
+            contrastText: '#1F1F1F'
+        },
+        secondary: {
+            main: '#AD343E'
+        },
+        tonalOffset: 0.05
+    },
     typography: {
         fontFamily: ['Roboto', 'sans-serif'].join(','),
         title: {
@@ -40,14 +53,21 @@ let theme = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
+                    boxShadow: 'none',
                     textTransform: 'none',
-                    minWidth: 0
+                    minWidth: 0,
+                    '&:hover': {
+                        boxShadow: 'none'
+                    }
                 },
                 text: {
                     padding: 0,
                     '&:hover': {
                         backgroundColor: 'transparent'
                     }
+                },
+                textPrimary: {
+                    color: '#AD343E'
                 }
             }
         },
