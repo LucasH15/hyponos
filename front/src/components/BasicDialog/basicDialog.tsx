@@ -35,8 +35,10 @@ export const BasicDialog = ({
         <Dialog open={open} onClose={handleClose} {...props}>
             <DialogTitle>{title}</DialogTitle>
             {children && <DialogContent>{children}</DialogContent>}
-            <DialogActions>
-                <Button onClick={localHandleCancel}>{btnCancelText}</Button>
+            <DialogActions sx={{ px: 6 }}>
+                <Button variant="contained" onClick={localHandleCancel} sx={{ mr: 3 }}>
+                    {btnCancelText}
+                </Button>
                 <Button onClick={localHandleOk}>{btnOkText}</Button>
             </DialogActions>
         </Dialog>

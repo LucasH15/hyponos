@@ -142,6 +142,12 @@ const Booking = () => {
     }, [watch('hotelId')])
 
     useEffect(() => {
+        if (getValues('from')) {
+            setValue('to', set(getValues('from'), { seconds: 2 }))
+        }
+    }, [watch('from')])
+
+    useEffect(() => {
         if (isValid) {
             setIsLoading(true)
             setIsAvailable(false)

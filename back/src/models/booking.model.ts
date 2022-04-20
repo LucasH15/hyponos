@@ -34,6 +34,11 @@ export class Booking extends Entity {
     })
     to: string
 
+    @property({
+        type: 'string'
+    })
+    status: string
+
     @belongsTo(() => Room, { name: 'room' })
     roomId: string
 

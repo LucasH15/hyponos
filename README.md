@@ -3,6 +3,8 @@
 ## Description
 This is a project for [Studi](https://www.studi.com/fr)
 
+All in /doc is for Studi exam
+
 ## Test
 - Website url : [https://hyponos.vercel.app](https://hyponos.vercel.app)
 - API url : [https://hyponos-back.herokuapp.com/explorer/](https://hyponos-back.herokuapp.com/explorer/)

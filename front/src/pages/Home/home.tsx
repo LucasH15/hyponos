@@ -8,7 +8,7 @@ import { HotelService } from '@Src/services'
 import { IHotel } from '@Interfaces/hotel'
 
 const Home = () => {
-    const [topHotels, setTopHotels] = useState<[] | IHotel[]>()
+    const [topHotels, setTopHotels] = useState<[] | IHotel[]>([])
 
     useEffect(() => {
         HotelService.get({ limit: 3 }).then(response => {
@@ -31,11 +31,11 @@ const Home = () => {
             </Typography>
 
             <Grid container spacing={8}>
-                {!topHotels
-                    ? [...new Array(3)].map(index => (
-                          <Grid item key={index} xs={12} md={4}>
+                {topHotels.length === 0
+                    ? [...new Array(3)].map((_, index) => (
+                          <Grid item key={`hotel-home-${index}`} xs={12} md={4}>
                               <Card variant="outlined" sx={{ display: 'block', height: '100%' }}>
-                                  <Skeleton height={200} component={CardMedia} sx={{ transform: 'none' }} />
+                                  <Skeleton height={200} sx={{ transform: 'none' }} />
                                   <CardContent>
                                       <Typography variant="h4" component="h3" sx={{ mb: 4 }}>
                                           <Skeleton />
@@ -76,8 +76,8 @@ const Home = () => {
                                               component="p"
                                               sx={{
                                                   display: '-webkit-box',
-                                                  '-webkit-line-clamp': '3',
-                                                  '-webkit-box-orient': 'vertical',
+                                                  WebkitLineClamp: '3',
+                                                  WebkitBoxOrient: 'vertical',
                                                   overflow: 'hidden',
                                                   hyphens: 'auto'
                                               }}

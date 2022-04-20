@@ -5,6 +5,7 @@ export interface IBooking {
     id: string
     from: Date
     to: Date
+    status: string
     userId: string
     user: IUser
     roomId: string
