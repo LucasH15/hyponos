@@ -34,8 +34,18 @@ const check = ({ from, to, roomId }: ICheck) => {
     })
 }
 
+const cancel = (token: string, bookingId: string) => {
+    return axios.post(`${BASE_URL}/bookings/cancel`, JSON.stringify({ bookingId }), {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
 export default {
     getAll: async () => await getAll(),
     check: async ({ from, to, roomId }: ICheck) => await check({ from, to, roomId }),
-    post: async ({ from, to, roomId, userId }: IPost) => await post({ from, to, roomId, userId })
+    post: async ({ from, to, roomId, userId }: IPost) => await post({ from, to, roomId, userId }),
+    cancel: async (token: string, bookingId: string) => await cancel(token, bookingId)
 }

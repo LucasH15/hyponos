@@ -6,7 +6,7 @@ import { CONTACT, HOME, HOTELS } from '@Constants/routes'
 const Footer = () => {
     return (
         <Grid component="footer" sx={{ mt: 'auto' }}>
-            <Grid sx={{ backgroundColor: 'primary.main', color: 'primary.contrastText', py: 4, mt: 15 }}>
+            <Grid sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText', py: 4, mt: 15 }}>
                 <Container maxWidth="xl">
                     <Grid sx={{ display: 'flex', justifyContent: 'center', columnGap: 5 }}>
                         <MuiLink component={Link} to={HOME} underline="hover" color="inherit">

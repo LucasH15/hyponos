@@ -1,15 +1,35 @@
-import { Count, CountSchema, Filter, FilterExcludingWhere, repository, Where } from '@loopback/repository'
-import { post, param, get, getModelSchemaRef, patch, put, del, requestBody, response } from '@loopback/rest'
+import { authenticate, TokenService } from '@loopback/authentication'
+import { TokenServiceBindings } from '@loopback/authentication-jwt'
+import { inject } from '@loopback/core'
+import { Filter, repository } from '@loopback/repository'
+import {
+    post,
+    param,
+    get,
+    getModelSchemaRef,
+    requestBody,
+    response,
+    HttpErrors,
+    RestBindings,
+    Request
+} from '@loopback/rest'
+import _ from 'lodash'
+import { add, isAfter } from 'date-fns'
 
 import { Booking } from '../models'
 import { BookingRepository, RoomRepository } from '../repositories'
+import { CancelRequestBody } from './specs/booking.specs'
 
 export class BookingController {
     constructor(
         @repository(BookingRepository)
         public bookingRepository: BookingRepository,
         @repository(RoomRepository)
-        public roomRepository: RoomRepository
+        public roomRepository: RoomRepository,
+        @inject(TokenServiceBindings.TOKEN_SERVICE)
+        public jwtService: TokenService,
+        @inject(RestBindings.Http.REQUEST)
+        private request: Request
     ) {}
 
     @post('/bookings')
@@ -34,7 +54,7 @@ export class BookingController {
         const available = await this.check(new Date(from), new Date(to), roomId)
 
         if (available) {
-            return this.bookingRepository.create(booking)
+            return this.bookingRepository.create({ ...booking, status: 'accepted' })
         } else {
             return null
         }
@@ -72,72 +92,31 @@ export class BookingController {
         return true
     }
 
-    @patch('/bookings')
-    @response(200, {
-        description: 'Booking PATCH success count',
-        content: { 'application/json': { schema: CountSchema } }
-    })
-    async updateAll(
-        @requestBody({
-            content: {
-                'application/json': {
-                    schema: getModelSchemaRef(Booking, { partial: true })
-                }
-            }
-        })
-        booking: Booking,
-        @param.where(Booking) where?: Where<Booking>
-    ): Promise<Count> {
-        return this.bookingRepository.updateAll(booking, where)
-    }
-
-    @get('/bookings/{id}')
+    @post('/bookings/cancel')
+    @authenticate('jwt')
     @response(200, {
         description: 'Booking model instance',
-        content: {
-            'application/json': {
-                schema: getModelSchemaRef(Booking, { includeRelations: true })
-            }
+        content: { 'application/json': { schema: getModelSchemaRef(Booking) } }
+    })
+    async cancel(
+        @requestBody(CancelRequestBody)
+        body: {
+            bookingId: string
         }
-    })
-    async findById(
-        @param.path.string('id') id: string,
-        @param.filter(Booking, { exclude: 'where' }) filter?: FilterExcludingWhere<Booking>
-    ): Promise<Booking> {
-        return this.bookingRepository.findById(id, filter)
-    }
-
-    @patch('/bookings/{id}')
-    @response(204, {
-        description: 'Booking PATCH success'
-    })
-    async updateById(
-        @param.path.string('id') id: string,
-        @requestBody({
-            content: {
-                'application/json': {
-                    schema: getModelSchemaRef(Booking, { partial: true })
-                }
-            }
-        })
-        booking: Booking
     ): Promise<void> {
-        await this.bookingRepository.updateById(id, booking)
-    }
+        const token = _.get(this.request.headers, 'authorization') as string | undefined
 
-    @put('/bookings/{id}')
-    @response(204, {
-        description: 'Booking PUT success'
-    })
-    async replaceById(@param.path.string('id') id: string, @requestBody() booking: Booking): Promise<void> {
-        await this.bookingRepository.replaceById(id, booking)
-    }
+        if (token) {
+            const user = await this.jwtService.verifyToken(token.replace('Bearer ', ''))
+            const booking = await this.bookingRepository.findOne({ where: { userId: user.id, id: body.bookingId } })
 
-    @del('/bookings/{id}')
-    @response(204, {
-        description: 'Booking DELETE success'
-    })
-    async deleteById(@param.path.string('id') id: string): Promise<void> {
-        await this.bookingRepository.deleteById(id)
+            if (booking && isAfter(new Date(booking.from), add(new Date(), { days: 2 }))) {
+                await this.bookingRepository.updateById(body.bookingId, { status: 'cancelled' })
+            } else {
+                throw new HttpErrors.Unauthorized()
+            }
+        } else {
+            throw new HttpErrors.Unauthorized()
+        }
     }
 }

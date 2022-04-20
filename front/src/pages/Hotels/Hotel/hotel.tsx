@@ -1,5 +1,5 @@
 import Breadcrumb from '@Components/Breadcrumb'
-import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Button, Card, CardContent, CardMedia, Grid, Skeleton, Typography } from '@mui/material'
 import { useSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
@@ -38,10 +38,67 @@ const Hotel = () => {
     return (
         <>
             <Helmet>
-                <title>{`Hôtel${hotel && ` ${hotel.name}`} - Hyponos`}</title>
+                <title>{`Hôtel${hotel ? ` ${hotel.name}` : ''} - Hyponos`}</title>
             </Helmet>
 
-            {hotel && (
+            {!hotel ? (
+                <>
+                    <Typography component="p">
+                        <Skeleton />
+                    </Typography>
+
+                    <Skeleton height={500} sx={{ transform: 'none' }} />
+
+                    <Typography variant="h1">
+                        <Skeleton />
+                    </Typography>
+
+                    <Typography component="p" width={{ xs: '100%', lg: '60%' }} sx={{ mx: 'auto' }}>
+                        <Skeleton />
+                    </Typography>
+                    <Typography component="p" width={{ xs: '100%', lg: '60%' }} sx={{ mx: 'auto' }}>
+                        <Skeleton />
+                    </Typography>
+                    <Typography component="p" width={{ xs: '100%', lg: '60%' }} sx={{ mx: 'auto' }}>
+                        <Skeleton />
+                    </Typography>
+                    <Typography component="p" width={{ xs: '100%', lg: '60%' }} sx={{ mx: 'auto' }}>
+                        <Skeleton />
+                    </Typography>
+
+                    <Typography variant="h2" sx={{ mt: 10, mb: 4 }}>
+                        <Skeleton />
+                    </Typography>
+
+                    <Grid container spacing={6} justifyContent="center">
+                        {[...new Array(3)].map(index => (
+                            <Grid item xs={12} md={6} lg={4} key={index}>
+                                <Card variant="outlined">
+                                    <Skeleton height={200} component={CardMedia} sx={{ transform: 'none' }} />
+                                    <CardContent>
+                                        <Typography variant="h5" component="h3">
+                                            <Skeleton />
+                                        </Typography>
+
+                                        <Typography variant="subtitle1" component="p">
+                                            <Skeleton />
+                                        </Typography>
+
+                                        <Skeleton height={50} width={150} sx={{ mt: 4 }} />
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+
+                    <Typography variant="h2" sx={{ mt: 10, mb: 4 }}>
+                        <Skeleton />
+                    </Typography>
+                    <Typography>
+                        <Skeleton />
+                    </Typography>
+                </>
+            ) : (
                 <>
                     <Breadcrumb
                         routes={[
@@ -131,7 +188,7 @@ const Hotel = () => {
                                         >
                                             <CardMedia
                                                 component="img"
-                                                height="194"
+                                                height="200"
                                                 image={`${process.env.REACT_APP_BASE_URL}/files/${room.mainPicture}`}
                                                 alt={`Image principale de la suite ${room.title}`}
                                             />

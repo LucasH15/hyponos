@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Button, Card, CardContent, CardMedia, Grid, Skeleton, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
@@ -8,7 +8,7 @@ import { HotelService } from '@Src/services'
 import { IHotel } from '@Interfaces/hotel'
 
 const Home = () => {
-    const [topHotels, setTopHotels] = useState<[] | IHotel[]>()
+    const [topHotels, setTopHotels] = useState<[] | IHotel[]>([])
 
     useEffect(() => {
         HotelService.get({ limit: 3 }).then(response => {
@@ -26,58 +26,76 @@ const Home = () => {
                 Bienvenue chez Hyponos
             </Typography>
 
-            {topHotels && (
-                <>
-                    <Typography variant="h2" textAlign="center" sx={{ mb: 4 }}>
-                        Découvrez nos superbes hôtels
-                    </Typography>
+            <Typography variant="h2" textAlign="center" sx={{ mb: 4 }}>
+                Découvrez nos superbes hôtels
+            </Typography>
 
-                    <Grid container spacing={8}>
-                        {topHotels.map(hotel => (
-                            <Grid item key={hotel.id} xs={12} md={4}>
-                                <Card
-                                    variant="outlined"
-                                    component={Link}
-                                    to={HOTEL.replace(':hotelId', hotel.id)}
-                                    sx={{ display: 'block', height: '100%' }}
-                                >
-                                    <CardMedia
-                                        component="img"
-                                        height="200"
-                                        image={`${process.env.REACT_APP_BASE_URL}/files/${hotel.mainPicture}`}
-                                        alt={`Hôtel ${hotel.name}`}
-                                    />
-                                    <CardContent>
-                                        <Typography variant="h4" component="h3" sx={{ mb: 4 }}>
-                                            {hotel.name}
-                                        </Typography>
-                                        {hotel.description && (
-                                            <Typography
-                                                component="p"
-                                                sx={{
-                                                    display: '-webkit-box',
-                                                    '-webkit-line-clamp': '3',
-                                                    '-webkit-box-orient': 'vertical',
-                                                    overflow: 'hidden',
-                                                    hyphens: 'auto'
-                                                }}
-                                            >
-                                                {hotel.description}
-                                            </Typography>
-                                        )}
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+            <Grid container spacing={8}>
+                {topHotels.length === 0
+                    ? [...new Array(3)].map((_, index) => (
+                          <Grid item key={`hotel-home-${index}`} xs={12} md={4}>
+                              <Card variant="outlined" sx={{ display: 'block', height: '100%' }}>
+                                  <Skeleton height={200} sx={{ transform: 'none' }} />
+                                  <CardContent>
+                                      <Typography variant="h4" component="h3" sx={{ mb: 4 }}>
+                                          <Skeleton />
+                                      </Typography>
+                                      <Typography component="p">
+                                          <Skeleton />
+                                      </Typography>
+                                      <Typography component="p">
+                                          <Skeleton />
+                                      </Typography>
+                                      <Typography component="p">
+                                          <Skeleton />
+                                      </Typography>
+                                  </CardContent>
+                              </Card>
+                          </Grid>
+                      ))
+                    : topHotels.map(hotel => (
+                          <Grid item key={hotel.id} xs={12} md={4}>
+                              <Card
+                                  variant="outlined"
+                                  component={Link}
+                                  to={HOTEL.replace(':hotelId', hotel.id)}
+                                  sx={{ display: 'block', height: '100%' }}
+                              >
+                                  <CardMedia
+                                      component="img"
+                                      height="200"
+                                      image={`${process.env.REACT_APP_BASE_URL}/files/${hotel.mainPicture}`}
+                                      alt={`Hôtel ${hotel.name}`}
+                                  />
+                                  <CardContent>
+                                      <Typography variant="h4" component="h3" sx={{ mb: 4 }}>
+                                          {hotel.name}
+                                      </Typography>
+                                      {hotel.description && (
+                                          <Typography
+                                              component="p"
+                                              sx={{
+                                                  display: '-webkit-box',
+                                                  WebkitLineClamp: '3',
+                                                  WebkitBoxOrient: 'vertical',
+                                                  overflow: 'hidden',
+                                                  hyphens: 'auto'
+                                              }}
+                                          >
+                                              {hotel.description}
+                                          </Typography>
+                                      )}
+                                  </CardContent>
+                              </Card>
+                          </Grid>
+                      ))}
+            </Grid>
 
-                    <Grid sx={{ mt: 4, textAlign: 'center' }}>
-                        <Button variant="contained" component={Link} to={HOTELS}>
-                            Voir plus d&apos;hôtels
-                        </Button>
-                    </Grid>
-                </>
-            )}
+            <Grid sx={{ mt: 4, textAlign: 'center' }}>
+                <Button variant="contained" component={Link} to={HOTELS}>
+                    Voir plus d&apos;hôtels
+                </Button>
+            </Grid>
 
             <Typography variant="h2" textAlign="center" sx={{ mt: 15, mb: 4 }}>
                 Besoin de plus d&apos;informations&nbsp;?
