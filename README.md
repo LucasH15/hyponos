@@ -6,7 +6,7 @@ This is a project for [Studi](https://www.studi.com/fr)
 All in /doc is for Studi exam
 
 ## Test
-- Website url : [https://hyponos.vercel.app](https://hyponos.vercel.app)
+- Website url : [https://hyponos.lucas-hubert.me](https://hyponos.lucas-hubert.me)
 - API url : [https://hyponos-back.herokuapp.com/explorer/](https://hyponos-back.herokuapp.com/explorer/)
 - ADMIN account : login hello@studi.fr and password Studi2022
 - MANAGER account : login hello@manager.fr and password Manager2022

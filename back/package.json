@@ -26,7 +26,7 @@
     "rebuild": "npm run clean && npm run build",
     "heroku-postbuild": "node_modules/.bin/lb-clean dist *.tsbuildinfo .eslintcache && node_modules/.bin/lb-tsc && node ./dist/migrate --rebuild"
   },
-  "author": "Lucas Hubert <hubertlucas41@gmail.com>",
+  "author": "Lucas Hubert <hello@lucas-hubert.me>",
   "dependencies": {
     "@loopback/authentication": "^8.1.2",
     "@loopback/authentication-jwt": "^0.11.2",

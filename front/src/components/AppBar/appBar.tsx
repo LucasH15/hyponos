@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 import * as React from 'react'
 import {
-    Button,
     Container,
     Grid,
     IconButton,
@@ -20,6 +19,9 @@ import { ADMIN, CONTACT, HOME, HOTELS, LOGIN, MY_SPACE, REGISTER } from '@Consta
 import { ROLE_ADMIN, ROLE_MANAGER } from '@Constants/roles'
 import { AuthContext } from '@Src/AuthProvider'
 
+/**
+ * @visibleName AppBar
+ */
 const AppBar = () => {
     const auth = useContext(AuthContext)
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)

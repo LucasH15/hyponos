@@ -52,7 +52,7 @@ function App() {
                             ))}
                         </Routes>
                     </Container>
-                    <Footer />
+                    <Footer title="test" />
                 </SnackbarProvider>
             </ThemeProvider>
         </AuthProvider>
