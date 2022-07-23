@@ -44,7 +44,7 @@
     "test": "node_modules/.bin/craco test",
     "lint": "node_modules/.bin/eslint .",
     "styleguide": "npx styleguidist server",
-    "postbuild": "npx styleguidist build"
+    "styleguide:build": "npx styleguidist build"
   },
   "eslintConfig": {
     "extends": [
