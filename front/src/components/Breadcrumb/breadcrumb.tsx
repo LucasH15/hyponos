@@ -7,6 +7,9 @@ interface IBreadcrumb {
     routes: { label: string; path: string }[]
 }
 
+/**
+ * @visibleName Breadcrumb
+ */
 const Breadcrumb = ({ routes }: IBreadcrumb) => {
     return (
         <Stack spacing={2} sx={{ mb: 2 }}>

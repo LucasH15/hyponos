@@ -11,6 +11,9 @@ interface IBasicDialog {
     children?: Node
 }
 
+/**
+ * @visibleName BasicDialog
+ */
 export const BasicDialog = ({
     title,
     open,

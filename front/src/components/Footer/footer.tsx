@@ -1,9 +1,13 @@
 import { Container, Grid, Link as MuiLink, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import { CONTACT, HOME, HOTELS } from '@Constants/routes'
 
-const Footer = () => {
+/**
+ * @visibleName Footer
+ */
+const Footer = ({ title }: { title: string }) => {
     return (
         <Grid component="footer" sx={{ mt: 'auto' }}>
             <Grid sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText', py: 4, mt: 15 }}>
@@ -39,6 +43,10 @@ const Footer = () => {
             </Grid>
         </Grid>
     )
+}
+
+Footer.propTypes = {
+    title: PropTypes.string.isRequired
 }
 
 export default Footer

@@ -19,7 +19,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "ignorePatterns": ["craco.config.js"],
+    "ignorePatterns": ["craco.config.js", "styleguide.config.js"],
     "plugins": ["react", "@typescript-eslint", "prettier", "jest"],
     "rules": {
         "prettier/prettier": [
@@ -39,5 +39,10 @@
                 "ignoreDeclarationSort": true
             }
         ]
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }
