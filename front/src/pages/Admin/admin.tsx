@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Button, Typography } from '@mui/material'
+import { Button, Stack, Typography } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
@@ -21,25 +21,27 @@ const Admin = () => {
                 Administration
             </Typography>
 
-            {user?.role === ROLE_ADMIN && (
-                <>
-                    <Button variant="contained" component={Link} to={ADMIN_USERS}>
-                        Gestion des utilisateurs
-                    </Button>
-                </>
-            )}
+            <Stack direction="row" columnGap={2}>
+                {user?.role === ROLE_ADMIN && (
+                    <>
+                        <Button variant="contained" component={Link} to={ADMIN_USERS}>
+                            Gestion des utilisateurs
+                        </Button>
+                    </>
+                )}
 
-            {(user?.role === ROLE_ADMIN || user?.role === ROLE_MANAGER) && (
-                <>
-                    <Button variant="contained" component={Link} to={ADMIN_HOTELS}>
-                        Gestion des hôtels
-                    </Button>
+                {(user?.role === ROLE_ADMIN || user?.role === ROLE_MANAGER) && (
+                    <>
+                        <Button variant="contained" component={Link} to={ADMIN_HOTELS}>
+                            Gestion des hôtels
+                        </Button>
 
-                    <Button variant="contained" component={Link} to={ADMIN_ROOMS}>
-                        Gestion des suites
-                    </Button>
-                </>
-            )}
+                        <Button variant="contained" component={Link} to={ADMIN_ROOMS}>
+                            Gestion des suites
+                        </Button>
+                    </>
+                )}
+            </Stack>
         </>
     )
 }
