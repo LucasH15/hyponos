@@ -5,6 +5,7 @@ import { SnackbarProvider } from 'notistack'
 
 import AppBar from '@Components/AppBar'
 import Footer from '@Components/Footer'
+import ScrollToTop from '@Components/ScrollToTop'
 import AuthProvider from './AuthProvider'
 import RequireAuth from './RequireAuth'
 import theme from './Theme'
@@ -36,21 +37,23 @@ function App() {
                 >
                     <AppBar />
                     <Container maxWidth="xl" component="main" sx={{ py: 4 }}>
-                        <Routes>
-                            {routes.map(route => (
-                                <Route
-                                    key={route.path}
-                                    path={route.path}
-                                    element={
-                                        route.requireAuth ? (
-                                            <RequireAuth roles={route?.roles}>{route.element}</RequireAuth>
-                                        ) : (
-                                            route.element
-                                        )
-                                    }
-                                />
-                            ))}
-                        </Routes>
+                        <ScrollToTop>
+                            <Routes>
+                                {routes.map(route => (
+                                    <Route
+                                        key={route.path}
+                                        path={route.path}
+                                        element={
+                                            route.requireAuth ? (
+                                                <RequireAuth roles={route?.roles}>{route.element}</RequireAuth>
+                                            ) : (
+                                                route.element
+                                            )
+                                        }
+                                    />
+                                ))}
+                            </Routes>
+                        </ScrollToTop>
                     </Container>
                     <Footer title="test" />
                 </SnackbarProvider>

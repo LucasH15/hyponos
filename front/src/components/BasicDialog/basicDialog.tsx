@@ -5,8 +5,8 @@ interface IBasicDialog {
     open: boolean
     btnCancelText?: string
     btnOkText?: string
-    handleCancel?(): any
-    handleOk(): any
+    handleCancel?(): void
+    handleOk(): void
     handleClose(): void
     children?: Node
 }
