@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { Button, Grid, TextField, Typography } from '@mui/material'
+import { Button, FormHelperText, Grid, TextField, Typography } from '@mui/material'
 import { Helmet } from 'react-helmet-async'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-import { EMAIL_NOT_VALID } from '@Constants/form'
+import { EMAIL_NOT_VALID, IS_REQUIRED, PASSWORD_NOT_VALID } from '@Constants/form'
+import { PASSWORD_VALIDATION } from '@Constants/utils'
 import { LOGIN } from '@Constants/routes'
 import UserService from '@Services/user'
 
@@ -23,11 +24,8 @@ interface IFormInputs {
 
 const schema = yup
     .object({
-        email: yup.string().email(EMAIL_NOT_VALID).required('Ce champ est requis'),
-        password: yup
-            .string()
-            .min(8, 'Votre mot de passe doit contenir au minimum 8 caractères')
-            .required('Ce champ est requis')
+        email: yup.string().email(EMAIL_NOT_VALID).required(IS_REQUIRED),
+        password: yup.string().matches(PASSWORD_VALIDATION, PASSWORD_NOT_VALID).required(IS_REQUIRED)
     })
     .required()
 
@@ -118,6 +116,16 @@ const Home = () => {
                                 />
                             )}
                         />
+                        <FormHelperText component="div">
+                            <p>Le mot de passe doit respecter les points suivants</p>
+                            <ul>
+                                <li>une minuscule</li>
+                                <li>une majuscule</li>
+                                <li>un chiffre</li>
+                                <li>un caractère spécial (#?!@$%^&*-)</li>
+                                <li>faire minimum 8 caractères</li>
+                            </ul>
+                        </FormHelperText>
                     </Grid>
 
                     <Grid item xs={12}>
