@@ -8,8 +8,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
 import { BookingService } from '@Src/services'
-import { DEFAULT_ERROR_MESSAGE } from '@Constants/form'
+import { DEFAULT_ERROR_MESSAGE, EMAIL_NOT_VALID, IS_REQUIRED, PASSWORD_NOT_VALID } from '@Constants/form'
 import { BOOKING, MY_SPACE, REGISTER } from '@Constants/routes'
+import { PASSWORD_VALIDATION } from '@Constants/utils'
 import { TOKEN_KEY } from '@Constants/request'
 import UserService from '@Services/user'
 import { AuthContext } from '@Src/AuthProvider'
@@ -28,11 +29,8 @@ interface IFormInputs {
 
 const schema = yup
     .object({
-        email: yup.string().email("Cette adresse email n'est pas valide").required('Ce champ est requis'),
-        password: yup
-            .string()
-            .min(8, 'Votre mot de passe doit contenir au minimum 8 caractères')
-            .required('Ce champ est requis')
+        email: yup.string().email(EMAIL_NOT_VALID).required(IS_REQUIRED),
+        password: yup.string().required(IS_REQUIRED)
     })
     .required()
 

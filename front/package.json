@@ -80,7 +80,7 @@
     "eslint-plugin-react": "^7.29.4",
     "prettier": "^2.6.2",
     "react-docgen-typescript": "^2.2.2",
-    "react-styleguidist": "^11.1.8",
+    "react-styleguidist": "^11.2.0",
     "webpack": "^5.73.0"
   },
   "jest": {

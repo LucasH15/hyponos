@@ -221,12 +221,13 @@ const AdminRoomsEdit = () => {
                         <Controller
                             name="nbRooms"
                             control={control}
-                            render={({ field, fieldState: { invalid, error } }) => (
+                            render={({ field: { value, ...field }, fieldState: { invalid, error } }) => (
                                 <TextField
                                     fullWidth
                                     label="Nombre de chambres"
                                     error={invalid}
                                     helperText={error?.message}
+                                    value={`${value}`}
                                     {...field}
                                 />
                             )}
@@ -246,7 +247,7 @@ const AdminRoomsEdit = () => {
                                     {...field}
                                 >
                                     {hotels.map(hotel => (
-                                        <MenuItem key={hotel.id} value={hotel.id}>
+                                        <MenuItem key={hotel.id} value={hotel.id} selected={field.value === hotel.id}>
                                             {hotel.name}
                                         </MenuItem>
                                     ))}
