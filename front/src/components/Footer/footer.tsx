@@ -1,13 +1,12 @@
 import { Container, Grid, Link as MuiLink, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import { CONTACT, HOME, HOTELS } from '@Constants/routes'
 
 /**
  * @visibleName Footer
  */
-const Footer = ({ title }: { title: string }) => {
+const Footer = () => {
     return (
         <Grid component="footer" sx={{ mt: 'auto' }}>
             <Grid sx={{ backgroundColor: 'secondary.main', color: 'secondary.contrastText', py: 4, mt: 15 }}>
@@ -30,12 +29,7 @@ const Footer = ({ title }: { title: string }) => {
                 <Container maxWidth="xl" sx={{ mt: 3 }}>
                     <Typography component="p" sx={{ textAlign: 'center' }}>
                         © Site développé par{' '}
-                        <MuiLink
-                            href="https://www.linkedin.com/in/lucas-hubert-8a3b36141/"
-                            underline="hover"
-                            color="inherit"
-                            target="_blank"
-                        >
+                        <MuiLink href="https://lucas-hubert.me" underline="hover" color="inherit" target="_blank">
                             Lucas Hubert
                         </MuiLink>
                     </Typography>
@@ -43,10 +37,6 @@ const Footer = ({ title }: { title: string }) => {
             </Grid>
         </Grid>
     )
-}
-
-Footer.propTypes = {
-    title: PropTypes.string.isRequired
 }
 
 export default Footer

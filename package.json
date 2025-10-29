@@ -4,8 +4,8 @@
   "description": "",
   "private": true,
   "devDependencies": {
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.7"
+    "husky": "~7.0.4",
+    "lint-staged": "~12.3.8"
   },
   "scripts": {
     "prepare": "node_modules/.bin/husky install",

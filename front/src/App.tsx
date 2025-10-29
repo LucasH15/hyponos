@@ -55,7 +55,7 @@ function App() {
                             </Routes>
                         </ScrollToTop>
                     </Container>
-                    <Footer title="test" />
+                    <Footer />
                 </SnackbarProvider>
             </ThemeProvider>
         </AuthProvider>
