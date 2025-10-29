@@ -1,7 +1,7 @@
 import { HttpErrors } from '@loopback/rest'
 import isemail from 'isemail'
-import { passwordValidation } from '../constants'
 
+import { passwordValidation } from '../constants'
 import { Credentials } from '../repositories'
 
 export function validateCredentials(credentials: Credentials) {

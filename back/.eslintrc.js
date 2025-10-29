@@ -1,5 +1,5 @@
 module.exports = {
-  extends: '@loopback/eslint-config',
+  extends: "@loopback/eslint-config",
   plugins: ["prettier"],
   rules: {
     "prettier/prettier": [
